@@ -1,3 +1,5 @@
+using Tanks.SceneManagement;
+using Tanks.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,31 +19,18 @@ namespace Tanks.MainMenu.Canvas
         [SerializeField] Button startButton;
         
         [Header("Dropdowns")]
-        [SerializeField] TMP_Dropdown firstPlayerDropdownInputSelector;
-        [SerializeField] TMP_Dropdown secondPlayerDropdownInputSelector;
+        [SerializeField] PlayerInputSelector inputSelectorPrefab;
         private void Awake()
         {
             singlePlayerButton.onClick.AddListener(SetSingleMode);
             multiplayerButton.onClick.AddListener(SetMultiplayerMode);
             exitButton.onClick.AddListener(QuitApp);
             startButton.onClick.AddListener(StartApp);
-            firstPlayerDropdownInputSelector.onValueChanged.AddListener(SetFirstPlayerInput);
-            secondPlayerDropdownInputSelector.onValueChanged.AddListener(SetSecondPlayerInput);
         }
-
-        private void SetSecondPlayerInput(int arg0)
-        {
-            GameManager.Instance.SetPlayer2InputMode((InputMode)arg0);
-        }
-
-        private void SetFirstPlayerInput(int arg0)
-        {
-            GameManager.Instance.SetPlayer1InputMode((InputMode)arg0);
-        }
-
+        
         private void StartApp()
         {
-            GameManager.Instance.InitGame();
+            ScenesManager.Instance.GoToScene(ScenesManager.Scenes.Gameplay);
         }
 
         private void QuitApp()
@@ -55,15 +44,25 @@ namespace Tanks.MainMenu.Canvas
             gameModeSelectionPanel.SetActive(false);
             inputModeSelectionPanel.SetActive(true);
             startButton.gameObject.SetActive(true);
+            GeneratePlayerInputModeSelectors();
+        }
+
+        private void GeneratePlayerInputModeSelectors()
+        {
+            for (int i = 0; i < GameManager.Instance.totalPlayers; i++)
+            {
+                PlayerInputSelector selector = Instantiate(inputSelectorPrefab, inputModeSelectionPanel.transform);
+                selector.SetOwner(i);
+            }
         }
 
         private void SetSingleMode()
         {
             GameManager.Instance.SetSelectedMode(GameMode.SinglePlayer);
             gameModeSelectionPanel.SetActive(false);
-            secondPlayerDropdownInputSelector.gameObject.SetActive(false);
             inputModeSelectionPanel.SetActive(true);
             startButton.gameObject.SetActive(true);
+            GeneratePlayerInputModeSelectors();
         }
     }
 }

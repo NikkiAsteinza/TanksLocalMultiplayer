@@ -1,54 +1,68 @@
-using System.Collections;
+using System;
+using System.Collections.Generic;
+using Tanks.Players;
+using Tanks.Tanks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace Tanks
 {
-    public enum GameMode { SinglePlayer, Multiplayer}
-    public enum InputMode { Keyboard, Gamepad}
+    public enum GameMode
+    {
+        SinglePlayer,
+        Multiplayer,
+    }
 
     public class GameManager : SingletonBehaviour<GameManager>
     {
-        [SerializeField] float loadLerpDuration = 0.4f;
-        [SerializeField] GameObject loadCanvas;
-        [SerializeField] CanvasGroup canvasGroup;
-        [SerializeField] SceneReference mainMenu;
-        [SerializeField] SceneReference gameplayScene;
+        public Tank _singlePlayerTank;
+        public Tank _multiPlayerTank;
+        [SerializeField] private List<GameplayScriptable> _gameplayObjectList;
 
-        [SerializeField] GameMode selectedGameMode;
-        [SerializeField] InputMode player1_SelectedInputMode;
-        [SerializeField] InputMode player2_SelectedInputMode;
+        [Header("Debug purposes, no need assignment")] [SerializeField]
+        GameMode _selectedGameMode;
 
-        private AnimationCurve animationCurve;
-
-        public GameMode GameMode => selectedGameMode;
+        [SerializeField] private List<Player> _players;
+        public GameMode gameMode => _selectedGameMode;
+        public int totalPlayers => _players.Count;
+        public List<GameplayScriptable> gameplayObjects => _gameplayObjectList;
 
         private void Awake()
         {
-            loadCanvas.SetActive(false);
-            canvasGroup.alpha = 0;
-            animationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-        }
-        public void SetSelectedMode(GameMode selectedMode)
-        {
-            selectedGameMode = selectedMode;
+            _players = new List<Player>();
         }
 
-        public void SetPlayer1InputMode(InputMode selectedMode)
+        public void SetSelectedMode(GameMode selectedMode)
         {
-            player1_SelectedInputMode = selectedMode;
+            _selectedGameMode = selectedMode;
+            HandlePlayersCreation(selectedMode);
         }
-        public void SetPlayer2InputMode(InputMode selectedMode)
+
+        private void HandlePlayersCreation(GameMode selectedMode)
         {
-            player2_SelectedInputMode = selectedMode;
+            switch (selectedMode)
+            {
+                case GameMode.SinglePlayer:
+                    Player player = CreatePlayer();
+                    _players.Add(player);
+                    break;
+                case GameMode.Multiplayer:
+                    Player player1 = CreatePlayer();
+                    _players.Add(player1);
+                    Player player2 = CreatePlayer();
+                    _players.Add(player2);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(selectedMode), selectedMode, null);
+            }
+
+            Debug.Log("Created players: " + _players.Count);
         }
-        public void InitGame()
+
+        private static Player CreatePlayer()
         {
-            StartCoroutine(LoadSceneCoroutine(gameplayScene));
-        }
-        public void GoToMainMenu()
-        {
-            StartCoroutine(LoadSceneCoroutine(mainMenu));
+            Player player = new Player();
+            return player;
         }
 
         public void Quit()
@@ -56,33 +70,25 @@ namespace Tanks
             Application.Quit();
         }
 
-        private IEnumerator LoadSceneCoroutine(SceneReference sceneToLoad)
+        public void SetSelectedInputToPlayer(int owner, int selectedInputMode)
         {
-            loadCanvas.SetActive(true);
-            StartCoroutine(LerpCanvas(0, 1));
-            yield return new WaitUntil(() => canvasGroup.alpha == 1);
-            AsyncOperation load = SceneManager.LoadSceneAsync(sceneToLoad.ScenePath);
-            yield return new WaitUntil(() => load.isDone == true);
-            StartCoroutine(LerpCanvas(1, 0));
-            yield return new WaitUntil(() => canvasGroup.alpha == 0);
-            loadCanvas.SetActive(false);
+            _players[owner].SetSelectedMode((InputMode)selectedInputMode);
+            Debug.Log($"Player {owner} selected input: " + (InputMode)selectedInputMode);
         }
-        private IEnumerator LerpCanvas(int from, int to)
+
+        public Tank GetPrefabToUse()
         {
-            var startTime = Time.time;
-            var endTime = Time.time + loadLerpDuration;
-            var elapsedTime = 0f;
-
-            canvasGroup.alpha = animationCurve.Evaluate(from);
-            while (Time.time <= endTime)
+            switch (gameMode)
             {
-                elapsedTime = Time.time - startTime; // update the elapsed time
-                var percentage =  1 / (loadLerpDuration / elapsedTime); // calculate how far along the timeline we are
-
-                canvasGroup.alpha = animationCurve.Evaluate(to == 0 ? 1-percentage :percentage);
-                yield return new WaitForEndOfFrame(); // wait for the next frame before continuing the loop
+                case GameMode.SinglePlayer:
+                    return _singlePlayerTank;
+                    break;
+                case GameMode.Multiplayer:
+                    return _multiPlayerTank;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            canvasGroup.alpha = animationCurve.Evaluate(to);
         }
     }
 }

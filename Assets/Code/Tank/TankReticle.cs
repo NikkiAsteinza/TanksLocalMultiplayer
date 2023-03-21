@@ -24,6 +24,7 @@ namespace Tanks.Tanks
 
         private void HandleReticle()
         {
+
             Ray screenRay = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
             RaycastHit hit;
             if (Physics.Raycast(screenRay, out hit))

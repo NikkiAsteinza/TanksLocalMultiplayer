@@ -1,10 +1,11 @@
-using System;
-using Tanks.Bullets;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Tanks.Bullets;
+using Tanks.GameplayObjects;
 
 namespace Tanks.Tanks {
     [RequireComponent(typeof(PlayerInput))]
+    [RequireComponent(typeof(AudioSource))]
     public class Tank : MonoBehaviour
     {
         [ContextMenu("Destroy Tank Manually")]
@@ -19,6 +20,12 @@ namespace Tanks.Tanks {
             RestoreTank();
         }
 
+        [Header("Tank extra festures")] [SerializeField]
+        private TankFeaturesController _featuresController;
+        [Header("Tank Sounds")]
+        [SerializeField] private AudioClip idleSound;
+        [SerializeField] private AudioClip movingSound;
+        [SerializeField] private AudioClip dieSound;
         [Header("Tank Visuals")]
         [SerializeField] int _lives = 3;
         [SerializeField] Camera _camera;
@@ -35,31 +42,49 @@ namespace Tanks.Tanks {
 
         [Header("Tank Movement")]
         [SerializeField] TankController _controller;
+        
+        [Header("Tank Extra features")]
+        [SerializeField] Transform _featureSpawnPoint;
 
         private Vector2 movementInput = Vector2.zero;
 
-        private PlayerInput playerInput;
-        private int _ammo;
-        private bool _isDestroyed;
-
+        private PlayerInput playerInput = null;
+        private AudioSource _audioSource = null;
+        private int _ammo = 0;
+        private bool _isDestroyed = false;
+        private bool _isMoving = false;
         private void Awake()
         {
             _destroyedTankModel.SetActive(false);
             playerInput = GetComponent<PlayerInput>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
         {
+            _audioSource.clip = idleSound;
             SubscribeToPlayerInputs(true);
 
             _reticle.Init(_camera, _turret);
             _ammo = _initialAmmunition;
+
+            if (GameManager.Instance.gameplayObjects.Count>0)
+            {
+                GameManager.Instance.gameplayObjects.ForEach((gmObj) =>
+                {
+                    GameplayObject newObj = new GameplayObject();
+                    newObj.Init(gmObj.Sound, gmObj.Type);
+                    GameplayObject instantiated = Instantiate(newObj, _featureSpawnPoint);
+                    instantiated.gameObject.SetActive(false);
+                });
+            }
         }
 
         private void SubscribeToPlayerInputs(bool subscribe)
         {
             if (subscribe){
                 playerInput.actions["move"].performed += OnMove;
+                playerInput.actions["move"].canceled += OnMoveFinished;
                 playerInput.actions["fire"].performed += OnFire;
             }
             else {
@@ -67,6 +92,12 @@ namespace Tanks.Tanks {
                 playerInput.actions["fire"].performed -= OnFire;
             }
 
+        }
+
+        private void OnMoveFinished(InputAction.CallbackContext obj)
+        {
+            _audioSource.clip = idleSound;
+            _isMoving = false;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -84,6 +115,13 @@ namespace Tanks.Tanks {
         }
         public void OnMove(InputAction.CallbackContext context)
         {
+            if (!_isMoving)
+            {
+                _audioSource.clip = movingSound;
+                _isMoving = true;
+            }
+
+
             movementInput = context.ReadValue<Vector2>();
         }
 
@@ -127,6 +165,14 @@ namespace Tanks.Tanks {
         {
             _tankModel.SetActive(enable);
             _destroyedTankModel.SetActive(!enable);
+        }
+
+        public void ApplyObjectFeature(ObjectTypes type)
+        {
+            switch (type)
+            {
+                
+            }
         }
     }
 }
