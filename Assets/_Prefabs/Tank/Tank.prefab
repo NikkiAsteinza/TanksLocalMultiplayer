@@ -171,9 +171,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 268d3876636836a4e8edb3ed8be365fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lives: 3
   _camera: {fileID: 3850326174009136949}
   _tankModel: {fileID: 368709222804055206}
   _destroyedTankModel: {fileID: 6808896183890359972}
+  _initialAmmunition: 10
   _turret: {fileID: 531765247}
   _bulletPrefab: {fileID: 6819314705180119754, guid: e71457bec32323e488c006a8f1165184, type: 3}
   _reticle: {fileID: 414659582283379606}
@@ -229,7 +231,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1335aaaf-f5b4-4bca-893d-ac2175767546
     m_ActionName: Tank/RotateTurret[/Mouse/position]
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Tank
   m_SplitScreenIndex: -1
