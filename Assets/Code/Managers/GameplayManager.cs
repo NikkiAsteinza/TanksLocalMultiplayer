@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 namespace Tanks.Gameplay
 {
-
     [RequireComponent(typeof(PlayerInputManager))]
     public class GameplayManager : MonoBehaviour
     {
@@ -26,17 +25,19 @@ namespace Tanks.Gameplay
             if (gameMode == GameMode.SinglePlayer)
             {
                 Transform randomSpawnPoint = _spawnPoints[_randomSpawnPointIndex];
-                Tank tank = Instantiate(_tankPrefab, randomSpawnPoint);
+                Tank tank = Instantiate(_tankPrefab);
+                tank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
             }
             else
             {
                 Transform randomSpawnPoint = _spawnPoints[_randomSpawnPointIndex];
-                Tank tank = Instantiate(_tankPrefab, randomSpawnPoint);
-
+                Tank tank = Instantiate(_tankPrefab);
+                tank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
                 _spawnPoints.RemoveAt(_randomSpawnPointIndex);
                 _randomSpawnPointIndex = Random.Range(0, _spawnPoints.Count());
                 Transform randomSpawnPoint2 = _spawnPoints[_randomSpawnPointIndex];
-                Tank tank2 = Instantiate(_tankPrefab, randomSpawnPoint2);
+                Tank tank2 = Instantiate(_tankPrefab);
+                tank2.transform.SetPositionAndRotation(randomSpawnPoint2.position, randomSpawnPoint2.rotation);
             }
         }
     }
