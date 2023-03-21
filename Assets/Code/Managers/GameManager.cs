@@ -21,6 +21,8 @@ namespace Tanks
 
         private AnimationCurve animationCurve;
 
+        public GameMode GameMode => selectedGameMode;
+
         private void Awake()
         {
             loadCanvas.SetActive(false);
