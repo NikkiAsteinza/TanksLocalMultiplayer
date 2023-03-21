@@ -378,8 +378,8 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 702da45ff2dc5be46893cf6c06435a59, type: 3}
     scenePath: Assets/Scenes/MainMenu.unity
   gameplayScene:
-    sceneAsset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
-    scenePath: Assets/Scenes/SampleScene.unity
+    sceneAsset: {fileID: 102900000, guid: 387af22189b5e7247ac9c30a74dab5d7, type: 3}
+    scenePath: Assets/Scenes/GameplayScene.unity
   selectedGameMode: 0
   player1_SelectedInputMode: 0
   player2_SelectedInputMode: 0
