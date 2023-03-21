@@ -8,9 +8,15 @@ namespace Tanks.Players
         Gamepad,
     }
 
+    public enum PlayerState
+    {
+        Idle,
+        Shielded,
+        Destroyed
+    }
+
     public class Player
     {
-        private int _lives = 3;
         private Tank _tank;
         private InputMode _selectedInputMode;
 
@@ -21,6 +27,11 @@ namespace Tanks.Players
         public void SetTank(Tank tank)
         {
             _tank = tank;
+        }
+
+        public InputMode GetInputMode()
+        {
+            return _selectedInputMode;
         }
     }
 }

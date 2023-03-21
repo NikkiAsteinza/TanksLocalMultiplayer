@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3850326174009136946}
   - component: {fileID: 3850326174009136949}
-  - component: {fileID: 3850326174009136948}
   - component: {fileID: 3850326174009136947}
   m_Layer: 0
   m_Name: TankCamera
@@ -77,14 +76,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &3850326174009136948
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3850326174009136951}
-  m_Enabled: 1
 --- !u!114 &3850326174009136947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,14 +163,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 268d3876636836a4e8edb3ed8be365fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _featuresController: {fileID: 0}
   idleSound: {fileID: 8300000, guid: 4932ab25b84dd7649b80af68a9660ddc, type: 3}
   movingSound: {fileID: 8300000, guid: d7ca9fb5aa30155449192b23d7fb3336, type: 3}
   dieSound: {fileID: 8300000, guid: 5c27182a28a7eb942a362e6d198fe0e6, type: 3}
-  _lives: 3
   _camera: {fileID: 3850326174009136949}
   _tankModel: {fileID: 368709222804055206}
   _destroyedTankModel: {fileID: 6808896183890359972}
-  _initialAmmunition: 10
   _turret: {fileID: 531765247}
   _bulletPrefab: {fileID: 6819314705180119754, guid: e71457bec32323e488c006a8f1165184, type: 3}
   _reticle: {fileID: 414659582283379606}
@@ -197,8 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ba5d6988bb7dc42b2ef70d214bfba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tankSpeed: 8
-  _tankRotationSpeed: 35
+  _tankSpeed: 12
+  _tankRotationSpeed: 100
 --- !u!114 &3850326174069519913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +226,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1335aaaf-f5b4-4bca-893d-ac2175767546
     m_ActionName: Tank/RotateTurret[/Mouse/position]
-  m_NeverAutoSwitchControlSchemes: 1
+  m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Tank
   m_SplitScreenIndex: -1

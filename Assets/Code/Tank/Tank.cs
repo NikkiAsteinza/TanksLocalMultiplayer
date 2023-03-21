@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Tanks.Bullets;
 using Tanks.GameplayObjects;
+using Tanks.Players;
 
 namespace Tanks.Tanks {
     [RequireComponent(typeof(PlayerInput))]
@@ -27,13 +28,13 @@ namespace Tanks.Tanks {
         [SerializeField] private AudioClip movingSound;
         [SerializeField] private AudioClip dieSound;
         [Header("Tank Visuals")]
-        [SerializeField] int _lives = 3;
+        
         [SerializeField] Camera _camera;
         [SerializeField] GameObject _tankModel;
         [SerializeField] GameObject _destroyedTankModel;
 
         [Header("Tank Turret")]
-        [SerializeField] int _initialAmmunition = 10;
+
         [SerializeField] TankTurret _turret;
         [SerializeField] Bullet _bulletPrefab;
 
@@ -53,6 +54,8 @@ namespace Tanks.Tanks {
         private int _ammo = 0;
         private bool _isDestroyed = false;
         private bool _isMoving = false;
+
+        private Player _owner;
         private void Awake()
         {
             _destroyedTankModel.SetActive(false);
@@ -66,16 +69,16 @@ namespace Tanks.Tanks {
             SubscribeToPlayerInputs(true);
 
             _reticle.Init(_camera, _turret);
-            _ammo = _initialAmmunition;
+            _ammo = GameManager.Instance._initialAmmunition;
 
             if (GameManager.Instance.gameplayObjects.Count>0)
             {
                 GameManager.Instance.gameplayObjects.ForEach((gmObj) =>
                 {
-                    GameplayObject newObj = new GameplayObject();
-                    newObj.Init(gmObj.Sound, gmObj.Type);
-                    GameplayObject instantiated = Instantiate(newObj, _featureSpawnPoint);
-                    instantiated.gameObject.SetActive(false);
+                    // GameplayObject newObj = new GameplayObject();
+                    // newObj.Init(gmObj.Sound, gmObj.Type);
+                    // GameplayObject instantiated = Instantiate(newObj, _featureSpawnPoint);
+                    // instantiated.gameObject.SetActive(false);
                 });
             }
         }
@@ -173,6 +176,16 @@ namespace Tanks.Tanks {
             {
                 
             }
+        }
+
+        public void SetOwner(Player owner)
+        {
+            _owner = owner;
+        }
+
+        public void SetSelectedInputMode(int i)
+        {
+            //playerInput.SwitchCurrentControlScheme(GameManager.Instance.GetPlayerInputMode(i).ToString());
         }
     }
 }

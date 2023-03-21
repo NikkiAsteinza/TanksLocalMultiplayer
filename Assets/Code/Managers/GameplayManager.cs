@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Tanks.Tanks;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Tanks.Gameplay
 {
@@ -12,9 +11,9 @@ namespace Tanks.Gameplay
         
         private void Start()
         {
-            InitGame(GameManager.Instance.gameMode);
+            InitGame();
         }
-        internal void InitGame(GameMode gameMode)
+        internal void InitGame()
         {
             int _randomSpawnPointIndex = Random.Range(0, _spawnPoints.Count());
             for (int i = 0; i < GameManager.Instance.totalPlayers; i++)
@@ -22,6 +21,7 @@ namespace Tanks.Gameplay
                 Tank tank = Instantiate(GameManager.Instance.GetPrefabToUse());
                 Transform randomSpawnPoint = _spawnPoints[_randomSpawnPointIndex];
                 tank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
+                tank.SetSelectedInputMode(i);
                 _spawnPoints.RemoveAt(_randomSpawnPointIndex);
             }
         }

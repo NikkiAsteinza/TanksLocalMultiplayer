@@ -15,8 +15,11 @@ namespace Tanks
 
     public class GameManager : SingletonBehaviour<GameManager>
     {
-        public Tank _singlePlayerTank;
-        public Tank _multiPlayerTank;
+        [SerializeField] internal Tank _singlePlayerTank;
+        [SerializeField] internal Tank _multiPlayerTank;
+        [SerializeField] internal int _playerLives = 3;
+        [SerializeField] internal int _initialAmmunition = 10;
+        
         [SerializeField] private List<GameplayScriptable> _gameplayObjectList;
 
         [Header("Debug purposes, no need assignment")] [SerializeField]
@@ -89,6 +92,16 @@ namespace Tanks
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public InputMode GetPlayerInputMode(int i)
+        {
+            return _players[i].GetInputMode();
+        }
+
+        public Player GetPlayerByIndex(int i)
+        {
+            return _players[i];
         }
     }
 }
