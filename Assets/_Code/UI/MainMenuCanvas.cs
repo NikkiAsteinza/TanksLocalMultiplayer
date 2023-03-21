@@ -24,12 +24,13 @@ namespace Tanks.MainMenu.Canvas
         private void SetMultiplayerMode()
         {
             GameManager.Instance.SetSelectedMode(GameMode.Multiplayer);
+            GameManager.Instance.InitGame();
         }
 
         private void SetSingleMode()
         {
             GameManager.Instance.SetSelectedMode(GameMode.SinglePlayer);
-
+            GameManager.Instance.InitGame();
         }
     }
 }
