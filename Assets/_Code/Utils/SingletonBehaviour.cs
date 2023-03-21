@@ -2,12 +2,10 @@
 
 namespace Tanks 
 {
-    //=========================================================================
     public class Singleton<T> where T : class, new()
     {
         private static T m_Instance;
        
-        //---------------------------------------------------------------------
         public static T Instance {
             get {
                 if (m_Instance == null) {
@@ -18,11 +16,9 @@ namespace Tanks
             private set { }
         }
 
-        //---------------------------------------------------------------------
         public virtual void Init() {
         }
 
-        //---------------------------------------------------------------------
         protected virtual void OnCreateInstance() { }
         private static void CreateInstance() {
             if (m_Instance == null) {
@@ -34,12 +30,10 @@ namespace Tanks
         }
     }
 
-    //=========================================================================
     public class SingletonBehaviour<T> : MonoBehaviour where T : SingletonBehaviour<T> 
     {
         private static T m_Instance;
 
-        //---------------------------------------------------------------------
         public static T Instance {
             get {
                 if (m_Instance == null) {
@@ -50,11 +44,9 @@ namespace Tanks
             private set { }
         }
 
-        //---------------------------------------------------------------------
         public virtual void Init() {
         }
 
-        //---------------------------------------------------------------------
         protected virtual void OnCreateInstance() { }
         private static void CreateInstance() {
             if (m_Instance == null) {
