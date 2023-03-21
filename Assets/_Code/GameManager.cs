@@ -2,8 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Tanks.Tanks
+namespace Tanks
 {
+    public enum GameMode { SinglePlayer, Multiplayer}
+    public enum InputMode { Keyboard, Gamepad}
+
     public class GameManager : SingletonBehaviour<GameManager>
     {
         [SerializeField] float loadLerpDuration = 0.4f;
@@ -12,8 +15,11 @@ namespace Tanks.Tanks
         [SerializeField] SceneReference mainMenu;
         [SerializeField] SceneReference gameplayScene;
 
-        public AnimationCurve animationCurve;
-        int selectedPlayers = 1;
+        [SerializeField] GameMode selectedGameMode;
+        [SerializeField] InputMode player1_SelectedInputMode;
+        [SerializeField] InputMode player2_SelectedInputMode;
+
+        private AnimationCurve animationCurve;
 
         private void Awake()
         {
@@ -21,7 +27,19 @@ namespace Tanks.Tanks
             canvasGroup.alpha = 0;
             animationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
         }
+        public void SetSelectedMode(GameMode selectedMode)
+        {
+            selectedGameMode = selectedMode;
+        }
 
+        public void SetPlayer1InputMode(InputMode selectedMode)
+        {
+            player1_SelectedInputMode = selectedMode;
+        }
+        public void SetPlayer2InputMode(InputMode selectedMode)
+        {
+            player2_SelectedInputMode = selectedMode;
+        }
         public void InitGame()
         {
             StartCoroutine(LoadSceneCoroutine(gameplayScene));
