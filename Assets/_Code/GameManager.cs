@@ -75,9 +75,9 @@ namespace Tanks
             while (Time.time <= endTime)
             {
                 elapsedTime = Time.time - startTime; // update the elapsed time
-                var percentage = 1 / (loadLerpDuration / elapsedTime); // calculate how far along the timeline we are
+                var percentage =  1 / (loadLerpDuration / elapsedTime); // calculate how far along the timeline we are
 
-                canvasGroup.alpha = animationCurve.Evaluate(percentage);
+                canvasGroup.alpha = animationCurve.Evaluate(to == 0 ? 1-percentage :percentage);
                 yield return new WaitForEndOfFrame(); // wait for the next frame before continuing the loop
             }
             canvasGroup.alpha = animationCurve.Evaluate(to);
