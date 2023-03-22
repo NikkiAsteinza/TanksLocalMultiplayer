@@ -1,7 +1,7 @@
 using Tanks.Tanks;
 using UnityEngine;
 
-namespace Tanks.GameplayObjects
+namespace Tanks.Gameplay.Objects
 {
     public enum ObjectTypes
     {
@@ -15,23 +15,26 @@ namespace Tanks.GameplayObjects
     [RequireComponent(typeof(AudioSource))]
     public class GameplayObject : MonoBehaviour{
 
+        [SerializeField] private ObjectTypes _type;
         [SerializeField] protected GameObject _visuals;
-        [SerializeField] protected ObjectTypes _type;
         [SerializeField] protected AudioClip _soundEffect;
 
-        protected IGame _owner;
-        protected AudioSource _audioSource;
+        protected BoxCollider BoxCollider;
+        protected IGame Owner;
+        protected AudioSource AudioSource;
         private bool _isApplied = false;
 
+        public ObjectTypes GetObjectType() => _type;
         public void SetOwner(IGame game)
         {
-            _owner = game;
+            Owner = game;
         }
         private void Awake()
         {
             _visuals.SetActive(false);
-            _audioSource = GetComponent<AudioSource>();
-            _audioSource.playOnAwake = false;
+            BoxCollider = GetComponent<BoxCollider>();
+            AudioSource = GetComponent<AudioSource>();
+            AudioSource.playOnAwake = false;
         }
 
         private void OnDisable()
@@ -46,15 +49,15 @@ namespace Tanks.GameplayObjects
 
         protected virtual void TriggerEnterHandler(Collider collider)
         {
-            bool isTank = collider.GetComponent<Tank>() != null;
-            if (isTank && !_isApplied)
-            {
-                Tank tank = collider.GetComponent<Tank>();
-                tank.ApplyObjectFeature(_type);
-                _isApplied = true;
-            }
+            // bool isTank = collider.GetComponent<Tank>() != null;
+            // if (isTank && !_isApplied)
+            // {
+            //     Tank tank = collider.GetComponent<Tank>();
+            //     tank.ApplyObjectFeature(_type);
+            //     _isApplied = true;
+            // }
 
-            _audioSource.PlayOneShot(_soundEffect);
+            AudioSource.PlayOneShot(_soundEffect);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Tanks.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,9 +14,9 @@ namespace Tanks.SceneManagement
             Gameplay,
         }
 
+        [SerializeField] private AppCanvas _loading;
         [SerializeField] SceneReference mainMenu;
         [SerializeField] SceneReference gameplayScene;
-        [SerializeField] private LoadCanvas _loadCanvas;
 
         public void GoToScene(Scenes targetScene)
         {
@@ -34,12 +35,12 @@ namespace Tanks.SceneManagement
 
         private IEnumerator LoadSceneCoroutine(SceneReference sceneToLoad)
         {
-            StartCoroutine(_loadCanvas.LerpCanvas(0, 1));
-            yield return new WaitUntil(() => _loadCanvas.GetIntAlpha() == 1);
+            _loading.gameObject.SetActive(true);
+            _loading.FadeInCanvas();
+            yield return new WaitUntil(() => _loading.GetIntAlpha() == 1);
             AsyncOperation load = SceneManager.LoadSceneAsync(sceneToLoad.ScenePath);
             yield return new WaitUntil(() => load.isDone == true);
-            StartCoroutine(_loadCanvas.LerpCanvas(1, 0));
-            yield return new WaitUntil(() => _loadCanvas.GetIntAlpha() == 0);
+            _loading.FadeOutCanvas();
         }
     }
 }
