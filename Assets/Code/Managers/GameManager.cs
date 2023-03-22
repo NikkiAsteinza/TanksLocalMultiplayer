@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Tanks.Players;
 using Tanks.Tanks;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Tanks
 {
@@ -19,8 +18,6 @@ namespace Tanks
         [SerializeField] internal Tank _multiPlayerTank;
         [SerializeField] internal int _playerLives = 3;
         [SerializeField] internal int _initialAmmunition = 10;
-        
-        [SerializeField] private List<GameplayScriptable> _gameplayObjectList;
 
         [Header("Debug purposes, no need assignment")] [SerializeField]
         GameMode _selectedGameMode;
@@ -28,7 +25,6 @@ namespace Tanks
         [SerializeField] private List<Player> _players;
         public GameMode gameMode => _selectedGameMode;
         public int totalPlayers => _players.Count;
-        public List<GameplayScriptable> gameplayObjects => _gameplayObjectList;
 
         private void Awake()
         {

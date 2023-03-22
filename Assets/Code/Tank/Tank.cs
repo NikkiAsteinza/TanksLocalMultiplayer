@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using Tanks.Bullets;
 using Tanks.GameplayObjects;
 using Tanks.Players;
+using TMPro;
 
 namespace Tanks.Tanks {
     [RequireComponent(typeof(PlayerInput))]
@@ -20,7 +21,9 @@ namespace Tanks.Tanks {
         {
             RestoreTank();
         }
-
+        [Header("Tank canvas")]
+        [SerializeField] private TMP_Text _lifeIndicator;
+        [SerializeField] private TMP_Text _ammoIndicator;
         [Header("Tank extra festures")] [SerializeField]
         private TankFeaturesController _featuresController;
         [Header("Tank Sounds")]
@@ -65,22 +68,12 @@ namespace Tanks.Tanks {
 
         private void Start()
         {
+            UpdateAmmoText();
             _audioSource.clip = idleSound;
             SubscribeToPlayerInputs(true);
 
             _reticle.Init(_camera, _turret);
             _ammo = GameManager.Instance._initialAmmunition;
-
-            if (GameManager.Instance.gameplayObjects.Count>0)
-            {
-                GameManager.Instance.gameplayObjects.ForEach((gmObj) =>
-                {
-                    // GameplayObject newObj = new GameplayObject();
-                    // newObj.Init(gmObj.Sound, gmObj.Type);
-                    // GameplayObject instantiated = Instantiate(newObj, _featureSpawnPoint);
-                    // instantiated.gameObject.SetActive(false);
-                });
-            }
         }
 
         private void SubscribeToPlayerInputs(bool subscribe)
@@ -115,6 +108,7 @@ namespace Tanks.Tanks {
         public void AddAmmo(int ammount) {
             int tempAmmo = ammount + _ammo;
             _ammo = tempAmmo > 15 ? 15 : _ammo;
+            UpdateAmmoText();
         }
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -134,10 +128,16 @@ namespace Tanks.Tanks {
             {
                 _turret.Fire(_bulletPrefab);
                 _ammo--;
+                UpdateAmmoText();
             }
             else {
                 Debug.Log("Not ammo");
             }
+        }
+
+        private void UpdateAmmoText()
+        {
+            _ammoIndicator.text = _ammo.ToString();
         }
 
 

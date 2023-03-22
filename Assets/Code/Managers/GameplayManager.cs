@@ -8,7 +8,8 @@ namespace Tanks.Gameplay
     public class GameplayManager : MonoBehaviour
     {
         [SerializeField] List<Transform> _spawnPoints;
-        
+        [SerializeField] SinglePlayerGame _singlePlayerGame;
+
         private void Start()
         {
             InitGame();
@@ -24,6 +25,9 @@ namespace Tanks.Gameplay
                 tank.SetSelectedInputMode(i);
                 _spawnPoints.RemoveAt(_randomSpawnPointIndex);
             }
+
+            SinglePlayerGame game = Instantiate(_singlePlayerGame);
+            game.StartGame();
         }
     }
 }

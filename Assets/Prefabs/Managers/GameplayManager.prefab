@@ -263,7 +263,7 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 0}
   m_SplitScreen: 1
   m_MaintainAspectRatioInSplitScreen: 0
-  m_FixedNumberOfSplitScreens: 2
+  m_FixedNumberOfSplitScreens: -1
   m_SplitScreenRect:
     serializedVersion: 2
     x: 0
@@ -282,13 +282,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6098f9bdff5f93c4685e6eb5eb9b710a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tankPrefab: {fileID: 1601826486973612749, guid: 387b2b7f21bce6e4a8262cab1aaabf11, type: 3}
   _spawnPoints:
   - {fileID: 640116143}
   - {fileID: 216572034}
   - {fileID: 1092354069}
   - {fileID: 477455266}
   - {fileID: 1730787732}
+  _singlePlayerGame: {fileID: 4359417158065406443, guid: 6acba8721a058f7468f60bea0d90fa33, type: 3}
 --- !u!82 &8317967291132307799
 AudioSource:
   m_ObjectHideFlags: 0

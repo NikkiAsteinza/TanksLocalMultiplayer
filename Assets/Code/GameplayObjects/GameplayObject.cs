@@ -8,25 +8,43 @@ namespace Tanks.GameplayObjects
         Shield,
         Ammo,
         Turbo,
+        Cacti,
     }
 
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(AudioSource))]
     public class GameplayObject : MonoBehaviour{
-    
-        protected ObjectTypes _type;
+
+        [SerializeField] protected GameObject _visuals;
+        [SerializeField] protected ObjectTypes _type;
+        [SerializeField] protected AudioClip _soundEffect;
+
+        protected IGame _owner;
         protected AudioSource _audioSource;
-        private AudioClip _soundEffect;
         private bool _isApplied = false;
-        
-        public void Init (AudioClip clip, ObjectTypes type)
+
+        public void SetOwner(IGame game)
         {
-            _type = type;
-            _soundEffect = clip;
+            _owner = game;
+        }
+        private void Awake()
+        {
+            _visuals.SetActive(false);
             _audioSource = GetComponent<AudioSource>();
+            _audioSource.playOnAwake = false;
         }
 
-        public void OnTriggerEnter(Collider collider)
+        private void OnDisable()
+        {
+            _visuals.SetActive(false);
+        }
+
+        private void OnTriggerEnter(Collider collider)
+        {
+            TriggerEnterHandler(collider);
+        }
+
+        protected virtual void TriggerEnterHandler(Collider collider)
         {
             bool isTank = collider.GetComponent<Tank>() != null;
             if (isTank && !_isApplied)
