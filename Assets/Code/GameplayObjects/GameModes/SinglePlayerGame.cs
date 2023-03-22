@@ -104,15 +104,14 @@ public class SinglePlayerGame : MonoBehaviour, IGame
         if (_destroyedCactus == _destroyedCactusGoal)
         {
             GameFinished();
-            return;
+            yield break;
         }
         int enabledCacti = _cactiList.Where(x => x.gameObject.activeInHierarchy).Count();
         if (enabledCacti == _maxCacti)
         {
-            return;
+            yield break;
         }
         GameLoop();
-
     }
 
     Transform GetRandomSpawnPoint()
