@@ -21,6 +21,11 @@ namespace Tanks.UI
             animationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
         }
 
+        private void OnEnable()
+        {
+            FadeIn();
+        }
+
         internal IEnumerator LerpCanvas(int from, int to)
         {
             var startTime = Time.time;

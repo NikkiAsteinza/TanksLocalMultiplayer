@@ -22,6 +22,7 @@ namespace Tanks.UI
         [SerializeField] Button exitButton;
         [SerializeField] Button startButton;
         [SerializeField] Button restartButton;
+        [SerializeField] private Button mainMenuButton;
 
         [Header("Dropdowns")] [SerializeField] PlayerInputSelector inputSelectorPrefab;
 
@@ -48,6 +49,13 @@ namespace Tanks.UI
             multiplayerButton.onClick.AddListener(SetMultiplayerMode);
             exitButton.onClick.AddListener(QuitApp);
             startButton.onClick.AddListener(StartApp);
+            mainMenuButton.onClick.AddListener(GotoMainMenu);
+        }
+
+        private void GotoMainMenu()
+        {
+            FadeOutCanvas();
+            ScenesManager.Instance.GoToScene(ScenesManager.Scenes.MainMenu);
         }
 
         private void Start()
@@ -59,7 +67,9 @@ namespace Tanks.UI
 
         private void StartApp()
         {
-            ScenesManager.Instance.GoToScene(ScenesManager.Scenes.Gameplay);        }
+            FadeOutCanvas();
+            ScenesManager.Instance.GoToScene(ScenesManager.Scenes.Gameplay);
+        }
 
         private void QuitApp()
         {
@@ -69,14 +79,25 @@ namespace Tanks.UI
         private void SetMultiplayerMode()
         {
             GameManager.Instance.SetSelectedMode(GameMode.Multiplayer);
+            CreateSelectors();
             gameModeSelectionPanel.SetActive(false);
             inputModeSelectionPanel.SetActive(true);
             startButton.gameObject.SetActive(true);
         }
 
+        private void CreateSelectors()
+        {
+            for (int i = 0; i < GameManager.Instance.totalPlayers; i++)
+            {
+                PlayerInputSelector selector = Instantiate(inputSelectorPrefab, inputModeSelectionPanel.transform);
+                selector.SetOwner(i);
+            }
+        }
+
         private void SetSingleMode()
         {
             GameManager.Instance.SetSelectedMode(GameMode.SinglePlayer);
+            CreateSelectors();
             gameModeSelectionPanel.SetActive(false);
             inputModeSelectionPanel.SetActive(true);
             startButton.gameObject.SetActive(true);

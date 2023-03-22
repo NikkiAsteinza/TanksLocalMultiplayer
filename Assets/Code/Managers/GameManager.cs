@@ -14,6 +14,7 @@ namespace Tanks
 
     public class GameManager : SingletonBehaviour<GameManager>
     {
+        [SerializeField] private int maxPlayers = 2;
         [SerializeField] internal Tank _singlePlayerTank;
         [SerializeField] internal Tank _multiPlayerTank;
         [SerializeField] internal int _playerLives = 3;
@@ -34,6 +35,7 @@ namespace Tanks
         public void SetSelectedMode(GameMode selectedMode)
         {
             _selectedGameMode = selectedMode;
+            Debug.Log($"Selected game mode: {selectedMode}");
             HandlePlayersCreation(selectedMode);
         }
 
@@ -46,10 +48,11 @@ namespace Tanks
                     _players.Add(player);
                     break;
                 case GameMode.Multiplayer:
-                    Player player1 = CreatePlayer();
-                    _players.Add(player1);
-                    Player player2 = CreatePlayer();
-                    _players.Add(player2);
+                    for (int i = 0; i < maxPlayers; i++)
+                    {
+                        Player player1 = CreatePlayer();
+                        _players.Add(player1);
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(selectedMode), selectedMode, null);

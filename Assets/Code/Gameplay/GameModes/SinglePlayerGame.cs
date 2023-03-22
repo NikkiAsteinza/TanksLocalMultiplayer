@@ -22,11 +22,11 @@ namespace Tanks.Gameplay.Logic
             Debug.Log($"Enabled cactis: {enabledCacti}");
             if (enabledCacti < _maxCacti)
             {
-                Transform spawnPoint = GetRandomSpawnPoint();
+                Transform spawnPoint = GetRandomSpawnPoint(_cactiSpawnPoints);
                 bool isValid = IsSpawnPointValid(spawnPoint);
                 while (!isValid)
                 {
-                    spawnPoint = GetRandomSpawnPoint();
+                    spawnPoint = GetRandomSpawnPoint(_cactiSpawnPoints);
                     isValid = IsSpawnPointValid(spawnPoint);
                 }
 

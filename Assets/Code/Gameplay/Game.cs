@@ -37,7 +37,6 @@ namespace Tanks.Gameplay.Logic
 
 
         [SerializeField] protected List<GameplayObject> GameplayObjects;
-        [SerializeField] protected List<Transform> GameplayObjectsSpawnPoints;
 
         private GameState _state;
         private int _points = 0;
@@ -45,24 +44,10 @@ namespace Tanks.Gameplay.Logic
 
         public void InitGame()
         {
-            StartCoroutine(SpawnGameplayObjects());
             SwitchGameToTargetState(GameState.Started);
         }
 
-        IEnumerator SpawnGameplayObjects()
-        {
-            while (true)
-            {
-                GameplayObject objectToSpawn = GameplayObjects[UnityEngine.Random.Range(0, GameplayObjects.Count)];
-                Transform spawnPoint = GameplayObjectsSpawnPoints[UnityEngine.Random.Range(0, GameplayObjectsSpawnPoints.Count)];
-                if (spawnPoint.childCount == 0)
-                {
-                    Instantiate(objectToSpawn, spawnPoint.position, Quaternion.identity, spawnPoint);
-                }
-                
-                yield return new WaitForSeconds(spawnInterval);
-            }
-        }
+
         public void RestartGame()
         {
             SwitchGameToTargetState(GameState.Restarting);
@@ -111,8 +96,8 @@ namespace Tanks.Gameplay.Logic
         protected virtual void OnGameFinished()
         {
             Timer.Stop();
-            GameFinishedCanvas.gameObject.SetActive(true);
             GameFinishedCanvas.SetMessageText(GameFinishedMessage);
+            GameFinishedCanvas.FadeInCanvas();
         }
 
         protected virtual void Restart()
@@ -173,11 +158,11 @@ namespace Tanks.Gameplay.Logic
             GameplayObjects.ForEach(x => x.gameObject.SetActive(false));
         }
 
-        protected Transform GetRandomSpawnPoint()
+        protected Transform GetRandomSpawnPoint(Transform[]_spawnPointList)
         {
             // Select a random spawn point from the list
-            int index = Random.Range(0, GameplayObjectsSpawnPoints.Count);
-            Transform spawnPoint = GameplayObjectsSpawnPoints[index];
+            int index = Random.Range(0, _spawnPointList.Length);
+            Transform spawnPoint = _spawnPointList[index];
             return spawnPoint;
         }
 

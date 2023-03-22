@@ -288,7 +288,7 @@ MonoBehaviour:
   - {fileID: 1092354069}
   - {fileID: 477455266}
   - {fileID: 1730787732}
-  _singlePlayerGame: {fileID: 4359417158065406443, guid: 6acba8721a058f7468f60bea0d90fa33, type: 3}
+  _singlePlayerGame: {fileID: 1725365036, guid: 6acba8721a058f7468f60bea0d90fa33, type: 3}
 --- !u!82 &8317967291132307799
 AudioSource:
   m_ObjectHideFlags: 0

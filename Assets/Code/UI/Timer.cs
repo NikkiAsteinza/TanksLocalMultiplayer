@@ -1,10 +1,11 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
     [SerializeField] TMP_Text _text;
-    public double timeCounter = 0.0f; // set the starting time counter
+    public float timeCounter = 0.0f; // set the starting time counter
     public bool timerIsRunning = false;
 
     public void Reset()
@@ -29,9 +30,9 @@ public class Timer : MonoBehaviour
         }
     }
 
-    private void UpdateTimeCounter(double time)
+    private void UpdateTimeCounter(float time)
     {
         timeCounter = time;
-        _text.text = timeCounter.ToString();
+        _text.text = Math.Round(timeCounter,2).ToString();
     }
 }
