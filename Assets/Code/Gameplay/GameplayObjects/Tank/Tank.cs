@@ -66,7 +66,6 @@ namespace Tanks.Tanks {
         private PlayerInput playerInput;
         private int _ammo;
         private bool _isDestroyed;
-
         private void Awake()
         {
             UpdateLife(_lives);
@@ -107,14 +106,14 @@ namespace Tanks.Tanks {
         private void SubscribeToPlayerInputs(bool subscribe)
         {
             if (subscribe){
-                playerInput.actions["move"].performed += OnMove;
-                playerInput.actions["rotate"].performed += OnRotate;
-                playerInput.actions["fire"].performed += OnFire;
+                this.playerInput.actions["move"].performed += OnMove;
+                this.playerInput.actions["rotate"].performed += OnRotate;
+                this.playerInput.actions["fire"].performed += OnFire;
             }
             else {
-                playerInput.actions["move"].performed -= OnMove;
-                playerInput.actions["rotate"].performed -= OnRotate;
-                playerInput.actions["fire"].performed -= OnFire;
+                this.playerInput.actions["move"].performed -= OnMove;
+                this.playerInput.actions["rotate"].performed -= OnRotate;
+                this.playerInput.actions["fire"].performed -= OnFire;
             }
 
         }
@@ -259,6 +258,12 @@ namespace Tanks.Tanks {
         public void EnableShield(bool b)
         {
             _shield.gameObject.SetActive(b);
+        }
+
+        public void SetDevice(int owner)
+        {
+            Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(owner);
+            playerInput.SwitchCurrentControlScheme(selectedPlayerGamepad);
         }
     }
 }

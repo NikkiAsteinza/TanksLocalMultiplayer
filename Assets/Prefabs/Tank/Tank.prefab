@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ba5d6988bb7dc42b2ef70d214bfba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tankSpeed: 40
+  _tankSpeed: 30
   _tankRotationSpeed: 100
 --- !u!114 &3850326174069519913
 MonoBehaviour:
@@ -294,8 +294,8 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1335aaaf-f5b4-4bca-893d-ac2175767546
     m_ActionName: Tank/RotateTurret[/Mouse/position]
-  m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: 
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Player1
   m_DefaultActionMap: Tank
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 3850326174009136949}

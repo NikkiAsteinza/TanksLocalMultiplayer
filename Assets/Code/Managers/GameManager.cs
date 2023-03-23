@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Tanks.Players;
 using Tanks.Tanks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Tanks
 {
@@ -112,6 +113,27 @@ namespace Tanks
         public List<Player> GetPlayers()
         {
             return _players;
+        }
+
+        public void SetSelectedGamepadToPlayer(int owner, int selectedInputMode)
+        {
+            Gamepad gamepad = Gamepad.all[selectedInputMode];
+            if (gamepad != null)
+            {
+                _players[owner].SetSelecteGamepad(gamepad);
+                Debug.Log($"Player {owner} selected gamepad: " + Gamepad.all[selectedInputMode]);
+            }
+            else
+            {
+                Debug.LogWarning($"There is no gamepad available for Player {owner}");
+            }
+        }
+
+        public Gamepad GetPlayerGamepad(int i)
+        {
+            if(_players[i].GetGamepad() == null)
+                return Gamepad.all[0];
+            return _players[i].GetGamepad() ;
         }
     }
 }
