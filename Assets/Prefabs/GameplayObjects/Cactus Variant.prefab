@@ -74,7 +74,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152252730491932713}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2, y: 3, z: 2}
@@ -187,8 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66eebfc1e91a93e4299eea4cc405466e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visuals: {fileID: 8384565590381176430}
   _type: 3
+  _visuals: {fileID: 8384565590381176430}
   _soundEffect: {fileID: 8300000, guid: 3a77defcde1caaa40b6f7502547e0c4e, type: 3}
 --- !u!4 &1152252730492161033 stripped
 Transform:
