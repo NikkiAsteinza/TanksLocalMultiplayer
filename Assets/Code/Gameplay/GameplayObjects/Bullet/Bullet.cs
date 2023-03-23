@@ -15,8 +15,7 @@ namespace Tanks.Bullets
 
         private void OnCollisionEnter(Collision collision)
         {
-            //ObjectPool - WIP
-            Destroy(this.gameObject,0.2f);
+            Destroy(this.gameObject);
         }
     }
 }

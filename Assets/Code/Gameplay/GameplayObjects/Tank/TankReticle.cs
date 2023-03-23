@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
 
 namespace Tanks.Tanks
 {
@@ -31,6 +30,7 @@ namespace Tanks.Tanks
 
                 transform.position = hit.point;
                 _reticleNormal = hit.normal;
+                transform.LookAt(_reticleNormal);
             }
 
             _turret.HandleTurret(transform.position);

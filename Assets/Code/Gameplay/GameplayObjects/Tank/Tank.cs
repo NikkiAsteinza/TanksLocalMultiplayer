@@ -1,9 +1,13 @@
+using System;
 using Tanks.Bullets;
+using Tanks.Gameplay.Objects;
+using Tanks.Players;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 
 namespace Tanks.Tanks {
+    [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(PlayerInput))]
     public class Tank : MonoBehaviour
     {
@@ -46,14 +50,30 @@ namespace Tanks.Tanks {
 
         private Vector2 movementInput = Vector2.zero;
 
+        private AudioSource _audioSource;
         private PlayerInput playerInput;
         private int _ammo;
         private bool _isDestroyed;
 
         private void Awake()
         {
+            UpdateLife(_lives);
+            UpdateAmmo(_initialAmmunition);
             _destroyedTankModel.SetActive(false);
             playerInput = GetComponent<PlayerInput>();
+            _audioSource = GetComponent<AudioSource>();
+        }
+
+        private void UpdateAmmo(int updatedAmmo)
+        {
+            _ammo = updatedAmmo;
+            _ammoIndicator.text = updatedAmmo.ToString();
+        }
+
+        private void UpdateLife(int updatedLife)
+        {
+            _lives = updatedLife;
+            _lifeIndicator.text = updatedLife.ToString();
         }
 
         private void Start()
@@ -81,6 +101,7 @@ namespace Tanks.Tanks {
         {
             if (collision.collider.GetComponent<Bullet>())
             {
+                UpdateLife(_lives-1);
                 Debug.Log("A bullet hitted the tank -> " + gameObject.name);
                 SetNormalVisualsOn(false);
                 SubscribeToPlayerInputs(false);
@@ -88,7 +109,7 @@ namespace Tanks.Tanks {
         }
         public void AddAmmo(int ammount) {
             int tempAmmo = ammount + _ammo;
-            _ammo = tempAmmo > 15 ? 15 : _ammo;
+            UpdateAmmo(tempAmmo > 15 ? 15 : _ammo);
         }
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -100,7 +121,7 @@ namespace Tanks.Tanks {
             if (_ammo > 0)
             {
                 _turret.Fire(_bulletPrefab);
-                _ammo--;
+                UpdateAmmo(_ammo-1);
             }
             else {
                 Debug.Log("Not ammo");
@@ -135,6 +156,31 @@ namespace Tanks.Tanks {
         {
             _tankModel.SetActive(enable);
             _destroyedTankModel.SetActive(!enable);
+        }
+
+        public void ApplyObjectFeature(ObjectTypes type)
+        {
+            switch (type)
+            {
+                case ObjectTypes.Shield:
+                    
+                    break;
+                case ObjectTypes.Ammo:
+                    AddAmmo(10);
+                    break;
+                case ObjectTypes.Turbo:
+                    break;
+                case ObjectTypes.Cacti:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+
+        public void SetInputDevice(InputMode getPlayerInputMode)
+        {
+           Debug.Log(playerInput.devices.ToString());
+            playerInput.actions.bindingMask = new InputBinding {groups = getPlayerInputMode == 0 ? "Keyboard" : "Gamepad"};
         }
     }
 }

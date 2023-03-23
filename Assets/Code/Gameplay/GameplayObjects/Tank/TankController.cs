@@ -21,7 +21,12 @@ namespace Tanks.Tanks
         internal void HandleMovement(Vector2 movementInput)
         {
             Vector3 targetPosition = transform.position + (transform.forward * movementInput.y * _tankSpeed * Time.fixedDeltaTime);
-            rb.MovePosition(targetPosition);
+            
+            // IMPROVEMENT -> REALISTIC PHYSICS///////////////////////////////////
+            // Vector3 force = transform.forward * movementInput.y * _tankSpeed * 10;
+            //  force.y = transform.position.y > 0.25? force.y : 0;
+            // rb.AddForce(force,ForceMode.Force);
+             rb.MovePosition(targetPosition);
 
             Quaternion targetRotation = transform.rotation * Quaternion.Euler(Vector3.up * movementInput.x * _tankRotationSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(targetRotation);
