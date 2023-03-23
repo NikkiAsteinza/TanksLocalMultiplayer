@@ -1,16 +1,27 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 namespace Tanks.Gameplay.Objects
 {
     public class Cactus : GameplayObject
     {
+        [SerializeField] protected GameObject _visuals;
+        [SerializeField] protected AudioClip _soundEffect;
+        
+        private void Awake()
+        {
+            _visuals.SetActive(false);
+        }
         private void Start()
         {
             BoxCollider.isTrigger = false;
         }
 
-        public void OnCollisionEnter(Collision coll)
+        private void OnDisable()
+        {
+            _visuals.SetActive(false);
+        }
+        
+        private void OnCollisionEnter(Collision coll)
         {
             if (coll.gameObject.CompareTag("Bullet"))
             {
@@ -18,17 +29,9 @@ namespace Tanks.Gameplay.Objects
             }
         }
 
-        override protected void TriggerEnterHandler(Collider other)
-        {
-            // if (other.CompareTag("Bullet"))
-            // {
-            //     StartCoroutine(DestructionCoroutine());
-            // }
-        }
-
         private IEnumerator DestructionCoroutine()
         {
-            Owner.OnGameplayObjectDisabled(this);
+            GameModeOwner.OnGameplayObjectDisabled(this);
             if (AudioSource != null && _soundEffect != null)
             {
                 AudioSource.PlayOneShot(_soundEffect);

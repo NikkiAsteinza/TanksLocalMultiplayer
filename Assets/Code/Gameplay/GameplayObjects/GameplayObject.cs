@@ -1,4 +1,3 @@
-using Tanks.Tanks;
 using UnityEngine;
 
 namespace Tanks.Gameplay.Objects
@@ -15,49 +14,27 @@ namespace Tanks.Gameplay.Objects
     [RequireComponent(typeof(AudioSource))]
     public class GameplayObject : MonoBehaviour{
 
-        [SerializeField] private ObjectTypes _type;
-        [SerializeField] protected GameObject _visuals;
-        [SerializeField] protected AudioClip _soundEffect;
-
+        [SerializeField] protected ObjectTypes _type;
+        
         protected BoxCollider BoxCollider;
-        protected IGame Owner;
+        protected IGame GameModeOwner;
         protected AudioSource AudioSource;
-        private bool _isApplied = false;
 
         public ObjectTypes GetObjectType() => _type;
         public void SetOwner(IGame game)
         {
-            Owner = game;
+            GameModeOwner = game;
         }
         private void Awake()
         {
-            _visuals.SetActive(false);
             BoxCollider = GetComponent<BoxCollider>();
             AudioSource = GetComponent<AudioSource>();
             AudioSource.playOnAwake = false;
         }
 
-        private void OnDisable()
+        private void DisableObject()
         {
-            _visuals.SetActive(false);
-        }
-
-        private void OnTriggerEnter(Collider collider)
-        {
-            TriggerEnterHandler(collider);
-        }
-
-        protected virtual void TriggerEnterHandler(Collider collider)
-        {
-            // bool isTank = collider.GetComponent<Tank>() != null;
-            // if (isTank && !_isApplied)
-            // {
-            //     Tank tank = collider.GetComponent<Tank>();
-            //     tank.ApplyObjectFeature(_type);
-            //     _isApplied = true;
-            // }
-
-            AudioSource.PlayOneShot(_soundEffect);
+            gameObject.SetActive(false);
         }
     }
 }

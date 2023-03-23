@@ -1,66 +1,60 @@
-using System.Collections;
 using System.Collections.Generic;
-using Tanks.Gameplay.Objects;
+using System.Linq;
+using Tanks.Gameplay.Objects.Generics;
 using UnityEngine;
 
 namespace Tanks.Gameplay.Logic
 {
     public class GenericGameplayObjectsSpawner : MonoBehaviour
     {
-        [SerializeField] private List<GameplayObject> genericGameplayObjects;
-        [SerializeField] private List<Transform> spawnPoints;
-        [SerializeField] private float spawnInterval;
-        [SerializeField] private int maxGenericGameplayObjectsAllowedAtTime;
-
-        private List<GameplayObject> activeObjects = new List<GameplayObject>();
+        [SerializeField] private List<GenericGameplayObject> genericGameplayObjects;
+        [SerializeField] private float spawnInterval = 5;
+        
+        private GenericGameplayObject _activatedObject;
         private float timer;
 
-        private void Start()
+        private void Awake()
         {
-            // Spawn objects in disabled state
-            for (int i = 0; i < maxGenericGameplayObjectsAllowedAtTime; i++)
+            genericGameplayObjects = GetComponentsInChildren<GenericGameplayObject>().ToList();
+            Debug.Log("Generics: " +genericGameplayObjects.Count);
+            DisableAll();
+        }
+
+        private void DisableAll()
+        {
+            genericGameplayObjects.ForEach((x) =>
             {
-                SpawnObject(false);
-            }
+                x.gameObject.SetActive(false);
+                x.SetSpawner(this);
+            });
         }
 
         private void Update()
         {
-            // Check if we can activate more objects
-            if (activeObjects.Count < maxGenericGameplayObjectsAllowedAtTime)
+            if (!_activatedObject)
             {
-                // Check if enough time has passed since last spawn
                 timer += Time.deltaTime;
                 if (timer >= spawnInterval)
                 {
-                    SpawnObject(true);
+                    Debug.Log("Generics spawner timer");
+                    ActivateObject();
                     timer = 0f;
                 }
             }
         }
 
-        private void SpawnObject(bool activate)
+        private void ActivateObject()
         {
-            // Get a random GameplayObject and spawn it at a random spawn point
-            GameplayObject obj = genericGameplayObjects[Random.Range(0, genericGameplayObjects.Count)];
-            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-            GameplayObject instance = Instantiate(obj, spawnPoint.position, spawnPoint.rotation);
-
-            // Activate or disable the object depending on the parameter
-            instance.gameObject.SetActive(activate);
-
-            // Add to the list of active objects if activated
-            if (activate)
-            {
-                activeObjects.Add(instance);
-            }
+            GenericGameplayObject obj = genericGameplayObjects[Random.Range(0, genericGameplayObjects.Count)];
+            obj.gameObject.SetActive(true);
+            _activatedObject = obj;
+            Debug.Log("Generic gameplayObject activated");
         }
 
-        // Call this method to deactivate an object and remove it from the list of active objects
-        public void DeactivateObject(GameplayObject obj)
+        public void ResetTimer()
         {
-            obj.gameObject.SetActive(false);
-            activeObjects.Remove(obj);
+            timer = 0;
+            _activatedObject = null;
         }
     }
 }
