@@ -1,6 +1,5 @@
 
 using Tanks.Gameplay;
-using Tanks.Players;
 using Tanks.SceneManagement;
 using TMPro;
 using UnityEngine;
@@ -17,6 +16,7 @@ namespace Tanks.UI
         [SerializeField] GameObject gameModeSelectionPanel;
         [SerializeField] GameObject inputModeSelectionPanel;
         [SerializeField] TMP_Text _finishMessage;
+        [SerializeField] TMP_Text _title;
         [Header("Buttons")] [SerializeField] Button singlePlayerButton;
         [SerializeField] Button multiplayerButton;
         [SerializeField] Button exitButton;
@@ -32,10 +32,12 @@ namespace Tanks.UI
             _owner = game;
         }
 
-        public void SetMessageText(string message)
+        public void SetMessageText(string title, string message)
         {
-
+            _title.text = title;
             _finishMessage.text = message;
+            _finishMessage.gameObject.SetActive(true);
+            messageContainer.SetActive(true);
         }
 
         private void Awake()
