@@ -21,19 +21,18 @@ namespace Tanks.Gameplay.Logic
 
         [Header("Gameplay configurations")] [SerializeField]
         protected GameState DefaultInitstate = GameState.Idle;
-
         [SerializeField] protected int PointsToFinish = 10;
         [SerializeField] protected int GameLoopRefreshInterval = 2;
-        [SerializeField] private float spawnInterval = 5f;
-        [SerializeField] private int maxGameplayObjectsToInstantiate;
-        [SerializeField] protected string GameFinishedMessage;
-        [SerializeField] private GenericGameplayObjectsSpawner _genericObjectsSpawner;
-        [Header("Required references")] [SerializeField]
-        protected Timer Timer;
-
+        [SerializeField] protected string GameWonTitle;
+        [SerializeField] protected string GameLostTitle;
+        [SerializeField] protected string GameWonMessage;
+        [SerializeField] protected string GameLostMessage;
+        
+        [Header("UI references")]
+        [SerializeField] protected Timer Timer;
         [SerializeField] protected AppCanvas GameFinishedCanvas;
         [SerializeField] protected TMP_Text PointsIndicator;
-
+        [SerializeField] protected TMP_Text _goalPoints;
 
         [SerializeField] protected List<GameplayObject> GameplayObjects;
 
@@ -43,10 +42,10 @@ namespace Tanks.Gameplay.Logic
 
         public void InitGame()
         {
+            Debug.Log("Single player game init");
             SwitchGameToTargetState(GameState.Started);
         }
-
-
+        
         public void RestartGame()
         {
             SwitchGameToTargetState(GameState.Restarting);
@@ -54,6 +53,7 @@ namespace Tanks.Gameplay.Logic
 
         private void Awake()
         {
+            _goalPoints.text = PointsToFinish.ToString();
             SwitchGameToTargetState(DefaultInitstate);
         }
 
@@ -95,7 +95,10 @@ namespace Tanks.Gameplay.Logic
         protected virtual void OnGameFinished()
         {
             Timer.Stop();
-            GameFinishedCanvas.SetMessageText(GameFinishedMessage);
+            GameFinishedCanvas.SetMessageText(
+                _points == PointsToFinish? GameWonTitle: GameLostTitle,
+                _points == PointsToFinish? GameWonMessage : GameWonTitle);
+            
             GameFinishedCanvas.FadeInCanvas();
         }
 
@@ -145,7 +148,7 @@ namespace Tanks.Gameplay.Logic
                 yield return new WaitForSeconds(GameLoopRefreshInterval);
             }
         }
-
+        
         protected void UpdatePoints(bool reset)
         {
             _points = reset ? 0 : _points + 1;
@@ -164,7 +167,7 @@ namespace Tanks.Gameplay.Logic
             Transform spawnPoint = _spawnPointList[index];
             return spawnPoint;
         }
-
+        
         protected bool IsSpawnPointValid(Transform spawnPoint)
         {
             // Check if the selected spawn point is too close to another enabled cactus
@@ -184,7 +187,7 @@ namespace Tanks.Gameplay.Logic
             Collider[] colliders = Physics.OverlapSphere(spawnPoint.position, 1.0f);
             foreach (Collider collider in colliders)
             {
-                if (collider.CompareTag("Tank") || collider.CompareTag("Cactus"))
+                if (collider && !collider.CompareTag("Floor") || !collider.CompareTag("Cactus") )
                 {
                     return false;
                 }

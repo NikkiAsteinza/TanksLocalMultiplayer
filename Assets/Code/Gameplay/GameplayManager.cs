@@ -17,30 +17,30 @@ namespace Tanks
         {
             InitGame(GameManager.Instance.gameMode);
         }
-        internal void InitGame(GameMode gameMode)
+        private void InitGame(GameMode gameMode)
         {
-            int _randomSpawnPointIndex = Random.Range(0, _spawnPoints.Count());
-            if (gameMode == GameMode.SinglePlayer)
+            CreateTankBySelectedInputMode(0);
+            if (gameMode == GameMode.Multiplayer)
             {
-                Transform randomSpawnPoint = _spawnPoints[_randomSpawnPointIndex];
-                Tank tank = Instantiate(GameManager.Instance.GetPrefabToUse());
-                tank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
+                CreateTankBySelectedInputMode(1);
             }
+            InitSinglePlayerGame();
+            //CreateTankBySelectedInputMode(0);
+           
+        }
 
-            else
-            {
-                Transform randomSpawnPoint = _spawnPoints[_randomSpawnPointIndex];
-                Tank tank = Instantiate(GameManager.Instance.GetPrefabToUse());
-                tank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
-                _spawnPoints.RemoveAt(_randomSpawnPointIndex);
-                _randomSpawnPointIndex = Random.Range(0, _spawnPoints.Count());
-                Transform randomSpawnPoint2 = _spawnPoints[_randomSpawnPointIndex];
-                Tank tank2 = Instantiate(GameManager.Instance.GetPrefabToUse());
-                tank2.transform.SetPositionAndRotation(randomSpawnPoint2.position, randomSpawnPoint2.rotation);
-            }
-            
+        private void InitSinglePlayerGame()
+        {
             SinglePlayerGame game = Instantiate(_singlePlayerGame);
             game.InitGame();
+        }
+
+        private void CreateTankBySelectedInputMode(int playerIndex)
+        {
+            Transform randomSpawnPoint = _spawnPoints[playerIndex];
+            Tank tank = Instantiate(GameManager.Instance.GetPrefabToUse());
+            tank.SetInputDevice(GameManager.Instance.GetPlayerInputMode(playerIndex));
+            tank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
         }
     }
 }

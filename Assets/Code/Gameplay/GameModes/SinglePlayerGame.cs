@@ -13,7 +13,7 @@ namespace Tanks.Gameplay.Logic
         protected override void InitialSetup()
         {
             base.InitialSetup();
-            SpawnCactus();
+            //SpawnCactus();
         }
 
         protected override void GameLoopLogic()
@@ -39,43 +39,34 @@ namespace Tanks.Gameplay.Logic
             }
         }
 
-        override public void OnGameplayObjectDisabled(GameplayObject gameplayObject)
+        public override void OnGameplayObjectDisabled(GameplayObject gameplayObject)
         {
             Debug.Log("Cactus destroys");
             UpdatePoints(false);
         }
 
-
         private void SpawnCactus()
         {
-            // Spawn 5 disabled cacti on awake
-            for (int i = 0; i < _maxCacti + 2; i++)
+            for (int i = 0; i < _maxCacti ; i++)
             {
                 _cactiPrefab.gameObject.SetActive(false);
-                Cactus cactus = SpawnCacti();
+                Cactus cactus = InstantiateCacti();
             }
         }
 
-
-
-
-
         GameplayObject GetDisabledCactus()
         {
-            // Loop through the list of cacti and return the first disabled cactus found
             GameplayObject disabledCactus = GameplayObjects.FirstOrDefault(
                 x => !x.gameObject.activeInHierarchy && x.GetObjectType() == ObjectTypes.Cacti);
             if (disabledCactus)
                 return disabledCactus;
-
-            // If no disabled cacti were found, instantiate a new one from the prefab
-            return SpawnCacti();
+            
+            return InstantiateCacti();
         }
 
-        private Cactus SpawnCacti()
+        private Cactus InstantiateCacti()
         {
             Cactus newCactus = Instantiate(_cactiPrefab, transform.position, Quaternion.identity);
-            newCactus.gameObject.SetActive(false);
             newCactus.SetOwner(this);
             GameplayObjects.Add(newCactus);
             return newCactus;
