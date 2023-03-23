@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a295610d0b49a85439749efaeef88f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 0
   _radius: 2.22
   _color: {r: 0.8301887, g: 0.8093584, b: 0.17752454, a: 1}
 --- !u!1 &477455265
@@ -90,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a295610d0b49a85439749efaeef88f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 0
   _radius: 2.22
   _color: {r: 0.8301887, g: 0.8093584, b: 0.17752454, a: 1}
 --- !u!1 &640116142
@@ -136,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a295610d0b49a85439749efaeef88f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 0
   _radius: 2.22
   _color: {r: 0.8301887, g: 0.8093584, b: 0.17752454, a: 1}
 --- !u!1 &1092354068
@@ -182,6 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a295610d0b49a85439749efaeef88f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 0
   _radius: 2.22
   _color: {r: 0.8301887, g: 0.8093584, b: 0.17752454, a: 1}
 --- !u!1 &1290811703
@@ -264,6 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a295610d0b49a85439749efaeef88f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 0
   _radius: 2.22
   _color: {r: 0.8301887, g: 0.8093584, b: 0.17752454, a: 1}
 --- !u!1 &2713154695154457389
@@ -364,6 +369,7 @@ MonoBehaviour:
   - {fileID: 477455266}
   - {fileID: 1730787732}
   _singlePlayerGame: {fileID: 1725365036, guid: 6acba8721a058f7468f60bea0d90fa33, type: 3}
+  _multiplayerGame: {fileID: 847193632935648080, guid: 47e875cf3ee66dd44aeb88070ccc509d, type: 3}
 --- !u!82 &8317967291132307799
 AudioSource:
   m_ObjectHideFlags: 0

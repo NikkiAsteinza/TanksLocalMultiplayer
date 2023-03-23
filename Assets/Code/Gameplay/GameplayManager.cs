@@ -25,7 +25,7 @@ namespace Tanks
             {
                 CreateTankBySelectedInputMode(0);
                 CreateTankBySelectedInputMode(1);
-                //InitMultiplayerGame();
+                InitMultiplayerGame();
             }
             else
             {
@@ -49,26 +49,25 @@ namespace Tanks
         private void CreateTankBySelectedInputMode(int playerIndex)
         {
             InputMode selectedMode = GameManager.Instance.GetPlayerInputMode(playerIndex);
-            Tank prefab = GameManager.Instance.GetPrefabToUse();
+            GameObject prefab = GameManager.Instance.GetPrefabToUse().gameObject;
             Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(playerIndex);
             Debug.Log($"Player {playerIndex} desired gamepad: "+selectedPlayerGamepad);
-            string controlScheme = playerIndex == 0 ? "Player1" : "Player2";
+            string controlScheme = playerIndex == 0 ? "Keyboard" : "Gamepad";
             InputDevice deviceToPair = selectedMode == InputMode.Gamepad
                 ? selectedPlayerGamepad
                 : InputSystem.devices[0];
             Debug.Log($"Player {playerIndex} found device to pair: "+deviceToPair);
             // Spawn players with specific devices.
-            // var p1 = PlayerInput.Instantiate(
-            //     prefab,
-            //     playerIndex,
-            //     controlScheme: controlScheme,
-            //     pairWithDevice: deviceToPair);
+            var p1 = PlayerInput.Instantiate(
+                prefab,
+                playerIndex,
+                controlScheme: controlScheme,
+                pairWithDevice: deviceToPair);
             
 
             Transform randomSpawnPoint = _spawnPoints[playerIndex];
-            Tank tank = Instantiate(prefab); 
-            tank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
-            tank.SetDevice(playerIndex);
+            p1.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
+            p1.GetComponent<Tank>().SetDevice(playerIndex);
         }
     }
 }
