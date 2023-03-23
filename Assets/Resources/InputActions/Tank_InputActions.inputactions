@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RotateTurret",
+                    "name": "Rotate",
                     "type": "PassThrough",
                     "id": "1335aaaf-f5b4-4bca-893d-ac2175767546",
                     "expectedControlType": "Vector2",
@@ -90,15 +90,59 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "7d100c9d-6017-4ed4-8d26-e259d6b014f9",
-                    "path": "<Gamepad>/leftStick",
+                    "name": "Gamepad",
+                    "id": "a4e756bb-0e40-449f-9ad8-88939a6867d4",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;GenericGamepad",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "e1cc2536-56a5-4a51-8e91-88b4a8426fee",
+                    "path": "<DualShockGamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "9ba4f57e-9507-4da5-b1ac-8e9961120e93",
+                    "path": "<DualShockGamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "d1fa6404-027b-4826-82f9-2bdda405ee3b",
+                    "path": "<DualShockGamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "b0da49fd-aaca-44aa-bdf7-e92332d32221",
+                    "path": "<DualShockGamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -114,35 +158,123 @@
                 {
                     "name": "",
                     "id": "87285592-e787-4f42-a77e-4136eb16b14f",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<DualSenseGamepadHID>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;GenericGamepad",
+                    "groups": "Gamepad",
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "b0e849b8-7da4-4aa2-b1aa-6b27f7fa13cc",
-                    "path": "<Mouse>/position",
+                    "name": "Keyboard",
+                    "id": "0d2ff92b-9929-4311-bb7a-7b154178d293",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
-                    "action": "RotateTurret",
-                    "isComposite": false,
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "8b5e2ab2-9890-4780-adbf-487e117597af",
-                    "path": "<Gamepad>/rightStick",
+                    "name": "up",
+                    "id": "cae3505c-91bb-4897-9466-036957656dfc",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;GenericGamepad",
-                    "action": "RotateTurret",
+                    "groups": "Keyboard",
+                    "action": "Rotate",
                     "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "08d5f8e8-daa2-4612-9075-5d274b27dab6",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "a8ec1ec3-d860-440f-bb23-adca6a3ec766",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "a6695af8-0821-437f-8d6c-1b3053efaa67",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Gamepad",
+                    "id": "5562808f-ab51-4aa9-8969-1f688d46e38c",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "6f6a4631-1abb-4860-bf06-3db06388f1bc",
+                    "path": "<DualShockGamepad>/rightStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "31ec3dc5-cafb-467d-b68a-f9e626135acd",
+                    "path": "<DualShockGamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "73b04c9d-4f05-44f0-9dd7-f2a09d6b777e",
+                    "path": "<DualShockGamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "73d153fe-9557-4e71-9273-8aeaaca28721",
+                    "path": "<DualShockGamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
@@ -165,17 +297,6 @@
             "devices": [
                 {
                     "devicePath": "<DualSenseGamepadHID>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "GenericGamepad",
-            "bindingGroup": "GenericGamepad",
-            "devices": [
-                {
-                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }

@@ -99,6 +99,8 @@ namespace Tanks
 
         public InputMode GetPlayerInputMode(int i)
         {
+            if(_players[i].GetInputMode() == null)
+                _players[i].SetSelectedMode(0);
             return _players[i].GetInputMode();
         }
 

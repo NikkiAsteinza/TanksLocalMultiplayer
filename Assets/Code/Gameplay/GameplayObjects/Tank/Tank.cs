@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 namespace Tanks.Tanks {
     [System.Serializable]
@@ -50,9 +51,6 @@ namespace Tanks.Tanks {
         [SerializeField] TankTurret _turret;
         [SerializeField] Bullet _bulletPrefab;
 
-        [Header("Tank Reticle")]
-        [SerializeField] TankReticle _reticle;
-
         [Header("Tank Movement")]
         [SerializeField] TankController _controller;
         
@@ -62,6 +60,7 @@ namespace Tanks.Tanks {
         [SerializeField] private List<TankBonusFeature> _bonusFeatures;
 
         private Vector2 movementInput = Vector2.zero;
+        private Vector2 rotationInput = Vector2.zero;
 
         private AudioSource _audioSource;
         private PlayerInput playerInput;
@@ -102,8 +101,6 @@ namespace Tanks.Tanks {
         private void Start()
         {
             SubscribeToPlayerInputs(true);
-
-            _reticle.Init(_camera, _turret);
             _ammo = _initialAmmunition;
         }
 
@@ -111,15 +108,19 @@ namespace Tanks.Tanks {
         {
             if (subscribe){
                 playerInput.actions["move"].performed += OnMove;
+                playerInput.actions["rotate"].performed += OnRotate;
                 playerInput.actions["fire"].performed += OnFire;
             }
             else {
                 playerInput.actions["move"].performed -= OnMove;
+                playerInput.actions["rotate"].performed -= OnRotate;
                 playerInput.actions["fire"].performed -= OnFire;
             }
 
         }
-        
+
+
+
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.collider.GetComponent<Bullet>())
@@ -140,7 +141,10 @@ namespace Tanks.Tanks {
             movementInput = context.ReadValue<Vector2>();
 
         }
-
+        private void OnRotate(InputAction.CallbackContext context)
+        {
+            rotationInput = context.ReadValue<Vector2>();
+        }
         private void PLayClipIfNotPlaying(AudioClip clip)
         {
             if (_audioSource.clip == clip)
@@ -173,13 +177,17 @@ namespace Tanks.Tanks {
             }
             else
                 PLayClipIfNotPlaying(idleSound);
+            if (rotationInput != Vector2.zero)
+            {
+                _turret.HandleRotation(rotationInput);
+
+            }
         }
         private void DestroyTank()
         {
             SetNormalVisualsOn(false);
             SubscribeToPlayerInputs(false);
             _isDestroyed = true;
-
         }
 
 
@@ -220,12 +228,6 @@ namespace Tanks.Tanks {
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
-        }
-
-        public void SetInputDevice(InputMode getPlayerInputMode)
-        {
-           Debug.Log(playerInput.devices.ToString());
-            playerInput.actions.bindingMask = new InputBinding {groups = getPlayerInputMode == 0 ? "Keyboard" : "Gamepad"};
         }
 
         public void ShowCanvasFinished(string text)

@@ -20,11 +20,11 @@ namespace Tanks.Tanks
             tempBullet.Rb.AddForce(_spawnPoint.forward * fireForce);
         }
 
-        internal void HandleTurret(Vector3 reticlePosition)
+        internal void HandleRotation(Vector2 movementInput)
         {
-            Vector3 lookAtDir = reticlePosition - turretTransform.position;
-            lookAtDir.y = 0;
-            turretTransform.rotation= Quaternion.LookRotation(lookAtDir);
+            Debug.Log("Rotating");
+            turretTransform.Rotate(Vector3.up * Time.deltaTime* movementInput.x *80, Space.Self);
+            
         }
     }
 }
