@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Tanks.Gameplay.Objects;
 using Tanks.UI;
 using TMPro;
@@ -28,7 +27,7 @@ namespace Tanks.Gameplay.Logic
         [SerializeField] private float spawnInterval = 5f;
         [SerializeField] private int maxGameplayObjectsToInstantiate;
         [SerializeField] protected string GameFinishedMessage;
-
+        [SerializeField] private GenericGameplayObjectsSpawner _genericObjectsSpawner;
         [Header("Required references")] [SerializeField]
         protected Timer Timer;
 
