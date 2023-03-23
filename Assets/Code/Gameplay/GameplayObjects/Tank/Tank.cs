@@ -1,16 +1,24 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Tanks.Bullets;
 using Tanks.Gameplay.Objects;
 using Tanks.Players;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.Events;
 
 namespace Tanks.Tanks {
+    [System.Serializable]
+    public class onTankDies : UnityEvent<Tank>
+    {
+    }
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(PlayerInput))]
     public class Tank : MonoBehaviour
     {
+        public onTankDies onDie;
         [ContextMenu("Destroy Tank Manually")]
         void DestroyTankManually()
         {
@@ -26,10 +34,10 @@ namespace Tanks.Tanks {
         [Header("Tank canvas")]
         [SerializeField] private TMP_Text _lifeIndicator;
         [SerializeField] private TMP_Text _ammoIndicator;
+        [SerializeField] private TMP_Text _finishMessage;
         [Header("Tank Sounds")]
         [SerializeField] private AudioClip idleSound;
         [SerializeField] private AudioClip movingSound;
-        [SerializeField] private AudioClip dieSound;
 
         [Header("Tank Visuals")]
         [SerializeField] int _lives = 3;
@@ -47,6 +55,11 @@ namespace Tanks.Tanks {
 
         [Header("Tank Movement")]
         [SerializeField] TankController _controller;
+        
+        [Header("Tank Bonus")]
+        [SerializeField] private GameObject _shield;
+
+        [SerializeField] private List<TankBonusFeature> _bonusFeatures;
 
         private Vector2 movementInput = Vector2.zero;
 
@@ -70,8 +83,18 @@ namespace Tanks.Tanks {
             _ammoIndicator.text = updatedAmmo.ToString();
         }
 
-        private void UpdateLife(int updatedLife)
+        private void UpdateLife(int updatedLife, bool reset = false)
         {
+            if(reset){
+                _lives = 0;
+                _lifeIndicator.text = "0";
+                return;
+            }
+            if (updatedLife == 0)
+            {
+                onDie.Invoke(this);
+            }
+
             _lives = updatedLife;
             _lifeIndicator.text = updatedLife.ToString();
         }
@@ -96,7 +119,7 @@ namespace Tanks.Tanks {
             }
 
         }
-
+        
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.collider.GetComponent<Bullet>())
@@ -105,6 +128,7 @@ namespace Tanks.Tanks {
                 Debug.Log("A bullet hitted the tank -> " + gameObject.name);
                 SetNormalVisualsOn(false);
                 SubscribeToPlayerInputs(false);
+                Invoke("RestoreTank",GameManager.Instance.SecondsToRestorePlayer);
             }
         }
         public void AddAmmo(int ammount) {
@@ -114,6 +138,16 @@ namespace Tanks.Tanks {
         public void OnMove(InputAction.CallbackContext context)
         {
             movementInput = context.ReadValue<Vector2>();
+
+        }
+
+        private void PLayClipIfNotPlaying(AudioClip clip)
+        {
+            if (_audioSource.clip == clip)
+                return;
+            _audioSource.Stop();
+            _audioSource.clip = clip;
+            _audioSource.Play();
         }
 
         public void OnFire(InputAction.CallbackContext context)
@@ -127,21 +161,25 @@ namespace Tanks.Tanks {
                 Debug.Log("Not ammo");
             }
         }
-
-
-        // Fixed rate for physics.
+    
         void FixedUpdate()
         {
             if (movementInput != Vector2.zero)
             {
                 _controller.HandleMovement(movementInput);
+                if (Mathf.Abs(movementInput.y) > 0.1 && _audioSource.clip != movingSound){
+                    PLayClipIfNotPlaying(movingSound);
+                }
             }
+            else
+                PLayClipIfNotPlaying(idleSound);
         }
         private void DestroyTank()
         {
             SetNormalVisualsOn(false);
             SubscribeToPlayerInputs(false);
-            _isDestroyed = false;
+            _isDestroyed = true;
+
         }
 
 
@@ -149,7 +187,7 @@ namespace Tanks.Tanks {
         {
             SetNormalVisualsOn(true);
             SubscribeToPlayerInputs(true);
-            _isDestroyed = true;
+            _isDestroyed = false;
         }
 
         private void SetNormalVisualsOn(bool enable)
@@ -163,14 +201,21 @@ namespace Tanks.Tanks {
             switch (type)
             {
                 case ObjectTypes.Shield:
-                    
+                    TankBonusFeature _shieldBonus = _bonusFeatures.FirstOrDefault(x => x.GetType == type);
+                   if(!_shieldBonus.gameObject.activeInHierarchy) 
+                       _shieldBonus.gameObject.SetActive(true);
                     break;
                 case ObjectTypes.Ammo:
                     AddAmmo(10);
                     break;
                 case ObjectTypes.Turbo:
-                    break;
-                case ObjectTypes.Cacti:
+                    TankBonusFeature _speedBonus = _bonusFeatures.FirstOrDefault(x => x.GetType == type);
+                    if(!_speedBonus.gameObject.activeInHierarchy) 
+                        _speedBonus.gameObject.SetActive(true);
+                    else
+                    {
+                        _speedBonus.ResetTimer();
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -181,6 +226,37 @@ namespace Tanks.Tanks {
         {
            Debug.Log(playerInput.devices.ToString());
             playerInput.actions.bindingMask = new InputBinding {groups = getPlayerInputMode == 0 ? "Keyboard" : "Gamepad"};
+        }
+
+        public void ShowCanvasFinished(string text)
+        {
+            _finishMessage.text = text;
+            _finishMessage.gameObject.SetActive(true);
+        }
+
+        public void RestoreAll()
+        {
+            UpdateLife(0, true);
+        }
+
+        public void SetSpeed(float superSpeed)
+        {
+            SetTankSpeed(superSpeed);
+        }
+
+        private void SetTankSpeed(float superSpeed)
+        {
+            _controller.SetSpeed(superSpeed);
+        }
+
+        public void ResetSpeed()
+        {
+            _controller.ResetSpeed();
+        }
+
+        public void EnableShield(bool b)
+        {
+            _shield.gameObject.SetActive(b);
         }
     }
 }

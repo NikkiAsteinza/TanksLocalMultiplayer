@@ -16,7 +16,7 @@ namespace Tanks.Tanks
         }
         internal void Fire(Bullet bulletPrefab) {
             Bullet tempBullet = Instantiate(bulletPrefab);
-            tempBullet.transform.position = _spawnPoint.position;
+            tempBullet.transform.SetPositionAndRotation(_spawnPoint.position,_spawnPoint.rotation);
             tempBullet.Rb.AddForce(_spawnPoint.forward * fireForce);
         }
 

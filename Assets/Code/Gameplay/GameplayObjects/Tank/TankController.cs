@@ -10,12 +10,13 @@ namespace Tanks.Tanks
         [Header("Movement Properties")]
         [SerializeField] private float _tankSpeed = 80f;
         [SerializeField] private float _tankRotationSpeed = 20f;
-
+        private float _tankInitialSpeed;
         private Rigidbody rb;
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            _tankInitialSpeed = _tankSpeed;
         }
 
         internal void HandleMovement(Vector2 movementInput)
@@ -30,6 +31,16 @@ namespace Tanks.Tanks
 
             Quaternion targetRotation = transform.rotation * Quaternion.Euler(Vector3.up * movementInput.x * _tankRotationSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(targetRotation);
+        }
+
+        public void ResetSpeed()
+        {
+            SetSpeed(_tankInitialSpeed);
+        }
+
+        public void SetSpeed(float superSpeed)
+        {
+            _tankSpeed = superSpeed;
         }
     }
 }
