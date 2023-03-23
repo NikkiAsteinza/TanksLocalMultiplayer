@@ -80,17 +80,20 @@ namespace Tanks
 
         public Tank GetPrefabToUse()
         {
+            Tank targetTank;
             switch (gameMode)
             {
                 case GameMode.SinglePlayer:
-                    return _singlePlayerTank;
+                    targetTank = _singlePlayerTank;
                     break;
                 case GameMode.Multiplayer:
-                    return _multiPlayerTank;
+                    targetTank = _multiPlayerTank;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            return targetTank;
         }
 
         public InputMode GetPlayerInputMode(int i)
