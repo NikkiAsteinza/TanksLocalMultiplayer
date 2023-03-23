@@ -7,7 +7,6 @@ namespace Tanks.Gameplay.Objects
         Shield,
         Ammo,
         Turbo,
-        Cacti,
     }
 
     [RequireComponent(typeof(BoxCollider))]

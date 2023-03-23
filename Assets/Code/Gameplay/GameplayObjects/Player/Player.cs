@@ -19,6 +19,7 @@ namespace Tanks.Players
     {
         private Tank _tank;
         private InputMode _selectedInputMode;
+        public Tank Tank =>_tank;
 
         public void SetSelectedMode(InputMode inputMode)
         {

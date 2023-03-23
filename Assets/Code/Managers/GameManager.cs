@@ -14,6 +14,7 @@ namespace Tanks
 
     public class GameManager : SingletonBehaviour<GameManager>
     {
+        [SerializeField] public const float _secondsToRestorePlayer = 5;
         [SerializeField] private int maxPlayers = 2;
         [SerializeField] internal Tank _singlePlayerTank;
         [SerializeField] internal Tank _multiPlayerTank;
@@ -26,7 +27,7 @@ namespace Tanks
         [SerializeField] private List<Player> _players;
         public GameMode gameMode => _selectedGameMode;
         public int totalPlayers => _players.Count;
-
+        public float SecondsToRestorePlayer = _secondsToRestorePlayer;
         private void Awake()
         {
             _players = new List<Player>();
@@ -104,6 +105,11 @@ namespace Tanks
         public Player GetPlayerByIndex(int i)
         {
             return _players[i];
+        }
+
+        public List<Player> GetPlayers()
+        {
+            return _players;
         }
     }
 }

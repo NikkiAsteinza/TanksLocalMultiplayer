@@ -7,45 +7,45 @@ namespace Tanks.Gameplay.Logic
 {
     public class GenericGameplayObjectsSpawner : MonoBehaviour
     {
-        [SerializeField] private List<GenericGameplayObject> genericGameplayObjects;
-        [SerializeField] private float spawnInterval = 5;
+        [SerializeField] private List<GenericGameplayObject> _genericGameplayObjects;
+        [SerializeField] private float _spawnInterval = 5;
         
         private GenericGameplayObject _activatedObject;
-        private float timer;
+        private float _timer;
 
         private void Awake()
         {
-            genericGameplayObjects = GetComponentsInChildren<GenericGameplayObject>().ToList();
-            Debug.Log("Generics: " +genericGameplayObjects.Count);
+            _genericGameplayObjects = GetComponentsInChildren<GenericGameplayObject>().ToList();
+            Debug.Log("Generics: " +_genericGameplayObjects.Count);
             DisableAll();
         }
-
+        
+        private void Update()
+        {
+            if (!_activatedObject)
+            {
+                _timer += Time.deltaTime;
+                if (_timer >= _spawnInterval)
+                {
+                    Debug.Log("Generics spawner timer");
+                    ActivateObject();
+                    _timer = 0f;
+                }
+            }
+        }
+        
         private void DisableAll()
         {
-            genericGameplayObjects.ForEach((x) =>
+            _genericGameplayObjects.ForEach((x) =>
             {
                 x.gameObject.SetActive(false);
                 x.SetSpawner(this);
             });
         }
-
-        private void Update()
-        {
-            if (!_activatedObject)
-            {
-                timer += Time.deltaTime;
-                if (timer >= spawnInterval)
-                {
-                    Debug.Log("Generics spawner timer");
-                    ActivateObject();
-                    timer = 0f;
-                }
-            }
-        }
-
+        
         private void ActivateObject()
         {
-            GenericGameplayObject obj = genericGameplayObjects[Random.Range(0, genericGameplayObjects.Count)];
+            GenericGameplayObject obj = _genericGameplayObjects[Random.Range(0, _genericGameplayObjects.Count)];
             obj.gameObject.SetActive(true);
             _activatedObject = obj;
             Debug.Log("Generic gameplayObject activated");
@@ -53,7 +53,7 @@ namespace Tanks.Gameplay.Logic
 
         public void ResetTimer()
         {
-            timer = 0;
+            _timer = 0;
             _activatedObject = null;
         }
     }

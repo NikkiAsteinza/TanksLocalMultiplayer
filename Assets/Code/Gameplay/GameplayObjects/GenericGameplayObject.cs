@@ -16,8 +16,9 @@ namespace Tanks.Gameplay.Objects.Generics
         [SerializeField] private float _sequenceDuration;
 
         private bool _isApplied = false;
-        private void Start()
+        private void OnEnable()
         {
+            _visuals.gameObject.SetActive(false);
             Sequence sequence = DOTween.Sequence();
             sequence.Append(_body.DORotate(_objectRotationVector,_sequenceDuration));
             sequence.SetLoops(-1, LoopType.Incremental);

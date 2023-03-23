@@ -11,10 +11,6 @@ namespace Tanks.Gameplay.Objects
         {
             _visuals.SetActive(false);
         }
-        private void Start()
-        {
-            BoxCollider.isTrigger = false;
-        }
 
         private void OnDisable()
         {
