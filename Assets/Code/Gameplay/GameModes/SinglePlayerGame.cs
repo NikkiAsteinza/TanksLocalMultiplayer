@@ -8,38 +8,27 @@ namespace Tanks.Gameplay.Logic
     public class SinglePlayerGame : Game
     {
         [SerializeField] private readonly int _maxCacti = 5;
-        [SerializeField] private Cactus _cactiPrefab;
+        [SerializeField] private Cactus _cactusPrefab;
         [SerializeField] private Transform[] _cactiSpawnPoints;
-        private List<GameplayObject> _gameplayObjects;
+        private List<Cactus> _cactiList;
         protected override void InitialSetup()
         {
             base.InitialSetup();
-            _gameplayObjects = new List<GameplayObject>();
-            SpawnCactus();
+            _cactiList = new List<Cactus>();
+            SpawnDisabledMaxCatiAmount();
         }
 
         protected override void GameLoopLogic()
         {
-            int enabledCacti = _gameplayObjects.Count();
-            Debug.Log($"Enabled cactis: {enabledCacti}");
+            int enabledCacti = _cactiList.Count(x=>x.gameObject.activeInHierarchy);
+            Debug.Log($"Spawned cactis: {enabledCacti}");
             if (enabledCacti < _maxCacti)
             {
                 Transform spawnPoint = GetRandomSpawnPoint();
                 bool isValid = IsSpawnPointValid(spawnPoint);
-                if (!isValid)
+                if (isValid)
                 {
-                   List<Transform> reducedSpawnList = _cactiSpawnPoints.ToList();
-                   reducedSpawnList.Remove(spawnPoint);
-                   for (int i = 0; i < 3; i++) {
-                       spawnPoint = GetRandomSpawnPoint();
-                       isValid = IsSpawnPointValid(spawnPoint);
-                       if (!isValid)
-                           break;
-                   }
-                }
-                GameplayObject cactus = GetDisabledCactus();
-                if (cactus != null)
-                {
+                    Cactus cactus = GetDisabledCactus();
                     cactus.transform.position = spawnPoint.position;
                     cactus.gameObject.SetActive(true);
                 }
@@ -56,35 +45,35 @@ namespace Tanks.Gameplay.Logic
             UpdatePoints(false);
         }
 
-        private void SpawnCactus()
+        private void SpawnDisabledMaxCatiAmount()
         {
             for (int i = 0; i < _maxCacti ; i++)
             {
-                _cactiPrefab.gameObject.SetActive(false);
-                Cactus cactus = InstantiateCacti();
+                _cactusPrefab.gameObject.SetActive(false);
+                InstantiateCacti();
             }
         }
 
-        GameplayObject GetDisabledCactus()
+        Cactus GetDisabledCactus()
         {
-            GameplayObject disabledCactus = _gameplayObjects.FirstOrDefault(
+            Cactus disabledCactus = _cactiList.FirstOrDefault(
                 x => !x.gameObject.activeInHierarchy);
             if (disabledCactus)
                 return disabledCactus;
-            
-            return InstantiateCacti();
+            else            
+                return InstantiateCacti();
         }
 
         private Cactus InstantiateCacti()
         {
-            Cactus newCactus = Instantiate(_cactiPrefab, transform.position, Quaternion.identity);
+            Cactus newCactus = Instantiate(_cactusPrefab, transform.position, Quaternion.identity);
             newCactus.SetOwner(this);
-            _gameplayObjects.Add(newCactus);
+            _cactiList.Add(newCactus);
             return newCactus;
         }
         private void DisableAllGameplayObjects()
         {
-            _gameplayObjects.ForEach(x => x.gameObject.SetActive(false));
+            _cactiList.ForEach(x => x.gameObject.SetActive(false));
         }
 
         private Transform GetRandomSpawnPoint()
@@ -96,9 +85,9 @@ namespace Tanks.Gameplay.Logic
         
         private bool IsSpawnPointValid(Transform spawnPoint)
         {
-            foreach (GameplayObject gameplayObject in _gameplayObjects)
+            foreach (Cactus gameplayObject in _cactiList)
             {
-                if (gameplayObject.gameObject.activeSelf)
+                if (gameplayObject.gameObject.activeInHierarchy)
                 {
                     float distance = Vector3.Distance(gameplayObject.transform.position, spawnPoint.position);
                     if (distance < 1.0f)
@@ -112,8 +101,9 @@ namespace Tanks.Gameplay.Logic
             Collider[] colliders = Physics.OverlapSphere(spawnPoint.position, 1.0f);
             foreach (Collider collider in colliders)
             {
-                if (collider && !collider.CompareTag("Floor") || !collider.CompareTag("Cactus") )
+                if ( collider.CompareTag("Tank") || collider.CompareTag("Cactus") )
                 {
+                    Debug.Log("No valid spawn point");
                     return false;
                 }
             }

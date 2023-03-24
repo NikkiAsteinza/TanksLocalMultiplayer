@@ -57,8 +57,7 @@ namespace Tanks.Gameplay.Logic
 
         private void SwitchGameToTargetState(GameState state)
         {
-            if (_state == state)
-                return;
+
             switch (state)
             {
                 case GameState.Idle:
@@ -87,7 +86,7 @@ namespace Tanks.Gameplay.Logic
         protected virtual void InitialSetup()
         {
             GameFinishedCanvas.SetOwner(this);
-            GameFinishedCanvas.FadeInCanvas();
+            GameFinishedCanvas.FadeOutCanvas();
         }
 
         protected virtual void OnGameFinished()
