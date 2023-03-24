@@ -5,8 +5,14 @@ using UnityEngine;
 
 namespace Tanks.Gameplay.Objects.Generics
 {
+
     public class GenericGameplayObject : GameplayObject
     {
+        [ContextMenu("Disable and restart timer")]
+        void DisableAndRestartTimer()
+        {
+            DisableObject();
+        }
         [SerializeField] private GenericGameplayObjectsSpawner _spawner;
         [SerializeField] private Transform _body;
         [SerializeField] protected GameObject _visuals;
@@ -36,8 +42,7 @@ namespace Tanks.Gameplay.Objects.Generics
             if (!_isApplied)
             {
                 TriggerEnterHandler(collider);
-                _spawner.ResetTimer();
-                _isApplied = true;
+ 
             }
         }
 
@@ -55,6 +60,12 @@ namespace Tanks.Gameplay.Objects.Generics
             
             Invoke("DisableObject",2);
             
+        }
+        private void DisableObject()
+        {
+            _spawner.ResetTimer();
+            _isApplied = true;
+            gameObject.SetActive(false);
         }
     }
 }
