@@ -6,6 +6,7 @@ using Tanks.Gameplay.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.Events;
 
 namespace Tanks.Tanks {
 

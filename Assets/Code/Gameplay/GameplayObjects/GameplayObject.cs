@@ -31,9 +31,6 @@ namespace Tanks.Gameplay.Objects
             AudioSource.playOnAwake = false;
         }
 
-        private void DisableObject()
-        {
-            gameObject.SetActive(false);
-        }
+
     }
 }

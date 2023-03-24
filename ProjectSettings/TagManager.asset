@@ -8,6 +8,7 @@ TagManager:
   - Tank
   - Props
   - Floor
+  - Cactus
   layers:
   - Default
   - TransparentFX

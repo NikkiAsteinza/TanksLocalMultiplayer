@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2909064191753393496}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -166,9 +166,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7640775681201672660}
     m_Modifications:
+    - target: {fileID: 2253025286517588747, guid: 291b4d5e39b8edd4294b6fa615430674, type: 3}
+      propertyPath: _sequenceDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253025286517588747, guid: 291b4d5e39b8edd4294b6fa615430674, type: 3}
+      propertyPath: _objectRotationVector.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3595878732482519006, guid: 291b4d5e39b8edd4294b6fa615430674, type: 3}
+      propertyPath: _objectRotationVector.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3747642420223348272, guid: 291b4d5e39b8edd4294b6fa615430674, type: 3}
       propertyPath: m_Name
       value: GenericObjectSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176685816169140543, guid: 291b4d5e39b8edd4294b6fa615430674, type: 3}
+      propertyPath: _sequenceDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176685816169140543, guid: 291b4d5e39b8edd4294b6fa615430674, type: 3}
+      propertyPath: _objectRotationVector.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8510324248644413696, guid: 291b4d5e39b8edd4294b6fa615430674, type: 3}
       propertyPath: m_RootOrder

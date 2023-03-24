@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Tanks.Gameplay.Logic;
 using Tanks.Tanks;
@@ -5,8 +6,20 @@ using UnityEngine;
 
 namespace Tanks.Gameplay.Objects.Generics
 {
+    public enum InteractionState
+    {
+        Ready,
+        Disabled
+    }
+
     public class GenericGameplayObject : GameplayObject
     {
+        [ContextMenu("Disable and restart timer")]
+        void DisableAndRestartTimer()
+        {
+            SwitchInteractionState(InteractionState.Disabled);
+        }
+        
         [SerializeField] private GenericGameplayObjectsSpawner _spawner;
         [SerializeField] private Transform _body;
         [SerializeField] protected GameObject _visuals;
@@ -15,15 +28,32 @@ namespace Tanks.Gameplay.Objects.Generics
         [SerializeField] private Ease _ease;
         [SerializeField] private float _sequenceDuration;
 
-        private bool _isApplied = false;
+        private InteractionState currentState;
         private void OnEnable()
         {
-            _visuals.gameObject.SetActive(false);
+            SwitchInteractionState(InteractionState.Ready);
             Sequence sequence = DOTween.Sequence();
             sequence.Append(_body.DORotate(_objectRotationVector,_sequenceDuration));
             sequence.SetLoops(-1, LoopType.Incremental);
             sequence.SetEase(_ease);
             sequence.Play();
+        }
+
+        private void SwitchInteractionState(InteractionState ready)
+        {
+            switch (ready)
+            {
+                case InteractionState.Ready:
+                    
+                    _visuals.gameObject.SetActive(false);
+                    break;
+                case InteractionState.Disabled:
+                    _spawner.ResetTimer();
+                    gameObject.SetActive(false);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(ready), ready, null);
+            }
         }
 
         public void SetSpawner(GenericGameplayObjectsSpawner genericGameplayObjectsSpawner)
@@ -33,12 +63,7 @@ namespace Tanks.Gameplay.Objects.Generics
         
         private void OnTriggerEnter(Collider collider)
         {
-            if (!_isApplied)
-            {
-                TriggerEnterHandler(collider);
-                _spawner.ResetTimer();
-                _isApplied = true;
-            }
+            TriggerEnterHandler(collider);
         }
 
         protected virtual void TriggerEnterHandler(Collider collider)
@@ -53,8 +78,13 @@ namespace Tanks.Gameplay.Objects.Generics
             _visuals.gameObject.SetActive(true);
             AudioSource.PlayOneShot(_soundEffect);
             
-            Invoke("DisableObject",2);
+            Invoke("SetDisabledState",2);
             
+        }
+
+        public void SetDisabledState()
+        {
+            SwitchInteractionState(InteractionState.Disabled);
         }
     }
 }
