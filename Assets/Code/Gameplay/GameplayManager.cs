@@ -20,7 +20,7 @@ namespace Tanks
         }
         private void InitGame(GameMode gameMode)
         {
-            Debug.Log("selected game mode:"+gameMode);
+            Debug.Log("selected game mode:" + gameMode);
             if (gameMode == GameMode.Multiplayer)
             {
                 CreateTankBySelectedInputMode(0);
@@ -48,26 +48,38 @@ namespace Tanks
 
         private void CreateTankBySelectedInputMode(int playerIndex)
         {
+
+
             InputMode selectedMode = GameManager.Instance.GetPlayerInputMode(playerIndex);
             GameObject prefab = GameManager.Instance.GetPrefabToUse().gameObject;
-            Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(playerIndex);
-            Debug.Log($"Player {playerIndex} desired gamepad: "+selectedPlayerGamepad);
             string controlScheme = playerIndex == 0 ? "Keyboard" : "Gamepad";
-            InputDevice deviceToPair = selectedMode == InputMode.Gamepad
+
+            switch (selectedMode)
+            {
+                case InputMode.Keyboard:
+                    var p0 = PlayerInput.Instantiate(
+                        prefab,
+                        playerIndex,
+                        controlScheme: controlScheme);
+                    break;
+                case InputMode.Gamepad:
+                    Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(playerIndex);
+                    Debug.Log($"Player {playerIndex} desired gamepad: " + selectedPlayerGamepad);
+                    InputDevice deviceToPair = selectedMode == InputMode.Gamepad
                 ? selectedPlayerGamepad
                 : InputSystem.devices[0];
-            Debug.Log($"Player {playerIndex} found device to pair: "+deviceToPair);
-            // Spawn players with specific devices.
-            var p1 = PlayerInput.Instantiate(
-                prefab,
-                playerIndex,
-                controlScheme: controlScheme,
-                pairWithDevice: deviceToPair);
-            
-
-            Transform randomSpawnPoint = _spawnPoints[playerIndex];
-            p1.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
-            p1.GetComponent<Tank>().SetDevice(playerIndex);
+                    Debug.Log($"Player {playerIndex} found device to pair: " + deviceToPair);
+                    // Spawn players with specific devices.
+                    var p1 = PlayerInput.Instantiate(
+                        prefab,
+                        playerIndex,
+                        controlScheme: controlScheme,
+                        pairWithDevice: deviceToPair);
+                    break;
+                    p1.GetComponent<Tank>().SetDevice(playerIndex);
+                    Transform randomSpawnPoint = _spawnPoints[playerIndex];
+                    p1.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
+            }
         }
     }
 }

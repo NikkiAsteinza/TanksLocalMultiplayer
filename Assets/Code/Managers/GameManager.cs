@@ -129,7 +129,7 @@ namespace Tanks
 
         public Gamepad GetPlayerGamepad(int i)
         {
-            if(_players[i].GetGamepad() == null)
+            if(_players[i].GetGamepad() == null && Gamepad.all[0] !=null)
                 return Gamepad.all[0];
             return _players[i].GetGamepad() ;
         }
