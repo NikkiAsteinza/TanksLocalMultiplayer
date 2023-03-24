@@ -33,7 +33,7 @@ namespace Tanks.Gameplay.Logic
                 }
                 else
                 {
-                    Debug.Log("Spawning in:" + (_spawnInterval - _timer)); ;
+                    Debug.Log("Spawning in:" + Mathf.Round(_spawnInterval - _timer));
                 }
             }
         }
