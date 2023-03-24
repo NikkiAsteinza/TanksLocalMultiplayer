@@ -51,7 +51,8 @@ namespace Tanks.Gameplay.Logic
 
         private void Awake()
         {
-            _goalPoints.text = PointsToFinish.ToString();
+            if(_goalPoints)
+                _goalPoints.text = PointsToFinish.ToString();
             SwitchGameToTargetState(DefaultInitstate);
         }
 
