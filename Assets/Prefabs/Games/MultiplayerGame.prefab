@@ -155,7 +155,7 @@ MonoBehaviour:
   GameWonMessage: Oops!
   GameLostMessage: Game over
   Timer: {fileID: 2809000148264097865}
-  GameFinishedCanvas: {fileID: 5032821647074633015}
+  GameplayCanvas: {fileID: 5032821647074633015}
   PointsIndicator: {fileID: 0}
   _goalPoints: {fileID: 0}
 --- !u!1 &9212178100254778790

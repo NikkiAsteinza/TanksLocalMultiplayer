@@ -1,7 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
 using Tanks.Players;
-using Tanks.Tanks;
-
 namespace Tanks.Gameplay.Logic
 {
     public class MultiplayerGame : Game
@@ -11,23 +10,15 @@ namespace Tanks.Gameplay.Logic
         {
             base.InitialSetup();
             _players = GameManager.Instance.GetPlayers();
-            foreach (Player player in _players)
-            {
-                TankEvents.OnTankDie += OnPlayerDie;
-            }
+        }
+        protected override void GameLoopLogic()
+        {
+            if (_players.Any(x=>x.Tank.GetLives() == 0))
+             {
+                 UpdatePoints(GoalPoints);
+             }
         }
 
-        private void OnPlayerDie(Tank relatedTank)
-        {
-            relatedTank.ShowCanvasFinished(GameLostTitle);
-            foreach (Player player in _players)
-            {
-                if (player.Tank != relatedTank)
-                {
-                    player.Tank.ShowCanvasFinished(GameWonTitle);
-                }
-            }
-        }
         protected override void Restart()
         {
             base.Restart();

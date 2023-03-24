@@ -26,9 +26,10 @@ namespace Tanks.UI
             _selectionDropdown.value= _owner;
         }
         
-        private void OnDropdownValueChanged(int selectedInputMode)
+        private void OnDropdownValueChanged(int selectedDevice)
         {
-            GameManager.Instance.SetSelectedGamepadToPlayer(_owner,selectedInputMode);
+            if(selectedDevice-1>=0)
+                GameManager.Instance.SetSelectedGamepadToPlayer(_owner,selectedDevice-1);
             
         }
 

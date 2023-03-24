@@ -6,7 +6,6 @@ using Tanks.Gameplay.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
-using UnityEngine.Events;
 
 namespace Tanks.Tanks {
 
@@ -63,6 +62,72 @@ namespace Tanks.Tanks {
         private int _ammo;
         private bool _isMuliplayer;
         private int _destroyedTanks;
+        
+        public void ApplyObjectFeature(ObjectTypes type)
+        {
+            switch (type)
+            {
+                case ObjectTypes.Shield:
+                    TankBonusFeature _shieldBonus = _bonusFeatures.FirstOrDefault(x => x.GetType == type);
+                    if(!_shieldBonus.gameObject.activeInHierarchy) 
+                        _shieldBonus.gameObject.SetActive(true);
+                    break;
+                case ObjectTypes.Ammo:
+                    AddAmmo(10);
+                    break;
+                case ObjectTypes.Turbo:
+                    TankBonusFeature _speedBonus = _bonusFeatures.FirstOrDefault(x => x.GetType == type);
+                    if(!_speedBonus.gameObject.activeInHierarchy) 
+                        _speedBonus.gameObject.SetActive(true);
+                    else
+                    {
+                        _speedBonus.ResetTimer();
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+
+        public void MultiplayerShowCanvasFinished(string text)
+        {
+            _finishMessage.text = text;
+            _finishMessage.transform.parent.gameObject.SetActive(true);
+        }
+
+        public void RestoreAll()
+        {
+            UpdateLife(0, true);
+        }
+
+        public void SetSpeed(float superSpeed)
+        {
+            SetTankSpeed(superSpeed);
+        }
+
+        private void SetTankSpeed(float superSpeed)
+        {
+            _controller.SetSpeed(superSpeed);
+        }
+
+        public void ResetSpeed()
+        {
+            _controller.ResetSpeed();
+        }
+
+        public void EnableShield(bool b)
+        {
+            _shield.gameObject.SetActive(b);
+        }
+
+        public void SetDevice(int owner)
+        {
+            Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(owner);
+            playerInput.SwitchCurrentControlScheme(selectedPlayerGamepad);
+        }
+
+        #region Unity Methods
+
         private void Awake()
         {
             _isMuliplayer = GameManager.Instance.gameMode == GameMode.Multiplayer;
@@ -79,7 +144,41 @@ namespace Tanks.Tanks {
             playerInput = GetComponent<PlayerInput>();
             _audioSource = GetComponent<AudioSource>();
         }
+        private void Start()
+        {
+            SubscribeToPlayerInputs(true);
+            _ammo = _initialAmmunition;
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.collider.GetComponent<Bullet>())
+            {
+                UpdateLife(_lives-1);
+                Debug.Log("A bullet hitted the tank -> " + gameObject.name);
+                SetNormalVisualsOn(false);
+                SubscribeToPlayerInputs(false);
+                Invoke("RestoreTank",GameManager.Instance.SecondsToRestorePlayer);
+            }
+        }
+        void FixedUpdate()
+        {
+            if (movementInput != Vector2.zero)
+            {
+                _controller.HandleMovement(movementInput);
+                if (Mathf.Abs(movementInput.y) > 0.1 && _audioSource.clip != movingSound){
+                    PLayClipIfNotPlaying(movingSound);
+                }
+            }
+            else
+                PLayClipIfNotPlaying(idleSound);
+            if (rotationInput != Vector2.zero)
+            {
+                _turret.HandleRotation(rotationInput);
 
+            }
+        }
+        #endregion
+        
         private void HandleOtherPlayerDies(Tank arg0)
         {
             _destroyedTanks++;
@@ -108,13 +207,7 @@ namespace Tanks.Tanks {
             _lives = updatedLife;
             _lifeIndicator.text = updatedLife.ToString();
         }
-
-        private void Start()
-        {
-            SubscribeToPlayerInputs(true);
-            _ammo = _initialAmmunition;
-        }
-
+        
         private void SubscribeToPlayerInputs(bool subscribe)
         {
             if (subscribe){
@@ -132,17 +225,7 @@ namespace Tanks.Tanks {
 
 
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.collider.GetComponent<Bullet>())
-            {
-                UpdateLife(_lives-1);
-                Debug.Log("A bullet hitted the tank -> " + gameObject.name);
-                SetNormalVisualsOn(false);
-                SubscribeToPlayerInputs(false);
-                Invoke("RestoreTank",GameManager.Instance.SecondsToRestorePlayer);
-            }
-        }
+
         public void AddAmmo(int ammount) {
             int tempAmmo = ammount + _ammo;
             UpdateAmmo(tempAmmo > 15 ? 15 : _ammo);
@@ -177,23 +260,7 @@ namespace Tanks.Tanks {
             }
         }
     
-        void FixedUpdate()
-        {
-            if (movementInput != Vector2.zero)
-            {
-                _controller.HandleMovement(movementInput);
-                if (Mathf.Abs(movementInput.y) > 0.1 && _audioSource.clip != movingSound){
-                    PLayClipIfNotPlaying(movingSound);
-                }
-            }
-            else
-                PLayClipIfNotPlaying(idleSound);
-            if (rotationInput != Vector2.zero)
-            {
-                _turret.HandleRotation(rotationInput);
-
-            }
-        }
+       
         private void DestroyTank()
         {
             SetNormalVisualsOn(false);
@@ -213,73 +280,22 @@ namespace Tanks.Tanks {
             _destroyedTankModel.SetActive(!enable);
         }
 
-        public void ApplyObjectFeature(ObjectTypes type)
+        public int GetLives()
         {
-            switch (type)
-            {
-                case ObjectTypes.Shield:
-                    TankBonusFeature _shieldBonus = _bonusFeatures.FirstOrDefault(x => x.GetType == type);
-                   if(!_shieldBonus.gameObject.activeInHierarchy) 
-                       _shieldBonus.gameObject.SetActive(true);
-                    break;
-                case ObjectTypes.Ammo:
-                    AddAmmo(10);
-                    break;
-                case ObjectTypes.Turbo:
-                    TankBonusFeature _speedBonus = _bonusFeatures.FirstOrDefault(x => x.GetType == type);
-                    if(!_speedBonus.gameObject.activeInHierarchy) 
-                        _speedBonus.gameObject.SetActive(true);
-                    else
-                    {
-                        _speedBonus.ResetTimer();
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+            return _lives;
         }
-
-        public void ShowCanvasFinished(string text)
-        {
-            _finishMessage.text = text;
-            _finishMessage.gameObject.SetActive(true);
-        }
-
-        public void RestoreAll()
-        {
-            UpdateLife(0, true);
-        }
-
-        public void SetSpeed(float superSpeed)
-        {
-            SetTankSpeed(superSpeed);
-        }
-
-        private void SetTankSpeed(float superSpeed)
-        {
-            _controller.SetSpeed(superSpeed);
-        }
-
-        public void ResetSpeed()
-        {
-            _controller.ResetSpeed();
-        }
-
-        public void EnableShield(bool b)
-        {
-            _shield.gameObject.SetActive(b);
-        }
-
-        public void SetDevice(int owner)
-        {
-            Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(owner);
-            playerInput.SwitchCurrentControlScheme(selectedPlayerGamepad);
-        }
-
-        public void PlayerWasDestroyed()
-        {
-            
-        }
+        //
+        // private void OnPlayerDie(Tank relatedTank)
+        // {
+        //     relatedTank.MultiplayerShowCanvasFinished(GameLostMessage);
+        //     foreach (Player player in _players)
+        //     {
+        //         if (player.Tank != relatedTank)
+        //         {
+        //             UpdatePoints(_goalPoints);
+        //             player.Tank.MultiplayerShowCanvasFinished(GameWonMessage);
+        //         }
+        //     }
+        // }
     }
 }
-

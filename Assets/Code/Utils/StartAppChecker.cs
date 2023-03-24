@@ -27,7 +27,7 @@ public class StartAppChecker : MonoBehaviour
         {
             GameMode gameMode = GameManager.Instance.gameMode;
             CheckInputSelectionByGameMode(gameMode);
-            CheckGamepadsNotEqual(gameMode);
+            //CheckGamepadsNotEqual(gameMode);
 
             if (_startAppButton.activeInHierarchy != activateButton)
                 _startAppButton.SetActive(activateButton);
