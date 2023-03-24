@@ -199,7 +199,7 @@ MonoBehaviour:
   GameFinishedCanvas: {fileID: 4004982006827670132}
   PointsIndicator: {fileID: 6641392264435916912}
   _goalPoints: {fileID: 2962082385841870006}
-  _cactiPrefab: {fileID: 8264948817905707048, guid: d171f5ab82c070448accdc4e8e63f0be, type: 3}
+  _cactusPrefab: {fileID: 8264948817905707048, guid: d171f5ab82c070448accdc4e8e63f0be, type: 3}
   _cactiSpawnPoints:
   - {fileID: 4921287391863139878}
   - {fileID: 3879610287473852610}

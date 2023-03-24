@@ -189,20 +189,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c186114e2831b468f3557364568e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fadeinOnStart: 1
   _canvasFader: {fileID: 5359829443610764760}
-  messageContainer: {fileID: 3092583516894700303}
-  gameModeSelectionPanel: {fileID: 6043811798952201179}
-  inputModeSelectionPanel: {fileID: 3538120639642837590}
+  _messageContainer: {fileID: 3092583516894700303}
+  _gameModeSelectionPanel: {fileID: 6043811798952201179}
+  _inputModeSelectionPanel: {fileID: 3538120639642837590}
   _finishMessage: {fileID: 1625092439388280924}
   _title: {fileID: 4016173748293804621}
-  singlePlayerButton: {fileID: 6440266906847404595}
-  multiplayerButton: {fileID: 1686180200944147494}
-  exitButton: {fileID: 5900901695035128558}
-  startButton: {fileID: 5569776157134785667}
-  restartButton: {fileID: 1815257086140509201}
-  mainMenuButton: {fileID: 4287655961115446061}
-  inputSelectorPrefab: {fileID: 2602825447387896432, guid: 4abbce603247c054e8cf102e9604bdb2, type: 3}
+  _singlePlayerButton: {fileID: 6440266906847404595}
+  _multiplayerButton: {fileID: 1686180200944147494}
+  _exitButton: {fileID: 5900901695035128558}
+  _startButton: {fileID: 5569776157134785667}
+  _restartButton: {fileID: 1815257086140509201}
+  _mainMenuButton: {fileID: 4287655961115446061}
+  _inputSelectorPrefab: {fileID: 2602825447387896432, guid: 4abbce603247c054e8cf102e9604bdb2, type: 3}
 --- !u!1 &690985586411656793
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,7 +811,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 434.0207, y: 0}
+  m_AnchoredPosition: {x: 433.73663, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &168014158413035262
