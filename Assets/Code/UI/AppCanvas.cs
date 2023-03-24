@@ -9,8 +9,7 @@ namespace Tanks.UI
     public class AppCanvas : MonoBehaviour
     {
         [SerializeField]
-        private readonly bool _fadeinOnStart = false;
-
+        private bool _fadeinOnStart = false;
         [Header("Containers")] [SerializeField]
         private CanvasFader _canvasFader;
 
@@ -36,10 +35,11 @@ namespace Tanks.UI
             _owner = game;
         }
 
-        public void SetMessageText(string title, string message)
+        public void SetMessageText(string title, string message = null)
         {
             _title.text = title;
-            _finishMessage.text = message;
+            if(string.IsNullOrEmpty(message))
+                _finishMessage.text = message;
             _finishMessage.gameObject.SetActive(true);
             _messageContainer.SetActive(true);
         }

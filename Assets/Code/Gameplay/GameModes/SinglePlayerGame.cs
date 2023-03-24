@@ -1,26 +1,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tanks.Gameplay.Objects;
+using TMPro;
 using UnityEngine;
 
 namespace Tanks.Gameplay.Logic
 {
     public class SinglePlayerGame : Game
     {
+        [SerializeField] protected int PointsToFinish = 20;
         [SerializeField] private readonly int _maxCacti = 5;
         [SerializeField] private Cactus _cactusPrefab;
         [SerializeField] private Transform[] _cactiSpawnPoints;
+        [SerializeField] protected TMP_Text PointsIndicator;
+        [SerializeField] protected TMP_Text GoalPoints;
+
         private List<Cactus> _cactiList;
+        private int _points = 0;
+
         protected override void InitialSetup()
         {
             base.InitialSetup();
+            if (GoalPoints)
+                GoalPoints.text = PointsToFinish.ToString();
             _cactiList = new List<Cactus>();
             SpawnDisabledMaxCatiAmount();
         }
 
         protected override void GameLoopLogic()
         {
-            int enabledCacti = _cactiList.Count(x=>x.gameObject.activeInHierarchy);
+            int enabledCacti = _cactiList.Count(x => x.gameObject.activeInHierarchy);
             Debug.Log($"Spawned cactis: {enabledCacti}");
             if (enabledCacti < _maxCacti)
             {
@@ -34,11 +43,13 @@ namespace Tanks.Gameplay.Logic
                 }
             }
         }
+
         protected override void Restart()
         {
             base.Restart();
             DisableAllGameplayObjects();
         }
+
         public override void OnGameplayObjectDisabled(GameplayObject gameplayObject)
         {
             Debug.Log("Cactus destroys");
@@ -47,7 +58,7 @@ namespace Tanks.Gameplay.Logic
 
         private void SpawnDisabledMaxCatiAmount()
         {
-            for (int i = 0; i < _maxCacti ; i++)
+            for (int i = 0; i < _maxCacti; i++)
             {
                 _cactusPrefab.gameObject.SetActive(false);
                 InstantiateCacti();
@@ -60,7 +71,7 @@ namespace Tanks.Gameplay.Logic
                 x => !x.gameObject.activeInHierarchy);
             if (disabledCactus)
                 return disabledCactus;
-            else            
+            else
                 return InstantiateCacti();
         }
 
@@ -71,6 +82,7 @@ namespace Tanks.Gameplay.Logic
             _cactiList.Add(newCactus);
             return newCactus;
         }
+
         private void DisableAllGameplayObjects()
         {
             _cactiList.ForEach(x => x.gameObject.SetActive(false));
@@ -82,7 +94,7 @@ namespace Tanks.Gameplay.Logic
             Transform spawnPoint = _cactiSpawnPoints[index];
             return spawnPoint;
         }
-        
+
         private bool IsSpawnPointValid(Transform spawnPoint)
         {
             foreach (Cactus gameplayObject in _cactiList)
@@ -101,7 +113,7 @@ namespace Tanks.Gameplay.Logic
             Collider[] colliders = Physics.OverlapSphere(spawnPoint.position, 1.0f);
             foreach (Collider collider in colliders)
             {
-                if ( collider.CompareTag("Tank") || collider.CompareTag("Cactus") )
+                if (collider.CompareTag("Tank") || collider.CompareTag("Cactus"))
                 {
                     Debug.Log("No valid spawn point");
                     return false;
@@ -109,6 +121,13 @@ namespace Tanks.Gameplay.Logic
             }
 
             return true;
+        }
+
+        private void UpdatePoints(bool reset)
+        {
+            _points = reset ? 0 : _points + 1;
+            if (PointsIndicator)
+                PointsIndicator.text = _points.ToString();
         }
     }
 }

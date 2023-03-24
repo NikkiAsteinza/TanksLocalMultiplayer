@@ -43,6 +43,7 @@ namespace Tanks.UI
             _owner = playerIndex;
             _label.text = _owner.ToString();
             _deviceSelector.SetOwner(_owner);
+
             if (_owner > 0)
             {
                 RemoveKeyboardOption();

@@ -49,7 +49,7 @@ namespace Tanks
         private void CreateTankBySelectedInputMode(int playerIndex)
         {
 
-
+            PlayerInput player = null;
             InputMode selectedMode = GameManager.Instance.GetPlayerInputMode(playerIndex);
             GameObject prefab = GameManager.Instance.GetPrefabToUse().gameObject;
             string controlScheme = playerIndex == 0 ? "Keyboard" : "Gamepad";
@@ -57,7 +57,7 @@ namespace Tanks
             switch (selectedMode)
             {
                 case InputMode.Keyboard:
-                    var p0 = PlayerInput.Instantiate(
+                    player = PlayerInput.Instantiate(
                         prefab,
                         playerIndex,
                         controlScheme: controlScheme);
@@ -70,16 +70,24 @@ namespace Tanks
                 : InputSystem.devices[0];
                     Debug.Log($"Player {playerIndex} found device to pair: " + deviceToPair);
                     // Spawn players with specific devices.
-                    var p1 = PlayerInput.Instantiate(
+                    player = PlayerInput.Instantiate(
                         prefab,
                         playerIndex,
                         controlScheme: controlScheme,
                         pairWithDevice: deviceToPair);
                     break;
-                    p1.GetComponent<Tank>().SetDevice(playerIndex);
-                    Transform randomSpawnPoint = _spawnPoints[playerIndex];
-                    p1.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
             }
+
+            Tank _playerTank = player.gameObject.GetComponent<Tank>();
+            //Paint
+            if(playerIndex == 1)
+                _playerTank.SetAlternativeColor();
+            // PLace
+            Transform randomSpawnPoint = _spawnPoints[playerIndex];
+            _playerTank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
+            // Input
+            _playerTank.SetDevice(playerIndex);
+
         }
     }
 }

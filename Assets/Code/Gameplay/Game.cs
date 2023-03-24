@@ -20,22 +20,16 @@ namespace Tanks.Gameplay.Logic
         [Header("Gameplay configurations")] [SerializeField]
         protected GameState DefaultInitstate = GameState.Idle;
 
-        [SerializeField] protected int PointsToFinish = 10;
         [SerializeField] protected int GameLoopRefreshInterval = 2;
-        [SerializeField] protected string GameWonTitle;
-        [SerializeField] protected string GameLostTitle;
-        [SerializeField] protected string GameWonMessage;
-        [SerializeField] protected string GameLostMessage;
+        [SerializeField] protected string gameOverTitle;
 
         [Header("UI references")] [SerializeField]
         protected Timer Timer;
 
         [SerializeField] protected AppCanvas GameplayCanvas;
-        [SerializeField] protected TMP_Text PointsIndicator;
-        [SerializeField] protected TMP_Text GoalPoints;
 
         private GameState _state;
-        private int _points = 0;
+
         private bool _gameOver;
 
         public void InitGame()
@@ -51,12 +45,10 @@ namespace Tanks.Gameplay.Logic
 
         private void Awake()
         {
-            if (GoalPoints)
-                GoalPoints.text = PointsToFinish.ToString();
             SwitchGameToTargetState(DefaultInitstate);
         }
 
-        private void SwitchGameToTargetState(GameState state)
+        protected void SwitchGameToTargetState(GameState state)
         {
             switch (state)
             {
@@ -68,6 +60,7 @@ namespace Tanks.Gameplay.Logic
                     break;
                 case GameState.Finished:
                     OnGameFinished();
+                    _gameOver = true;
                     break;
                 case GameState.Restarting:
                     Restart();
@@ -92,18 +85,17 @@ namespace Tanks.Gameplay.Logic
         protected virtual void OnGameFinished()
         {
             Timer.Stop();
-            GameplayCanvas.SetMessageText(
-                _points == PointsToFinish ? GameWonTitle : GameLostTitle,
-                _points == PointsToFinish ? GameWonMessage : GameLostMessage);
+            GameplayCanvas.SetMessageText(gameOverTitle);
             GameplayCanvas.EnableEndButtons();
             GameplayCanvas.FadeInCanvas();
         }
 
         protected virtual void Restart()
         {
+            _gameOver = true;
             GameplayCanvas.FadeOutCanvas();
             Timer.Reset();
-            UpdatePoints(true);
+          
         }
 
         #region Not implemented methods on base
@@ -133,25 +125,11 @@ namespace Tanks.Gameplay.Logic
         {
             while (!_gameOver)
             {
-                _gameOver = _points == PointsToFinish;
-                if (_gameOver)
-                {
-                    SwitchGameToTargetState(GameState.Finished);
-                    yield break;
-                }
-
                 GameLoopLogic();
                 yield return new WaitForSeconds(GameLoopRefreshInterval);
             }
         }
-
-        protected void UpdatePoints(bool reset)
-        {
-            _points = reset ? 0 : _points + 1;
-            if (PointsIndicator)
-                PointsIndicator.text = _points.ToString();
-        }
-
+        
         #endregion
     }
 }

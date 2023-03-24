@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Tanks.Tanks
 {
     [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(SphereCollider))]
+    [RequireComponent(typeof(BoxCollider))]
 
     public class TankController : MonoBehaviour
     {

@@ -316,8 +316,8 @@ GameObject:
   - component: {fileID: 3850326174069519915}
   - component: {fileID: 3850326174069519913}
   - component: {fileID: 3850326174069519917}
-  - component: {fileID: 3850326174069519927}
   - component: {fileID: 7525105539481030923}
+  - component: {fileID: 7493958122809953519}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Tank
@@ -365,6 +365,10 @@ MonoBehaviour:
   _destroyedTankIndicator: {fileID: 1018768669339304604}
   idleSound: {fileID: 8300000, guid: 4932ab25b84dd7649b80af68a9660ddc, type: 3}
   movingSound: {fileID: 8300000, guid: d7ca9fb5aa30155449192b23d7fb3336, type: 3}
+  _alternativeMaterial: {fileID: 2100000, guid: ff21ff0ea9b18924bb1fdfbb0e58f5cb, type: 2}
+  _renderers:
+  - {fileID: 368709222802127830}
+  - {fileID: 368709222802127828}
   _lives: 3
   _camera: {fileID: 3850326174009136949}
   _tankModel: {fileID: 368709222804055206}
@@ -449,19 +453,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 1
---- !u!135 &3850326174069519927
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3850326174456410122}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &7525105539481030923
 AudioSource:
   m_ObjectHideFlags: 0
@@ -558,6 +549,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &7493958122809953519
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3850326174456410122}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6711122, y: 1.9534568, z: 1.9656997}
+  m_Center: {x: 0.0058867335, y: 0.9595204, z: -0.34151578}
 --- !u!1 &3926202947652609533
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,6 +960,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 002e2a607f5b64c48be0b3b0d8b8bfdd, type: 3}
+--- !u!23 &368709222802127828 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300002, guid: 002e2a607f5b64c48be0b3b0d8b8bfdd, type: 3}
+  m_PrefabInstance: {fileID: 368709222804022198}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &368709222802127830 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: 002e2a607f5b64c48be0b3b0d8b8bfdd, type: 3}
+  m_PrefabInstance: {fileID: 368709222804022198}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &368709222803896646 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400112, guid: 002e2a607f5b64c48be0b3b0d8b8bfdd, type: 3}
@@ -1141,7 +1155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1769771740027135536, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 257.5
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 1769771740027135536, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1379,6 +1393,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 5d4ac1068b3b94d4c88717adb50085b4, type: 3}
+    - target: {fileID: 3709236451177799342, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709236451177799342, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709236451177799342, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 285
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709236451177799342, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4437388974181954410, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_fontSize
       value: 30
@@ -1413,7 +1443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4627003016420989007, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 92.5
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 4627003016420989007, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.y
