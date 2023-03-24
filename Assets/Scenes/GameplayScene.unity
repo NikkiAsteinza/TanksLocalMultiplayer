@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: b8c44af9226e72b4c87d608952ea076f, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 9c55630dde8e2c14f8c6e55fbc6fcf45, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 770f21479ca69c9429a1d1be6b9c6fa2, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -494,6 +494,62 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2753908942488397000, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942488397000, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942488397000, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942488534594, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942488534594, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.52600574
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942488534594, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.09577769
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5724118
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.23800898
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942784262650, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942784262650, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942784262650, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2753908942790576499, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
       propertyPath: m_Name
       value: Props
@@ -541,6 +597,62 @@ PrefabInstance:
     - target: {fileID: 2753908942790576508, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942815809902, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942815809902, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908942815809902, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943278785444, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943278785444, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943278785444, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943362307480, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943362307480, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943389205063, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943389205063, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943389205063, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943512997034, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943512997034, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753908943512997034, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
