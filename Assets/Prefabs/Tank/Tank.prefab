@@ -432,7 +432,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1335aaaf-f5b4-4bca-893d-ac2175767546
     m_ActionName: Tank/RotateTurret[/Mouse/position]
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Tank
   m_SplitScreenIndex: -1
