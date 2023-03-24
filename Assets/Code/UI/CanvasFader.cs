@@ -16,10 +16,9 @@ namespace Tanks.UI
             return Mathf.RoundToInt(canvasGroup.alpha);
         }
 
-        private void Awake()
+        private void Start()
         {
-            canvasGroup.alpha = 0;
-            animationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+            FadeIn();
         }
 
         private void OnEnable()
@@ -36,11 +35,11 @@ namespace Tanks.UI
             canvasGroup.alpha = animationCurve.Evaluate(from);
             while (Time.time <= endTime)
             {
-                elapsedTime = Time.time - startTime; // update the elapsed time
-                var percentage = 1 / (loadLerpDuration / elapsedTime); // calculate how far along the timeline we are
+                elapsedTime = Time.time - startTime;
+                var percentage = 1 / (loadLerpDuration / elapsedTime);
 
                 canvasGroup.alpha = animationCurve.Evaluate(to == 0 ? 1 - percentage : percentage);
-                yield return new WaitForEndOfFrame(); // wait for the next frame before continuing the loop
+                yield return new WaitForEndOfFrame(); 
             }
 
             canvasGroup.alpha = animationCurve.Evaluate(to);
@@ -49,14 +48,19 @@ namespace Tanks.UI
         }
 
         public void FadeOut()
-        {
-            StartCoroutine(LerpCanvas(1, 0));
+        {            
+            if(gameObject.activeInHierarchy)
+                StartCoroutine(LerpCanvas(1, 0));
         }
 
         public void FadeIn()
         {
-            if(gameObject.activeInHierarchy)
+            if (gameObject.activeInHierarchy)
+            {
+                canvasGroup.alpha = 0;
+                animationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
                 StartCoroutine(LerpCanvas(0, 1));
+            }
         }
     }
 }

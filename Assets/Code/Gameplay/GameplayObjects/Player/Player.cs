@@ -5,6 +5,7 @@ namespace Tanks.Players
 {
     public enum InputMode
     {
+        None,
         Keyboard,
         Gamepad,
     }

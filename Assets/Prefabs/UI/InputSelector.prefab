@@ -629,6 +629,8 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
+    - m_Text: SELECt one
+      m_Image: {fileID: 0}
     - m_Text: Keyboard
       m_Image: {fileID: 0}
     - m_Text: Gamepad
@@ -887,7 +889,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Keyboard
+  m_text: SELECt one
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e5b8adfd63f9f6943a0b596bc9aa1586, type: 2}
   m_sharedMaterial: {fileID: -5104063501570485691, guid: e5b8adfd63f9f6943a0b596bc9aa1586, type: 2}

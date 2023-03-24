@@ -148,12 +148,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultInitstate: 0
-  PointsToFinish: 0
+  PointsToFinish: 3
   GameLoopRefreshInterval: 2
-  GameWonTitle: You won!
-  GameLostTitle: Oops, game over looser!
-  GameWonMessage: 
-  GameLostMessage: 
+  GameWonTitle: Congrats!
+  GameLostTitle: You won
+  GameWonMessage: Oops!
+  GameLostMessage: Game over
   Timer: {fileID: 2809000148264097865}
   GameFinishedCanvas: {fileID: 5032821647074633015}
   PointsIndicator: {fileID: 0}

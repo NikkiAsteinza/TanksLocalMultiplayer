@@ -46,10 +46,8 @@ namespace Tanks.UI
 
         private void Awake()
         {
-            _startButton.gameObject.SetActive(false);
             _inputModeSelectionPanel.gameObject.SetActive(false);
             _restartButton.gameObject.SetActive(false);
-            _messageContainer.SetActive(false);
 
             _singlePlayerButton.onClick.AddListener(SetSingleMode);
             _multiplayerButton.onClick.AddListener(SetMultiplayerMode);
@@ -87,7 +85,6 @@ namespace Tanks.UI
             CreateSelectors();
             _gameModeSelectionPanel.SetActive(false);
             _inputModeSelectionPanel.SetActive(true);
-            _startButton.gameObject.SetActive(true);
         }
 
         private void CreateSelectors()
@@ -105,7 +102,6 @@ namespace Tanks.UI
             CreateSelectors();
             _gameModeSelectionPanel.SetActive(false);
             _inputModeSelectionPanel.SetActive(true);
-            _startButton.gameObject.SetActive(true);
         }
 
         public void FadeInCanvas()
@@ -127,6 +123,12 @@ namespace Tanks.UI
         public int GetIntAlpha()
         {
             return _canvasFader.GetIntAlpha();
+        }
+
+        public void EnableEndButtons()
+        {
+            _restartButton.gameObject.SetActive(true);
+            _mainMenuButton.gameObject.SetActive(true);
         }
     }
 }

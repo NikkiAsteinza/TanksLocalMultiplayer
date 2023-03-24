@@ -28,7 +28,7 @@ namespace Tanks.UI
 
         private void ShowDeviceSelectorIfGamepad(int selectedInputMode)
         {
-            if (selectedInputMode > 0)
+            if (selectedInputMode > 1)
             {
                 _deviceSelector.gameObject.SetActive(true);
             }

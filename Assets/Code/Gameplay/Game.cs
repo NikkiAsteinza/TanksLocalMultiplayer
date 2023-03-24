@@ -30,7 +30,7 @@ namespace Tanks.Gameplay.Logic
         
         [Header("UI references")]
         [SerializeField] protected Timer Timer;
-        [SerializeField] protected AppCanvas GameFinishedCanvas;
+        [SerializeField] protected AppCanvas GameplayCanvas;
         [SerializeField] protected TMP_Text PointsIndicator;
         [SerializeField] protected TMP_Text _goalPoints;
         
@@ -86,23 +86,23 @@ namespace Tanks.Gameplay.Logic
 
         protected virtual void InitialSetup()
         {
-            GameFinishedCanvas.SetOwner(this);
-            GameFinishedCanvas.FadeOutCanvas();
+            GameplayCanvas.SetOwner(this);
+            GameplayCanvas.FadeOutCanvas();
         }
 
         protected virtual void OnGameFinished()
         {
             Timer.Stop();
-            GameFinishedCanvas.SetMessageText(
+            GameplayCanvas.SetMessageText(
                 _points == PointsToFinish? GameWonTitle: GameLostTitle,
-                _points == PointsToFinish? GameWonMessage : GameWonTitle);
-            
-            GameFinishedCanvas.FadeInCanvas();
+                _points == PointsToFinish? GameWonMessage : GameLostMessage);
+            GameplayCanvas.EnableEndButtons();
+            GameplayCanvas.FadeInCanvas();
         }
 
         protected virtual void Restart()
         {
-            GameFinishedCanvas.FadeOutCanvas();
+            GameplayCanvas.FadeOutCanvas();
             Timer.Reset();
             UpdatePoints(true);
         }
