@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Xml;
 using UnityEngine;
 
 namespace Tanks.UI
@@ -54,7 +55,8 @@ namespace Tanks.UI
 
         public void FadeIn()
         {
-            StartCoroutine(LerpCanvas(0, 1));
+            if(gameObject.activeInHierarchy)
+                StartCoroutine(LerpCanvas(0, 1));
         }
     }
 }

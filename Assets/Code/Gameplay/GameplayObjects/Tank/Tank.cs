@@ -3,23 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Tanks.Bullets;
 using Tanks.Gameplay.Objects;
-using Tanks.Players;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 namespace Tanks.Tanks {
-    [System.Serializable]
-    public class onTankDies : UnityEvent<Tank>
-    {
-    }
+
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(PlayerInput))]
     public class Tank : MonoBehaviour
     {
-        public onTankDies onDie;
         [ContextMenu("Destroy Tank Manually")]
         void DestroyTankManually()
         {
@@ -36,6 +30,8 @@ namespace Tanks.Tanks {
         [SerializeField] private TMP_Text _lifeIndicator;
         [SerializeField] private TMP_Text _ammoIndicator;
         [SerializeField] private TMP_Text _finishMessage;
+        [SerializeField] private GameObject _tankCanvas;
+        [SerializeField] private TMP_Text _destroyedTankIndicator;
         [Header("Tank Sounds")]
         [SerializeField] private AudioClip idleSound;
         [SerializeField] private AudioClip movingSound;
@@ -65,14 +61,29 @@ namespace Tanks.Tanks {
         private AudioSource _audioSource;
         private PlayerInput playerInput;
         private int _ammo;
-        private bool _isDestroyed;
+        private bool _isMuliplayer;
+        private int _destroyedTanks;
         private void Awake()
         {
+            _isMuliplayer = GameManager.Instance.gameMode == GameMode.Multiplayer;
+            
+            if (_isMuliplayer)
+            {
+                TankEvents.OnTankDestroyed += HandleOtherPlayerDies;
+                _tankCanvas.SetActive(true);
+            }
+
             UpdateLife(_lives);
             UpdateAmmo(_initialAmmunition);
             _destroyedTankModel.SetActive(false);
             playerInput = GetComponent<PlayerInput>();
             _audioSource = GetComponent<AudioSource>();
+        }
+
+        private void HandleOtherPlayerDies(Tank arg0)
+        {
+            _destroyedTanks++;
+            _destroyedTankIndicator.text = _destroyedTanks.ToString();
         }
 
         private void UpdateAmmo(int updatedAmmo)
@@ -83,6 +94,7 @@ namespace Tanks.Tanks {
 
         private void UpdateLife(int updatedLife, bool reset = false)
         {
+            
             if(reset){
                 _lives = 0;
                 _lifeIndicator.text = "0";
@@ -90,9 +102,9 @@ namespace Tanks.Tanks {
             }
             if (updatedLife == 0)
             {
-                onDie.Invoke(this);
+                TankEvents.ThrowTankDie(this);
             }
-
+            TankEvents.ThrowTankDestroyed(this);
             _lives = updatedLife;
             _lifeIndicator.text = updatedLife.ToString();
         }
@@ -186,7 +198,6 @@ namespace Tanks.Tanks {
         {
             SetNormalVisualsOn(false);
             SubscribeToPlayerInputs(false);
-            _isDestroyed = true;
         }
 
 
@@ -194,7 +205,6 @@ namespace Tanks.Tanks {
         {
             SetNormalVisualsOn(true);
             SubscribeToPlayerInputs(true);
-            _isDestroyed = false;
         }
 
         private void SetNormalVisualsOn(bool enable)
@@ -264,6 +274,11 @@ namespace Tanks.Tanks {
         {
             Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(owner);
             playerInput.SwitchCurrentControlScheme(selectedPlayerGamepad);
+        }
+
+        public void PlayerWasDestroyed()
+        {
+            
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Tanks.Gameplay.Logic
             _players = GameManager.Instance.GetPlayers();
             foreach (Player player in _players)
             {
-                player.Tank.onDie.AddListener(OnPlayerDie);
+                TankEvents.OnTankDie += OnPlayerDie;
             }
         }
 
