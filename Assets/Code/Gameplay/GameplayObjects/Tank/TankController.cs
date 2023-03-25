@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Tanks.Tanks
+namespace Tanks.Controllers.Tank
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(BoxCollider))]
 
     public class TankController : MonoBehaviour
@@ -11,26 +11,29 @@ namespace Tanks.Tanks
         [SerializeField] private float _tankSpeed = 80f;
         [SerializeField] private float _tankRotationSpeed = 20f;
         private float _tankInitialSpeed;
-        private Rigidbody rb;
-
+        private CharacterController rb;
+        private Vector3 targetPosition;
         private void Awake()
         {
-            rb = GetComponent<Rigidbody>();
+            rb = GetComponent<CharacterController>();
             _tankInitialSpeed = _tankSpeed;
         }
 
         internal void HandleMovement(Vector2 movementInput)
         {
-            Vector3 targetPosition = transform.position + (transform.forward * movementInput.y * _tankSpeed * Time.fixedDeltaTime);
-            
-            // IMPROVEMENT -> REALISTIC PHYSICS///////////////////////////////////
-            // Vector3 force = transform.forward * movementInput.y * _tankSpeed * 10;
-            //  force.y = transform.position.y > 0.25? force.y : 0;
-            // rb.AddForce(force,ForceMode.Force);
-             rb.MovePosition(targetPosition);
+
+            targetPosition = movementInput.y * transform.forward;
+            SetGravity();
+            rb.Move(targetPosition);
 
             Quaternion targetRotation = transform.rotation * Quaternion.Euler(Vector3.up * movementInput.x * _tankRotationSpeed * Time.fixedDeltaTime);
-            rb.MoveRotation(targetRotation);
+            transform.Rotate(Vector3.up,movementInput.x * _tankRotationSpeed);
+            
+        }
+
+        private void SetGravity()
+        {
+            targetPosition.y = -9.8f * Time.deltaTime;
         }
 
         public void ResetSpeed()

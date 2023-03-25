@@ -1,4 +1,4 @@
-namespace Tanks.Tanks
+namespace Tanks.Controllers.Tank.Bonus
 {
     public class TankShield : TankBonusFeature
     {

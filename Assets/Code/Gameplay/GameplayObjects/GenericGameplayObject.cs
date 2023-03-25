@@ -1,7 +1,7 @@
 using System;
 using DG.Tweening;
+using Tanks.Controllers.Tank;
 using Tanks.Gameplay.Logic;
-using Tanks.Tanks;
 using UnityEngine;
 
 namespace Tanks.Gameplay.Objects.Generics
@@ -68,10 +68,10 @@ namespace Tanks.Gameplay.Objects.Generics
 
         protected virtual void TriggerEnterHandler(Collider collider)
         {
-            bool isTank = collider.GetComponent<Tank>() != null;
+            bool isTank = collider.GetComponent<PlayerTank>() != null;
             if (isTank)
             {
-                Tank tank = collider.GetComponent<Tank>();
+                PlayerTank tank = collider.GetComponent<PlayerTank>();
                 tank.ApplyObjectFeature(_type);
                
             }

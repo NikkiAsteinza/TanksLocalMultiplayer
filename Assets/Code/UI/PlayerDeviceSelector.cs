@@ -10,9 +10,8 @@ namespace Tanks.UI
         [Header("Debug purposes, no need assignment")] [SerializeField]
         private int _owner;
         [SerializeField] private TMP_Dropdown _selectionDropdown;
-      
+
         public int selectedDevice => _selectionDropdown.value;
-        
         private void Start()
         {
             InitDropdown();

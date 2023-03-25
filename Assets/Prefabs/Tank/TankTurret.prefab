@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c03bc01088b715e4291de25432bf1b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 6819314705180119754, guid: e71457bec32323e488c006a8f1165184, type: 3}
   fireForce: 1500
   turretTransform: {fileID: 0}
   _bulletSpawnPointPrefab: {fileID: 2487791829238073830, guid: ec414bd9b22e8d94ca25df979de424cb, type: 3}

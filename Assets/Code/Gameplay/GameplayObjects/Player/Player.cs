@@ -1,4 +1,4 @@
-using Tanks.Tanks;
+using Tanks.Controllers.Tank;
 using UnityEngine.InputSystem;
 
 namespace Tanks.Players
@@ -19,10 +19,10 @@ namespace Tanks.Players
 
     public class Player
     {
-        private Tank _tank;
+        private PlayerTank _tank;
         private InputMode _selectedInputMode;
         private Gamepad _selectedGamepad;
-        public Tank Tank =>_tank;
+        public PlayerTank Tank =>_tank;
 
         public void SetSelectedMode(InputMode inputMode)
         {
@@ -33,7 +33,7 @@ namespace Tanks.Players
         {
             _selectedGamepad = gamepad;
         }
-        public void SetTank(Tank tank)
+        public void SetTank(PlayerTank tank)
         {
             _tank = tank;
         }

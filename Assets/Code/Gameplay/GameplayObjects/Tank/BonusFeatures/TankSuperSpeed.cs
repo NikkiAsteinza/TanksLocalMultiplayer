@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tanks.Tanks
+namespace Tanks.Controllers.Tank.Bonus
 {
     public class TankSuperSpeed : TankBonusFeature
     {

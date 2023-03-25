@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Tanks.Gameplay.Logic;
 using Tanks.Players;
-using Tanks.Tanks;
+using Tanks.Controllers.Tank;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
@@ -84,7 +84,7 @@ namespace Tanks
                     break;
             }
 
-            Tank _playerTank = player.gameObject.GetComponent<Tank>();
+            PlayerTank _playerTank = player.gameObject.GetComponent<PlayerTank>();
             if(playerIndex == 1)
                 _playerTank.SetAlternativeColor();
             Transform randomSpawnPoint = _spawnPoints[playerIndex];

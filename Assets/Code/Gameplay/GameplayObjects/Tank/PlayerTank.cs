@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tanks.Bullets;
 using Tanks.Gameplay.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using Tanks.Controllers.Tank.Turret;
+using Tanks.Controllers.Tank.Bonus;
 
-namespace Tanks.Tanks
+namespace Tanks.Controllers.Tank
 {
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(PlayerInput))]
-    public class Tank : MonoBehaviour
+    public class PlayerTank : MonoBehaviour
     {
         [ContextMenu("Destroy Tank Manually")]
         void DestroyTankManually()
@@ -52,7 +53,7 @@ namespace Tanks.Tanks
         int _initialAmmunition = 10;
 
         [SerializeField] TankTurret _turret;
-        [SerializeField] Bullet _bulletPrefab;
+
 
         [Header("Tank Movement")] [SerializeField]
         TankController _controller;
@@ -158,7 +159,7 @@ namespace Tanks.Tanks
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.collider.GetComponent<Bullet>())
+            if (collision.collider.CompareTag("Bullet"))
             {
                 UpdateLife(_lives - 1);
                 Debug.Log("A bullet hitted the tank -> " + gameObject.name);
@@ -190,7 +191,7 @@ namespace Tanks.Tanks
 
         #endregion
 
-        private void HandleOtherPlayerDies(Tank arg0)
+        private void HandleOtherPlayerDies(PlayerTank arg0)
         {
             if (arg0 != this && arg0 != null)
             {
@@ -271,7 +272,7 @@ namespace Tanks.Tanks
         {
             if (_ammo > 0)
             {
-                _turret.Fire(_bulletPrefab);
+                _turret.Fire();
                 UpdateAmmo(_ammo - 1);
             }
             else
@@ -305,7 +306,7 @@ namespace Tanks.Tanks
             return _lives;
         }
 
-        private void OnPlayerDie(Tank relatedTank)
+        private void OnPlayerDie(PlayerTank relatedTank)
         {
             if (relatedTank != this)
             {

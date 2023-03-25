@@ -1,17 +1,17 @@
-using Tanks.Tanks;
+using Tanks.Controllers.Tank;
 
     public static class TankEvents
     {
-        public delegate void TankDestroyed(Tank tank);
+        public delegate void TankDestroyed(PlayerTank tank);
         public static event TankDestroyed OnTankDestroyed;
-        public static void ThrowTankDestroyed(Tank tank)
+        public static void ThrowTankDestroyed(PlayerTank tank)
         {
             OnTankDestroyed?.Invoke(tank);
         }
         
-        public delegate void TankDie(Tank tank);
+        public delegate void TankDie(PlayerTank tank);
         public static event TankDie OnTankDie;
-        public static void ThrowTankDie(Tank tank)
+        public static void ThrowTankDie(PlayerTank tank)
         {
             OnTankDie?.Invoke(tank);
         }

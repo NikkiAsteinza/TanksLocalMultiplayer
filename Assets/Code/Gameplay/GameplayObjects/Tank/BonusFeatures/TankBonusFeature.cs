@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using Tanks.Gameplay.Objects;
 using UnityEngine;
 
-namespace Tanks.Tanks
+namespace Tanks.Controllers.Tank.Bonus
 {
     public class TankBonusFeature : MonoBehaviour
     {
         [SerializeField] private ObjectTypes _type;
-        [SerializeField] protected Tank _tank;
+        [SerializeField] protected PlayerTank _tank;
         [SerializeField] private List<GameObject> _objectsToActivate;
         [SerializeField] protected float _bonusDuration;
 

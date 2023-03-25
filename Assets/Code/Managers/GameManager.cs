@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Tanks.Controllers.Tank;
 using Tanks.Players;
-using Tanks.Tanks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,8 +17,8 @@ namespace Tanks
     {
         [SerializeField] public const float _secondsToRestorePlayer = 5;
         [SerializeField] private int maxPlayers = 2;
-        [SerializeField] internal Tank _singlePlayerTank;
-        [SerializeField] internal Tank _multiPlayerTank;
+        [SerializeField] internal PlayerTank _singlePlayerTank;
+        [SerializeField] internal PlayerTank _multiPlayerTank;
         [SerializeField] internal int _playerLives = 3;
         [SerializeField] internal int _initialAmmunition = 10;
 
@@ -80,9 +80,9 @@ namespace Tanks
             Debug.Log($"Player {owner} selected input: " + (InputMode)selectedInputMode);
         }
 
-        public Tank GetPrefabToUse()
+        public PlayerTank GetPrefabToUse()
         {
-            Tank targetTank;
+            PlayerTank targetTank;
             switch (gameMode)
             {
                 case GameMode.SinglePlayer:
