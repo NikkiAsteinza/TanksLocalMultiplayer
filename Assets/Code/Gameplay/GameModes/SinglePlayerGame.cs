@@ -8,6 +8,7 @@ namespace Tanks.Gameplay.Logic
 {
     public class SinglePlayerGame : Game
     {
+        [SerializeField] private bool _debug = false;
         [SerializeField] protected int PointsToFinish = 20;
         [SerializeField] private readonly int _maxCacti = 5;
         [SerializeField] private Cactus _cactusPrefab;
@@ -30,7 +31,8 @@ namespace Tanks.Gameplay.Logic
         protected override void GameLoopLogic()
         {
             int enabledCacti = _cactiList.Count(x => x.gameObject.activeInHierarchy);
-            Debug.Log($"Spawned cactis: {enabledCacti}");
+            if (_debug)
+                Debug.Log($"Spawned cactis: {enabledCacti}");
             if (enabledCacti < _maxCacti)
             {
                 Transform spawnPoint = GetRandomSpawnPoint();
@@ -52,7 +54,8 @@ namespace Tanks.Gameplay.Logic
 
         public override void OnGameplayObjectDisabled(GameplayObject gameplayObject)
         {
-            Debug.Log("Cactus destroys");
+            if (_debug)
+                Debug.Log("Cactus destroys");
             UpdatePoints(false);
         }
 
@@ -109,13 +112,13 @@ namespace Tanks.Gameplay.Logic
                 }
             }
 
-            // Check if the selected spawn point is too close to a tank object
             Collider[] colliders = Physics.OverlapSphere(spawnPoint.position, 1.0f);
             foreach (Collider collider in colliders)
             {
                 if (collider.CompareTag("Tank") || collider.CompareTag("Cactus"))
                 {
-                    Debug.Log("No valid spawn point");
+                    if (_debug)
+                        Debug.Log("No valid spawn point");
                     return false;
                 }
             }

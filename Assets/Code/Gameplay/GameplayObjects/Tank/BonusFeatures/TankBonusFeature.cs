@@ -13,7 +13,7 @@ namespace Tanks.Tanks
 
         private float _timer;
         
-        public ObjectTypes GetType => _type;
+        public ObjectTypes GetBonusType => _type;
         protected virtual  void OnEnable()
         {
             _timer = _bonusDuration;
@@ -36,7 +36,6 @@ namespace Tanks.Tanks
         {
             if(_objectsToActivate.Count > 0 )
                 _objectsToActivate.ForEach(x => x.SetActive(true));
-
         }
 
         protected virtual void Feature()

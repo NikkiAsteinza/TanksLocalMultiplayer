@@ -1,5 +1,7 @@
+using Tanks.Players;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Tanks.UI
 {
@@ -23,18 +25,14 @@ namespace Tanks.UI
         private void OnDropdownValueChanged(int selectedInputMode)
         {
             GameManager.Instance.SetSelectedInputToPlayer(_owner,selectedInputMode);
-            ShowDeviceSelectorIfGamepad(selectedInputMode);
+            ShowDeviceSelectorIfGamepad((InputMode)selectedInputMode);
         }
 
-        private void ShowDeviceSelectorIfGamepad(int selectedInputMode)
+        private void ShowDeviceSelectorIfGamepad(InputMode selectedInputMode)
         {
-            if (selectedInputMode > 1)
+            if (selectedInputMode == InputMode.Gamepad)
             {
                 _deviceSelector.gameObject.SetActive(true);
-            }
-            else
-            {
-                _deviceSelector.gameObject.SetActive(false);
             }
         }
 
@@ -43,6 +41,16 @@ namespace Tanks.UI
             _owner = playerIndex;
             _label.text = _owner.ToString();
             _deviceSelector.SetOwner(_owner);
+
+            if(_owner == 0 && GameManager.Instance.gameMode == GameMode.Multiplayer)
+            {
+                if(Gamepad.all.Count == 1)
+                {
+                    _selectionDropdown.options.RemoveAt(0);
+                    GameManager.Instance.SetSelectedInputToPlayer(_owner, (int)InputMode.Keyboard);
+                    _selectionDropdown.interactable = false;
+                }
+            }
 
             if (_owner > 0)
             {
@@ -53,9 +61,9 @@ namespace Tanks.UI
         public void RemoveKeyboardOption()
         {
             _selectionDropdown.options.RemoveAt(1);
-            GameManager.Instance.SetSelectedInputToPlayer(_owner,2);
+            GameManager.Instance.SetSelectedInputToPlayer(_owner, 2);
+            _selectionDropdown.interactable = false;
             _selectionDropdown.options.RemoveAt(0);
-            _selectionDropdown.interactable = false;            
             _deviceSelector.gameObject.SetActive(true);
         }
     }

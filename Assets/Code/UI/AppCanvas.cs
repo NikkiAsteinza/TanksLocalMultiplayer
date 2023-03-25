@@ -18,12 +18,14 @@ namespace Tanks.UI
         [SerializeField] private GameObject _inputModeSelectionPanel;
         [SerializeField] private TMP_Text _finishMessage;
         [SerializeField] private TMP_Text _title;
+
         [Header("Buttons")] [SerializeField] Button _singlePlayerButton;
         [SerializeField] private Button _multiplayerButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _mainMenuButton;
+        [SerializeField] private Button _backButton;
 
         [Header("Dropdowns")]
         [SerializeField] private PlayerInputSelector _inputSelectorPrefab;
@@ -44,16 +46,24 @@ namespace Tanks.UI
             _messageContainer.SetActive(true);
         }
 
+         void ResetInputDeviceSelectors(){
+            _inputModeSelectionPanel.gameObject.SetActive(false);
+            _gameModeSelectionPanel.gameObject.SetActive(true);
+            _backButton.gameObject.SetActive(false);
+        }
+
         private void Awake()
         {
             _inputModeSelectionPanel.gameObject.SetActive(false);
             _restartButton.gameObject.SetActive(false);
+            _backButton.gameObject.SetActive(false);
 
             _singlePlayerButton.onClick.AddListener(SetSingleMode);
             _multiplayerButton.onClick.AddListener(SetMultiplayerMode);
             _exitButton.onClick.AddListener(QuitApp);
             _startButton.onClick.AddListener(StartApp);
             _mainMenuButton.onClick.AddListener(GotoMainMenu);
+            _backButton.onClick.AddListener(ResetInputDeviceSelectors);
         }
 
         private void GotoMainMenu()
@@ -85,10 +95,16 @@ namespace Tanks.UI
             CreateSelectors();
             _gameModeSelectionPanel.SetActive(false);
             _inputModeSelectionPanel.SetActive(true);
+            _backButton.gameObject.SetActive(true);
         }
 
         private void CreateSelectors()
         {
+            Debug.Log(GameManager.Instance.totalPlayers);
+            Debug.Log(_inputModeSelectionPanel.transform.childCount);
+            if (_inputModeSelectionPanel.transform.childCount>0)
+                return;
+
             for (int i = 0; i < GameManager.Instance.totalPlayers; i++)
             {
                 PlayerInputSelector selector = Instantiate(_inputSelectorPrefab, _inputModeSelectionPanel.transform);
@@ -102,6 +118,7 @@ namespace Tanks.UI
             CreateSelectors();
             _gameModeSelectionPanel.SetActive(false);
             _inputModeSelectionPanel.SetActive(true);
+            _backButton.gameObject.SetActive(true);
         }
 
         public void FadeInCanvas()

@@ -76,7 +76,7 @@ namespace Tanks.Tanks
             switch (type)
             {
                 case ObjectTypes.Shield:
-                    TankBonusFeature _shieldBonus = _bonusFeatures.FirstOrDefault(x => x.GetType == type);
+                    TankBonusFeature _shieldBonus = _bonusFeatures.FirstOrDefault(x => x.GetBonusType == type);
                     if (!_shieldBonus.gameObject.activeInHierarchy)
                         _shieldBonus.gameObject.SetActive(true);
                     break;
@@ -84,7 +84,7 @@ namespace Tanks.Tanks
                     AddAmmo(10);
                     break;
                 case ObjectTypes.Turbo:
-                    TankBonusFeature _speedBonus = _bonusFeatures.FirstOrDefault(x => x.GetType == type);
+                    TankBonusFeature _speedBonus = _bonusFeatures.FirstOrDefault(x => x.GetBonusType == type);
                     if (!_speedBonus.gameObject.activeInHierarchy)
                         _speedBonus.gameObject.SetActive(true);
                     else
@@ -127,12 +127,6 @@ namespace Tanks.Tanks
         public void EnableShield(bool b)
         {
             _shield.gameObject.SetActive(b);
-        }
-
-        public void SetDevice(int owner)
-        {
-            Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(owner);
-            playerInput.SwitchCurrentControlScheme(selectedPlayerGamepad);
         }
 
         #region Unity Methods

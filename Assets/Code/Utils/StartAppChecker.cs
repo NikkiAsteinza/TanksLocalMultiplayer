@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Tanks;
 using Tanks.Players;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class StartAppChecker : MonoBehaviour
 {
@@ -22,8 +20,8 @@ public class StartAppChecker : MonoBehaviour
 
     private void Update()
     {
-        players = GameManager.Instance.GetPlayers().Count;
-        if (players > 0)
+        List<Player> players = GameManager.Instance.GetPlayers();
+        if (players != null && players.Count > 0)
         {
             GameMode gameMode = GameManager.Instance.gameMode;
             CheckInputSelectionByGameMode(gameMode);

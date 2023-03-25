@@ -7,6 +7,7 @@ namespace Tanks.Gameplay.Logic
 {
     public class GenericGameplayObjectsSpawner : MonoBehaviour
     {
+        [SerializeField] private bool _debug = false;
         [SerializeField] private List<GenericGameplayObject> _genericGameplayObjects;
         [SerializeField] private float _spawnInterval = 5;
         
@@ -16,7 +17,8 @@ namespace Tanks.Gameplay.Logic
         private void Awake()
         {
             _genericGameplayObjects = GetComponentsInChildren<GenericGameplayObject>().ToList();
-            Debug.Log("Generics: " +_genericGameplayObjects.Count);
+            if(_debug)
+                Debug.Log("Generics: " +_genericGameplayObjects.Count);
             DisableAll();
         }
         
@@ -27,13 +29,15 @@ namespace Tanks.Gameplay.Logic
                 _timer += Time.deltaTime;
                 if (_timer >= _spawnInterval)
                 {
-                    Debug.Log("Generics spawner timer");
+                    if (_debug)
+                        Debug.Log("Generics spawner timer");
                     ActivateObject();
                     _timer = 0f;
                 }
                 else
                 {
-                    Debug.Log("Spawning in:" + Mathf.Round(_spawnInterval - _timer));
+                    if(_debug)
+                       Debug.Log("Spawning in:" + Mathf.Round(_spawnInterval - _timer));
                 }
             }
         }
@@ -52,7 +56,8 @@ namespace Tanks.Gameplay.Logic
             GenericGameplayObject obj = _genericGameplayObjects[Random.Range(0, _genericGameplayObjects.Count)];
             obj.gameObject.SetActive(true);
             _activatedObject = obj;
-            Debug.Log("Generic gameplayObject activated");
+            if (_debug)
+                Debug.Log("Generic gameplayObject activated");
         }
 
         public void ResetTimer()

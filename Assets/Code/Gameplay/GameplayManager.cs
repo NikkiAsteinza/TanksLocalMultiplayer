@@ -4,12 +4,14 @@ using Tanks.Players;
 using Tanks.Tanks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 namespace Tanks
 {
     [RequireComponent(typeof(PlayerInputManager))]
     public class GameplayManager : MonoBehaviour
     {
+        [SerializeField] bool _debug = false;
         [SerializeField] List<Transform> _spawnPoints;
         [SerializeField] private SinglePlayerGame _singlePlayerGame;
         [SerializeField] private MultiplayerGame _multiplayerGame;
@@ -20,7 +22,8 @@ namespace Tanks
         }
         private void InitGame(GameMode gameMode)
         {
-            Debug.Log("selected game mode:" + gameMode);
+            if(_debug)
+                Debug.Log("selected game mode:" + gameMode);
             if (gameMode == GameMode.Multiplayer)
             {
                 CreateTankBySelectedInputMode(0);
@@ -52,24 +55,27 @@ namespace Tanks
             PlayerInput player = null;
             InputMode selectedMode = GameManager.Instance.GetPlayerInputMode(playerIndex);
             GameObject prefab = GameManager.Instance.GetPrefabToUse().gameObject;
-            string controlScheme = playerIndex == 0 ? "Keyboard" : "Gamepad";
-
+            string controlScheme = "Player2";
+            Debug.Log($" Payer {playerIndex} -> Control scheme: {controlScheme}");
             switch (selectedMode)
             {
                 case InputMode.Keyboard:
+                    controlScheme = "Keyboard";
                     player = PlayerInput.Instantiate(
                         prefab,
                         playerIndex,
-                        controlScheme: controlScheme);
+                        controlScheme: controlScheme,
+                        pairWithDevice: Keyboard.current);
                     break;
                 case InputMode.Gamepad:
                     Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(playerIndex);
-                    Debug.Log($"Player {playerIndex} desired gamepad: " + selectedPlayerGamepad);
+                    if (_debug)
+                        Debug.Log($"Player {playerIndex} desired gamepad: " + selectedPlayerGamepad);
                     InputDevice deviceToPair = selectedMode == InputMode.Gamepad
                 ? selectedPlayerGamepad
                 : InputSystem.devices[0];
-                    Debug.Log($"Player {playerIndex} found device to pair: " + deviceToPair);
-                    // Spawn players with specific devices.
+                    if (_debug)
+                        Debug.Log($"Player {playerIndex} found device to pair: " + deviceToPair);
                     player = PlayerInput.Instantiate(
                         prefab,
                         playerIndex,
@@ -79,16 +85,10 @@ namespace Tanks
             }
 
             Tank _playerTank = player.gameObject.GetComponent<Tank>();
-            //Paint
             if(playerIndex == 1)
                 _playerTank.SetAlternativeColor();
-            // PLace
             Transform randomSpawnPoint = _spawnPoints[playerIndex];
             _playerTank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
-            // Input
-            _playerTank.SetDevice(playerIndex);
-
         }
     }
 }
-
