@@ -1,6 +1,8 @@
 using System.Collections.Generic;
-using Tanks.Gameplay.Objects;
+
 using UnityEngine;
+
+using Tanks.Gameplay.Objects;
 
 namespace Tanks.Controllers.Tank.Bonus
 {
@@ -12,12 +14,12 @@ namespace Tanks.Controllers.Tank.Bonus
         [SerializeField] protected float _bonusDuration;
 
         private float _timer;
-        
+
         public ObjectTypes GetBonusType => _type;
-        protected virtual  void OnEnable()
+        protected virtual void OnEnable()
         {
             _timer = _bonusDuration;
-            if(_objectsToActivate.Count > 0 )
+            if (_objectsToActivate.Count > 0)
                 _objectsToActivate.ForEach(x => x.SetActive(true));
             Feature();
         }
@@ -25,16 +27,16 @@ namespace Tanks.Controllers.Tank.Bonus
         private void Update()
         {
             _timer -= Time.deltaTime;
-                if (_timer <= 0)
-                {
-                    Debug.Log("Bonus feature timer");
-                    ResetFeature();
-                }
+            if (_timer <= 0)
+            {
+                //Debug.Log("Bonus feature timer");
+                ResetFeature();
+            }
         }
 
-        protected virtual  void OnDisable()
+        protected virtual void OnDisable()
         {
-            if(_objectsToActivate.Count > 0 )
+            if (_objectsToActivate.Count > 0)
                 _objectsToActivate.ForEach(x => x.SetActive(true));
         }
 

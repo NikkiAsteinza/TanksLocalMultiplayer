@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05cae95b38d804044b335a6a1d5281d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlayers: 2
+  _maxPlayers: 2
   _singlePlayerTank: {fileID: 1601826486973612749, guid: 387b2b7f21bce6e4a8262cab1aaabf11, type: 3}
-  _multiPlayerTank: {fileID: 1330679576382483108, guid: 6d82e06439a5b8b45ab73a4e112cb094, type: 3}
+  _multiPlayerTank: {fileID: 3244371838756908217, guid: 6d82e06439a5b8b45ab73a4e112cb094, type: 3}
   _playerLives: 3
   _initialAmmunition: 10
   _selectedGameMode: 0
+  SecondsToRestorePlayer: 5

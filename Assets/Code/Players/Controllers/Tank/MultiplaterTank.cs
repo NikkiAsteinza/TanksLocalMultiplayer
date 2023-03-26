@@ -16,11 +16,6 @@ namespace Tanks.Controllers.Tank
             base.HandleBulletCollision(bullet);
             TankEvents.ThrowTankDestroyed(bullet.Owner, this);
         }
-        public override void RestoreAll()
-        {
-            base.RestoreAll();
-            _tankCanvas.Init(_currentLife, _ammo, _destroyedTanks);
-        }
 
         protected virtual void Updatelife(int updatedLife, PlayerTank attackingTank)
         {

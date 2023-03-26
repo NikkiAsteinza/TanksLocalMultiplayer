@@ -14,7 +14,9 @@ namespace Tanks.Gameplay.Objects
     public class GameplayObject : MonoBehaviour{
 
         [SerializeField] protected ObjectTypes _type;
-        
+        [SerializeField] protected GameObject _visuals;
+        [SerializeField] protected AudioClip _soundEffect;
+
         protected BoxCollider BoxCollider;
         protected IGame GameModeOwner;
         protected AudioSource AudioSource;

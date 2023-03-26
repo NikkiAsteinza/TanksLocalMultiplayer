@@ -1,12 +1,11 @@
 using System.Collections;
+
 using UnityEngine;
+
 namespace Tanks.Gameplay.Objects
 {
     public class Cactus : GameplayObject
     {
-        [SerializeField] protected GameObject _visuals;
-        [SerializeField] protected AudioClip _soundEffect;
-        
         private void Awake()
         {
             _visuals.SetActive(false);

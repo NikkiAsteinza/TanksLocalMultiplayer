@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
+
+using UnityEngine;
+
 using Tanks.Gameplay.Objects;
 using Tanks.UI;
-using UnityEngine;
+using Tanks.SceneManagement;
 
 namespace Tanks.Gameplay.Logic
 {
@@ -13,7 +16,6 @@ namespace Tanks.Gameplay.Logic
             Idle,
             Started,
             Finished,
-            Restarting
         }
 
         [SerializeField] protected bool _debug = false;
@@ -39,11 +41,6 @@ namespace Tanks.Gameplay.Logic
             SwitchGameToTargetState(GameState.Started);
         }
 
-        public void RestartGame()
-        {
-            SwitchGameToTargetState(GameState.Restarting);
-        }
-
         private void Awake()
         {
             SwitchGameToTargetState(DefaultInitstate);
@@ -61,15 +58,12 @@ namespace Tanks.Gameplay.Logic
                     break;
                 case GameState.Finished:
                     OnGameFinished();
+                    ScenesManager.Instance.GoToMainMenu(5);
                     _gameOver = true;
-                    break;
-                case GameState.Restarting:
-                    Restart();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(_state), _state, null);
             }
-
 
             _state = state;
             if (_debug)
@@ -88,16 +82,7 @@ namespace Tanks.Gameplay.Logic
         {
             Timer.Stop();
             GameplayCanvas.SetMessageText(gameOverTitle);
-            GameplayCanvas.EnableEndButtons();
             GameplayCanvas.FadeInCanvas();
-        }
-
-        protected virtual void Restart()
-        {
-            _gameOver = true;
-            GameplayCanvas.FadeOutCanvas();
-            Timer.Reset();
-          
         }
 
         #region Not implemented methods on base

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
-using Tanks.UI;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+using Tanks.UI;
 
 namespace Tanks.SceneManagement
 {
@@ -41,6 +43,17 @@ namespace Tanks.SceneManagement
             AsyncOperation load = SceneManager.LoadSceneAsync(sceneToLoad.ScenePath);
             yield return new WaitUntil(() => load.isDone == true);
             _loading.FadeOutCanvas();
+        }
+
+        internal void GoToMainMenu(int delay)
+        {
+            StartCoroutine(GoToMainManuInTimeCoroutine(delay));
+        }
+
+        private IEnumerator GoToMainManuInTimeCoroutine(int delay)
+        {
+            yield return new WaitForSeconds(delay);
+            GoToScene(Scenes.MainMenu);
         }
     }
 }

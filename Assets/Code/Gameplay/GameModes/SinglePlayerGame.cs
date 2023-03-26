@@ -1,19 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
-using Tanks.Gameplay.Objects;
+
 using TMPro;
 using UnityEngine;
+
+using Tanks.Gameplay.Objects;
 
 namespace Tanks.Gameplay.Logic
 {
     public class SinglePlayerGame : Game
     {
+        [Header("Gameplay configurations")]
         [SerializeField] protected int PointsToFinish = 20;
-        [SerializeField] private readonly int _maxCacti = 5;
+        [SerializeField] private int _maxCacti = 5;
         [SerializeField] private Cactus _cactusPrefab;
         [SerializeField] private Transform[] _cactiSpawnPoints;
-        [SerializeField] protected TMP_Text PointsIndicator;
-        [SerializeField] protected TMP_Text GoalPoints;
+
+        [Header("Gameplay canvas references")]
+        [SerializeField] private TMP_Text _pointsIndicator;
+        [SerializeField] private TMP_Text _goalPoints;
 
         private List<Cactus> _cactiList;
         private int _points = 0;
@@ -21,8 +26,8 @@ namespace Tanks.Gameplay.Logic
         protected override void InitialSetup()
         {
             base.InitialSetup();
-            if (GoalPoints)
-                GoalPoints.text = PointsToFinish.ToString();
+            if (_goalPoints)
+                _goalPoints.text = PointsToFinish.ToString();
             _cactiList = new List<Cactus>();
             SpawnDisabledMaxCatiAmount();
         }
@@ -35,8 +40,8 @@ namespace Tanks.Gameplay.Logic
             if (enabledCacti < _maxCacti)
             {
                 Transform spawnPoint = GetRandomSpawnPoint();
-                bool isValid = IsSpawnPointValid(spawnPoint);
-                if (isValid)
+
+                if (IsSpawnPointValid(spawnPoint))
                 {
                     Cactus cactus = GetDisabledCactus();
                     cactus.transform.position = spawnPoint.position;
@@ -44,12 +49,13 @@ namespace Tanks.Gameplay.Logic
                 }
             }
         }
-
-        protected override void Restart()
+        override protected void OnGameFinished()
         {
-            base.Restart();
-            DisableAllGameplayObjects();
+            Timer.Stop();
+            GameplayCanvas.SetMessageText(gameOverTitle, Timer.Time.ToString());
+            GameplayCanvas.FadeInCanvas();
         }
+
 
         public override void OnGameplayObjectDisabled(GameplayObject gameplayObject)
         {
@@ -67,7 +73,7 @@ namespace Tanks.Gameplay.Logic
             }
         }
 
-        Cactus GetDisabledCactus()
+        private Cactus GetDisabledCactus()
         {
             Cactus disabledCactus = _cactiList.FirstOrDefault(
                 x => !x.gameObject.activeInHierarchy);
@@ -128,8 +134,8 @@ namespace Tanks.Gameplay.Logic
         private void UpdatePoints(bool reset)
         {
             _points = reset ? 0 : _points + 1;
-            if (PointsIndicator)
-                PointsIndicator.text = _points.ToString();
+            if (_pointsIndicator)
+                _pointsIndicator.text = _points.ToString();
         }
     }
 }

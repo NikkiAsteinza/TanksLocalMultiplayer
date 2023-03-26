@@ -13,8 +13,6 @@ namespace Tanks.UI
 
         [Header("Debug purposes, no need assignment")] [SerializeField]
         private int _owner;
-        
-        public int selectedMode => _selectionDropdown.value;
 
         private void Awake()
         {

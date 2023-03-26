@@ -12,16 +12,18 @@ namespace Tanks.Controllers.Tank
         [Header("Movement Properties")]
         [SerializeField] private float _tankSpeed = 80f;
         [SerializeField] private float _tankRotationSpeed = 20f;
-        private float _tankInitialSpeed;
+
         private CharacterController rb;
         private Vector3 targetPosition;
         private PlayerTank _owner;
+        private float _tankInitialSpeed;
+
         internal void Init(PlayerTank owner)
         {
             rb = GetComponent<CharacterController>();
             _tankInitialSpeed = _tankSpeed;
             _owner = owner;
-            _turret.SetOwner(owner);
+            _turret.SetOwner(_owner);
         }
 
         internal void HandleMovement(Vector2 movementInput)

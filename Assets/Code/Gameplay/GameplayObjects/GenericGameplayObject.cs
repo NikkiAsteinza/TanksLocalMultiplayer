@@ -1,10 +1,11 @@
 using System;
 using DG.Tweening;
-using Tanks.Controllers.Tank;
-using Tanks.Gameplay.Logic;
+
 using UnityEngine;
 
-namespace Tanks.Gameplay.Objects.Generics
+using Tanks.Controllers.Tank;
+
+namespace Tanks.Gameplay.Objects
 {
     public enum InteractionState
     {
@@ -22,13 +23,17 @@ namespace Tanks.Gameplay.Objects.Generics
         
         [SerializeField] private GenericGameplayObjectsSpawner _spawner;
         [SerializeField] private Transform _body;
-        [SerializeField] protected GameObject _visuals;
-        [SerializeField] protected AudioClip _soundEffect;
         [SerializeField] private Vector3 _objectRotationVector;
         [SerializeField] private Ease _ease;
         [SerializeField] private float _sequenceDuration;
 
-        private InteractionState currentState;
+        private InteractionState _currentState;
+
+        public void SetSpawner(GenericGameplayObjectsSpawner genericGameplayObjectsSpawner)
+        {
+            _spawner = genericGameplayObjectsSpawner;
+        }
+
         private void OnEnable()
         {
             SwitchInteractionState(InteractionState.Ready);
@@ -39,52 +44,40 @@ namespace Tanks.Gameplay.Objects.Generics
             sequence.Play();
         }
 
-        private void SwitchInteractionState(InteractionState ready)
-        {
-            switch (ready)
-            {
-                case InteractionState.Ready:
-                    
-                    _visuals.gameObject.SetActive(false);
-                    break;
-                case InteractionState.Disabled:
-                    _spawner.ResetTimer();
-                    gameObject.SetActive(false);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(ready), ready, null);
-            }
-        }
-
-        public void SetSpawner(GenericGameplayObjectsSpawner genericGameplayObjectsSpawner)
-        {
-            _spawner = genericGameplayObjectsSpawner;
-        }
-        
         private void OnTriggerEnter(Collider collider)
         {
             TriggerEnterHandler(collider);
         }
 
-        protected virtual void TriggerEnterHandler(Collider collider)
+        private void SwitchInteractionState(InteractionState targetInteractionState)
         {
-            bool isTank = collider.GetComponent<PlayerTank>() != null;
-            if (isTank)
+            switch (targetInteractionState)
             {
-                PlayerTank tank = collider.GetComponent<PlayerTank>();
+                case InteractionState.Ready:
+                    _currentState = targetInteractionState;
+                    _visuals.gameObject.SetActive(false);
+                    break;
+                case InteractionState.Disabled:
+                    _currentState = targetInteractionState;
+                    _spawner.ResetTimer();
+                    gameObject.SetActive(false);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(targetInteractionState), targetInteractionState, null);
+            }
+        }
+
+        private void TriggerEnterHandler(Collider collider)
+        {
+            PlayerTank tank = collider.GetComponent<PlayerTank>();
+            if (tank != null)
+            {
                 tank.ApplyObjectFeature(_type);
-               
             }
             _visuals.gameObject.SetActive(true);
             AudioSource.PlayOneShot(_soundEffect);
             
             Invoke("SetDisabledState",2);
-            
-        }
-
-        public void SetDisabledState()
-        {
-            SwitchInteractionState(InteractionState.Disabled);
         }
     }
 }

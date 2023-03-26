@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+
+using UnityEngine;
+using UnityEngine.InputSystem;
+
 using Tanks.Gameplay.Logic;
 using Tanks.Players;
 using Tanks.Controllers.Tank;
-using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Tanks
 {
@@ -19,6 +21,7 @@ namespace Tanks
         {
             InitGame(GameManager.Instance.gameMode);
         }
+
         private void InitGame(GameMode gameMode)
         {
             if(_debug)
@@ -87,8 +90,8 @@ namespace Tanks
             PlayerTank _playerTank = player.gameObject.GetComponent<PlayerTank>();
             if(playerIndex == 1)
                 _playerTank.SetAlternativeColor();
-            Transform randomSpawnPoint = _spawnPoints[playerIndex];
-            _playerTank.transform.SetPositionAndRotation(randomSpawnPoint.position, randomSpawnPoint.rotation);
+            Transform spawnPoint = _spawnPoints[playerIndex];
+            _playerTank.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
         }
     }
 }

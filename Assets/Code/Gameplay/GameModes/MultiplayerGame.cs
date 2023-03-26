@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using Tanks.Players;
-using Tanks.Controllers.Tank;
 using UnityEngine;
+
+using Tanks.Controllers.Tank;
 
 namespace Tanks.Gameplay.Logic
 {
@@ -12,35 +11,26 @@ namespace Tanks.Gameplay.Logic
         {
             _playerDead = true;
         }
-        private List<Player> _players;
+
         private bool _playerDead;
+
         protected override void InitialSetup()
         {
             base.InitialSetup();
-            _players = GameManager.Instance.GetPlayers();
             TankEvents.OnTankDie += PlayerIsDead;
-        }
-
-        private void PlayerIsDead(PlayerTank attakingTank, PlayerTank killedTank)
-        {
-            _playerDead = true;
         }
 
         protected override void GameLoopLogic()
         {
             if (_playerDead)
-             {
-                 SwitchGameToTargetState(GameState.Finished);
-             }
+            {
+                SwitchGameToTargetState(GameState.Finished);
+            }
         }
 
-        protected override void Restart()
+        private void PlayerIsDead(PlayerTank attakingTank, PlayerTank killedTank)
         {
-            base.Restart();
-            foreach (Player player in _players)
-            {
-                player.Tank.RestoreAll();
-            }
+            _playerDead = true;
         }
     }
 }

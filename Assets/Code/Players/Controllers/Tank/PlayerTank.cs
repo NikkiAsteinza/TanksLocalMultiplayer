@@ -25,9 +25,9 @@ namespace Tanks.Controllers.Tank
             RestoreTank();
         }
 
+        [Header("Tank General")]
         [SerializeField] protected int _lives = 3;
         [SerializeField] Camera _camera;
-
         [SerializeField] protected int _initialAmmunition = 10;
 
         [Header("Tank canvas")]
@@ -39,21 +39,21 @@ namespace Tanks.Controllers.Tank
         [SerializeField] protected TankInputController _inputController;
         [SerializeField] protected TankController _controller;
 
-        [Header("Tank Bonus")] [SerializeField] private GameObject _shield;
-
+        [Header("Tank Bonus")]
+        [SerializeField] private GameObject _shield;
         [SerializeField] private List<TankBonusFeature> _bonusFeatures;
 
-        private BoxCollider _boxCollider;
         private bool _isDead;
         protected int _ammo;
         protected int _destroyedTanks=0;
         protected int _currentLife;
 
-        public int GetAmmo()
+        protected Vector3 _initialPosition;
+        internal int GetAmmo()
         {
             return _ammo;
         }
-        public void ApplyObjectFeature(ObjectTypes type)
+        internal void ApplyObjectFeature(ObjectTypes type)
         {
             switch (type)
             {
@@ -79,14 +79,7 @@ namespace Tanks.Controllers.Tank
             }
         }
 
-        public virtual void RestoreAll()
-        {
-            _currentLife = _lives;
-            _ammo = _initialAmmunition;
-            _destroyedTanks = 0;
-        }
-
-        public void SetSpeed(float superSpeed)
+        internal void SetSpeed(float superSpeed)
         {
             SetTankSpeed(superSpeed);
         }
@@ -96,27 +89,58 @@ namespace Tanks.Controllers.Tank
             _controller.SetSpeed(superSpeed);
         }
 
-        public void ResetSpeed()
+        internal void ResetSpeed()
         {
             _controller.ResetSpeed();
         }
 
-        public void EnableShield(bool b)
+        internal void EnableShield(bool b)
         {
             _shield.gameObject.SetActive(b);
         }
 
-        #region Unity Methods
+        #region Internal methods
+        internal virtual void UpdateAmmo(int updatedAmmo)
+        {
+            _ammo = updatedAmmo;
+            _tankCanvas.SetAmmo(_ammo);
+        }
+        internal void SetAlternativeColor()
+        {
+            _tankVisuals.SetAlternativeColor();
+        }
+        #endregion
 
+        #region Protected Methods
         protected virtual void Awake()
         {
             _currentLife = _lives;
             _ammo = _initialAmmunition;
-            
-            
-            _boxCollider = GetComponent<BoxCollider>();
+            _initialPosition = transform.position;
         }
-        protected void Start()
+        protected virtual void HandleBulletCollision(Bullet bullet)
+        {
+            DestroyTank();
+            UpdateLife(_currentLife - 1, bullet.Owner);
+            _tankCanvas.SetLives(_currentLife);
+            Debug.Log("A bullet hitted the tank -> " + gameObject.name);
+
+            Invoke("RestoreTank", GameManager.Instance.SecondsToRestorePlayer);
+        }
+        protected virtual void UpdateLife(int updatedLife, PlayerTank attackingTank)
+        {
+
+            if (updatedLife == 0)
+            {
+                TankEvents.ThrowTankDie(attackingTank, this);
+            }
+
+            _currentLife = updatedLife;
+
+        }
+        #endregion
+
+        private void Start()
         {
             _inputController.Init(this,_controller);
             _controller.Init(this);
@@ -134,45 +158,14 @@ namespace Tanks.Controllers.Tank
             }
         }
 
-        protected virtual void HandleBulletCollision(Bullet bullet)
+        private void AddAmmo(int ammount)
         {
-            DestroyTank();
-            UpdateLife(_currentLife - 1, bullet.Owner);
-            _tankCanvas.SetLives(_currentLife);
-            Debug.Log("A bullet hitted the tank -> " + gameObject.name);
-
-            Invoke("RestoreTank", GameManager.Instance.SecondsToRestorePlayer);
-        }
-
-
-        #endregion
-
-        internal virtual void UpdateAmmo(int updatedAmmo)
-        {
-            _ammo = updatedAmmo;
-            _tankCanvas.SetAmmo(_ammo);
-        }
-
-        protected virtual void UpdateLife(int updatedLife, PlayerTank attackingTank)
-        {
-
-            if (updatedLife == 0)
-            {
-                TankEvents.ThrowTankDie(attackingTank, this);
-            }
-
-            _currentLife = updatedLife;
-
-        }
-
-        public void AddAmmo(int ammount)
-        {
-            int tempAmmo = ammount + _ammo;
-            UpdateAmmo(tempAmmo > 15 ? 15 : _ammo);
+            _ammo += ammount;
         }
 
         private void DestroyTank()
         {
+            transform.position = _initialPosition;
             _isDead = true;
             _tankVisuals.SetNormalVisualsOn(false);
             _inputController.enabled = false;
@@ -183,11 +176,6 @@ namespace Tanks.Controllers.Tank
             _isDead= false;
             _tankVisuals.SetNormalVisualsOn(true);
             _inputController.enabled = true;
-        }
-
-        internal void SetAlternativeColor()
-        {
-            _tankVisuals.SetAlternativeColor();
         }
     }
 }

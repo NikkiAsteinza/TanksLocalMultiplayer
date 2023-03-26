@@ -23,8 +23,6 @@ namespace Tanks.UI
         [SerializeField] private Button _multiplayerButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private Button _startButton;
-        [SerializeField] private Button _restartButton;
-        [SerializeField] private Button _mainMenuButton;
         [SerializeField] private Button _backButton;
 
         [Header("Dropdowns")]
@@ -55,22 +53,15 @@ namespace Tanks.UI
         private void Awake()
         {
             _inputModeSelectionPanel.gameObject.SetActive(false);
-            _restartButton.gameObject.SetActive(false);
             _backButton.gameObject.SetActive(false);
 
             _singlePlayerButton.onClick.AddListener(SetSingleMode);
             _multiplayerButton.onClick.AddListener(SetMultiplayerMode);
             _exitButton.onClick.AddListener(QuitApp);
             _startButton.onClick.AddListener(StartApp);
-            _mainMenuButton.onClick.AddListener(GotoMainMenu);
             _backButton.onClick.AddListener(ResetInputDeviceSelectors);
         }
 
-        private void GotoMainMenu()
-        {
-            FadeOutCanvas();
-            ScenesManager.Instance.GoToScene(ScenesManager.Scenes.MainMenu);
-        }
 
         private void Start()
         {
@@ -138,12 +129,6 @@ namespace Tanks.UI
         public int GetIntAlpha()
         {
             return _canvasFader.GetIntAlpha();
-        }
-
-        public void EnableEndButtons()
-        {
-            _restartButton.gameObject.SetActive(true);
-            _mainMenuButton.gameObject.SetActive(true);
         }
     }
 }

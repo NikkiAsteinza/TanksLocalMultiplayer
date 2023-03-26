@@ -9,18 +9,20 @@ namespace Tanks.Controllers.Tank
     {
         [Header("Tank Sounds")]
         [SerializeField]
-        private AudioClip idleSound;
+        private AudioClip _idleSound;
 
-        [SerializeField] private AudioClip movingSound;
+        [SerializeField] private AudioClip _movingSound;
 
         private PlayerInput _playerInput;
-        private Vector2 movementInput = Vector2.zero;
-        private Vector2 rotationInput = Vector2.zero;
         private AudioSource _audioSource;
         private PlayerTank _relatedTank;
         private TankController _tankController;
 
+        private Vector2 movementInput = Vector2.zero;
+        private Vector2 rotationInput = Vector2.zero;
+
         private bool init = false;
+        
         internal void Init(PlayerTank relatedTank,TankController controller)
         {
             _playerInput = GetComponent<PlayerInput>();
@@ -36,7 +38,7 @@ namespace Tanks.Controllers.Tank
         {
             SubscribeToPlayerInputs(false);
         }
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (!init)
                 return;
@@ -44,13 +46,13 @@ namespace Tanks.Controllers.Tank
             if (movementInput != Vector2.zero)
             {
                 _tankController.HandleMovement(movementInput);
-                if (Mathf.Abs(movementInput.y) > 0.1 && _audioSource.clip != movingSound)
+                if (Mathf.Abs(movementInput.y) > 0.1 && _audioSource.clip != _movingSound)
                 {
-                    PLayClipIfNotPlaying(movingSound);
+                    PLayClipIfNotPlaying(_movingSound);
                 }
             }
             else
-                PLayClipIfNotPlaying(idleSound);
+                PLayClipIfNotPlaying(_idleSound);
 
             if (rotationInput != Vector2.zero)
             {
@@ -75,7 +77,7 @@ namespace Tanks.Controllers.Tank
         }
 
 
-        public void OnMove(InputAction.CallbackContext context)
+        private void OnMove(InputAction.CallbackContext context)
         {
             movementInput = context.ReadValue<Vector2>();
         }
@@ -85,7 +87,7 @@ namespace Tanks.Controllers.Tank
             rotationInput = context.ReadValue<Vector2>();
         }
 
-        public void OnFire(InputAction.CallbackContext context)
+        private void OnFire(InputAction.CallbackContext context)
         {
             int tankAmmo = _relatedTank.GetAmmo();
             if (tankAmmo > 0)

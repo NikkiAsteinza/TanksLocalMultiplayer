@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using Tanks.Gameplay.Objects.Generics;
 
-namespace Tanks.Gameplay.Logic
+using UnityEngine;
+
+namespace Tanks.Gameplay.Objects
 {
     public class GenericGameplayObjectsSpawner : MonoBehaviour
     {
@@ -56,6 +56,7 @@ namespace Tanks.Gameplay.Logic
             GenericGameplayObject obj = _genericGameplayObjects[Random.Range(0, _genericGameplayObjects.Count)];
             obj.gameObject.SetActive(true);
             _activatedObject = obj;
+
             if (_debug)
                 Debug.Log("Generic gameplayObject activated");
         }
