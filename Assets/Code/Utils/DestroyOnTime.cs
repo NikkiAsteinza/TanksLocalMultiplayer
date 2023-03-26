@@ -7,7 +7,7 @@ namespace Tanks.Controllers.Tank
         [SerializeField] float time = 0.5f;
         void Start()
         {
-            Destroy(this.transform, time);
+            Destroy(gameObject, time);
         }
     }
 }

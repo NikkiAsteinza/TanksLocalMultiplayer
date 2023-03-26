@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tanks.Controllers.Tank.Turret.Bullets
+namespace Tanks.Controllers.Tank
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
@@ -10,6 +10,13 @@ namespace Tanks.Controllers.Tank.Turret.Bullets
         private Rigidbody _rb;
         private AudioSource _audioSource;
         public Rigidbody Rb => _rb;
+        private PlayerTank _owner;
+
+        public PlayerTank Owner => _owner;
+
+        public void SetBulletOwner(PlayerTank tank) {
+            _owner = tank;
+        }
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();

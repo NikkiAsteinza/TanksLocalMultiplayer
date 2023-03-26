@@ -48,8 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 658b4f68d052f374e8707e104aa2b251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionSounds: {fileID: 8300000, guid: 3a77defcde1caaa40b6f7502547e0c4e, type: 3}
-  _collisionEffect: {fileID: 1337198075554910, guid: 25c7aa9ad705fe143a4d71c1c8deb7d4, type: 3}
+  _collisionEffect: {fileID: 2866598998631878102, guid: d48c368c8b556d9439913b64d699fa55, type: 3}
 --- !u!54 &6508730564792240917
 Rigidbody:
   m_ObjectHideFlags: 0

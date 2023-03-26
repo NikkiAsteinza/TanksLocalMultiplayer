@@ -111,6 +111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2749362202702571328}
   - component: {fileID: 847193632935648080}
+  - component: {fileID: 6332765466586272851}
   m_Layer: 0
   m_Name: MultiplayerGame
   m_TagString: Untagged
@@ -152,6 +153,14 @@ MonoBehaviour:
   gameOverTitle: Game over
   Timer: {fileID: 2809000148264097865}
   GameplayCanvas: {fileID: 5032821647074633015}
+--- !u!81 &6332765466586272851
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9147474975589227722}
+  m_Enabled: 1
 --- !u!1 &9212178100254778790
 GameObject:
   m_ObjectHideFlags: 0

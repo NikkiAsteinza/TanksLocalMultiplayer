@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Tanks.Gameplay.Objects;
 using Tanks.UI;
-using TMPro;
 using UnityEngine;
 
 namespace Tanks.Gameplay.Logic
@@ -16,6 +15,8 @@ namespace Tanks.Gameplay.Logic
             Finished,
             Restarting
         }
+
+        [SerializeField] protected bool _debug = false;
 
         [Header("Gameplay configurations")] [SerializeField]
         protected GameState DefaultInitstate = GameState.Idle;
@@ -33,8 +34,8 @@ namespace Tanks.Gameplay.Logic
         private bool _gameOver;
 
         public void InitGame()
-        {
-            Debug.Log("Single player game init");
+        {   if(_debug)
+                Debug.Log("Single player game init");
             SwitchGameToTargetState(GameState.Started);
         }
 
@@ -71,7 +72,8 @@ namespace Tanks.Gameplay.Logic
 
 
             _state = state;
-            Debug.Log("New state_ " + _state);
+            if (_debug)
+                Debug.Log("New state_ " + _state);
         }
 
         #region Protected methods

@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tanks.Gameplay.Objects;
+
 using UnityEngine;
-using UnityEngine.InputSystem;
-using TMPro;
-using Tanks.Controllers.Tank.Turret;
+
 using Tanks.Controllers.Tank.Bonus;
+using Tanks.Gameplay.Objects;
 
 namespace Tanks.Controllers.Tank
 {
-    [RequireComponent(typeof(AudioSource))]
-    [RequireComponent(typeof(PlayerInput))]
+    [RequireComponent(typeof(BoxCollider))]
+
     public class PlayerTank : MonoBehaviour
     {
         [ContextMenu("Destroy Tank Manually")]
@@ -26,52 +25,34 @@ namespace Tanks.Controllers.Tank
             RestoreTank();
         }
 
-        [Header("Tank canvas")] [SerializeField]
-        private TMP_Text _lifeIndicator;
-
-        [SerializeField] private TMP_Text _ammoIndicator;
-        [SerializeField] private TMP_Text _finishMessage;
-        [SerializeField] private GameObject _tankCanvas;
-        [SerializeField] private TMP_Text _destroyedTankIndicator;
-
-        [Header("Tank Sounds")] [SerializeField]
-        private AudioClip idleSound;
-
-        [SerializeField] private AudioClip movingSound;
-
-        [Header("Tank Visuals")]
-        [SerializeField] private Material _alternativeMaterial;
-        [SerializeField] private MeshRenderer[] _renderers;
-        [SerializeField]
-        int _lives = 3;
-
+        [SerializeField] protected int _lives = 3;
         [SerializeField] Camera _camera;
-        [SerializeField] GameObject _tankModel;
-        [SerializeField] GameObject _destroyedTankModel;
 
-        [Header("Tank Turret")] [SerializeField]
-        int _initialAmmunition = 10;
+        [SerializeField] protected int _initialAmmunition = 10;
 
-        [SerializeField] TankTurret _turret;
+        [Header("Tank canvas")]
+        [SerializeField] protected TankCanvas _tankCanvas;
+        [Header("Tank visuals")]
+        [SerializeField] protected TankVisualsController _tankVisuals;
 
+        [Header("Tank Movement")]
+        [SerializeField] protected TankInputController _inputController;
+        [SerializeField] protected TankController _controller;
 
-        [Header("Tank Movement")] [SerializeField]
-        TankController _controller;
-
-        [Header("Tank Bonus")] [SerializeField]
-        private GameObject _shield;
+        [Header("Tank Bonus")] [SerializeField] private GameObject _shield;
 
         [SerializeField] private List<TankBonusFeature> _bonusFeatures;
 
-        private Vector2 movementInput = Vector2.zero;
-        private Vector2 rotationInput = Vector2.zero;
+        private BoxCollider _boxCollider;
 
-        private AudioSource _audioSource;
-        private PlayerInput playerInput;
-        private int _ammo;
-        private bool _isMuliplayer;
-        private int _destroyedTanks=0;
+        protected int _ammo;
+        protected int _destroyedTanks=0;
+        protected int _currentLife;
 
+        public int GetAmmo()
+        {
+            return _ammo;
+        }
         public void ApplyObjectFeature(ObjectTypes type)
         {
             switch (type)
@@ -92,22 +73,17 @@ namespace Tanks.Controllers.Tank
                     {
                         _speedBonus.ResetTimer();
                     }
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
 
-        public void MultiplayerShowCanvasFinished(string text)
+        public virtual void RestoreAll()
         {
-            _finishMessage.text = text;
-            _finishMessage.transform.parent.gameObject.SetActive(true);
-        }
-
-        public void RestoreAll()
-        {
-            UpdateLife(0, true);
+            _currentLife = _lives;
+            _ammo = _initialAmmunition;
+            _destroyedTanks = 0;
         }
 
         public void SetSpeed(float superSpeed)
@@ -132,116 +108,58 @@ namespace Tanks.Controllers.Tank
 
         #region Unity Methods
 
-        private void Awake()
+        protected virtual void Awake()
         {
-            TankEvents.OnTankDie += OnPlayerDie;
-            _isMuliplayer = GameManager.Instance.gameMode == GameMode.Multiplayer;
-
-            if (_isMuliplayer)
-            {
-                _destroyedTankIndicator.text = "0";
-                TankEvents.OnTankDestroyed += HandleOtherPlayerDies;
-                _tankCanvas.SetActive(true);
-            }
-
-            UpdateLife(_lives);
-            UpdateAmmo(_initialAmmunition);
-            _destroyedTankModel.SetActive(false);
-            playerInput = GetComponent<PlayerInput>();
-            _audioSource = GetComponent<AudioSource>();
-        }
-
-        private void Start()
-        {
-            SubscribeToPlayerInputs(true);
+            _currentLife = _lives;
             _ammo = _initialAmmunition;
+            
+            
+            _boxCollider = GetComponent<BoxCollider>();
+        }
+        protected void Start()
+        {
+            _inputController.Init(this,_controller);
+            _controller.Init(this);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.collider.CompareTag("Bullet"))
+            Bullet bullet = collision.collider.GetComponent<Bullet>();
+            if (bullet)
             {
-                UpdateLife(_lives - 1);
-                Debug.Log("A bullet hitted the tank -> " + gameObject.name);
-                SetNormalVisualsOn(false);
-                SubscribeToPlayerInputs(false);
-                TankEvents.ThrowTankDestroyed(this);
-                Invoke("RestoreTank", GameManager.Instance.SecondsToRestorePlayer);
+                HandleBulletCollision(bullet);
             }
         }
 
-        void FixedUpdate()
+        protected virtual void HandleBulletCollision(Bullet bullet)
         {
-            if (movementInput != Vector2.zero)
-            {
-                _controller.HandleMovement(movementInput);
-                if (Mathf.Abs(movementInput.y) > 0.1 && _audioSource.clip != movingSound)
-                {
-                    PLayClipIfNotPlaying(movingSound);
-                }
-            }
-            else
-                PLayClipIfNotPlaying(idleSound);
+            DestroyTank();
+            UpdateLife(_currentLife - 1, bullet.Owner);
+            Debug.Log("A bullet hitted the tank -> " + gameObject.name);
 
-            if (rotationInput != Vector2.zero)
-            {
-                _turret.HandleRotation(rotationInput);
-            }
+            Invoke("RestoreTank", GameManager.Instance.SecondsToRestorePlayer);
         }
+
 
         #endregion
 
-        private void HandleOtherPlayerDies(PlayerTank arg0)
-        {
-            if (arg0 != this && arg0 != null)
-            {
-                _destroyedTanks++;
-                Debug.Log($"{gameObject.name} destroyed {_destroyedTanks} tanks");
-                _destroyedTankIndicator.text = _destroyedTanks.ToString();
-            }
-        }
-
-        private void UpdateAmmo(int updatedAmmo)
+        internal virtual void UpdateAmmo(int updatedAmmo)
         {
             _ammo = updatedAmmo;
-            _ammoIndicator.text = updatedAmmo.ToString();
+            _tankCanvas.SetAmmo(_ammo);
         }
 
-        private void UpdateLife(int updatedLife, bool reset = false)
+        protected virtual void UpdateLife(int updatedLife, PlayerTank attackingTank)
         {
-            if (reset)
-            {
-                _lives = 0;
-                _lifeIndicator.text = "0";
-                return;
-            }
 
             if (updatedLife == 0)
             {
-                TankEvents.ThrowTankDie(this);
+                TankEvents.ThrowTankDie(attackingTank, this);
             }
 
+            _currentLife = updatedLife;
 
-            _lives = updatedLife;
-            _lifeIndicator.text = updatedLife.ToString();
         }
-
-        private void SubscribeToPlayerInputs(bool subscribe)
-        {
-            if (subscribe)
-            {
-                this.playerInput.actions["move"].performed += OnMove;
-                this.playerInput.actions["rotate"].performed += OnRotate;
-                this.playerInput.actions["fire"].performed += OnFire;
-            }
-            else
-            {
-                this.playerInput.actions["move"].performed -= OnMove;
-                this.playerInput.actions["rotate"].performed -= OnRotate;
-                this.playerInput.actions["fire"].performed -= OnFire;
-            }
-        }
-
 
         public void AddAmmo(int ammount)
         {
@@ -249,81 +167,23 @@ namespace Tanks.Controllers.Tank
             UpdateAmmo(tempAmmo > 15 ? 15 : _ammo);
         }
 
-        public void OnMove(InputAction.CallbackContext context)
-        {
-            movementInput = context.ReadValue<Vector2>();
-        }
-
-        private void OnRotate(InputAction.CallbackContext context)
-        {
-            rotationInput = context.ReadValue<Vector2>();
-        }
-
-        private void PLayClipIfNotPlaying(AudioClip clip)
-        {
-            if (_audioSource.clip == clip)
-                return;
-            _audioSource.Stop();
-            _audioSource.clip = clip;
-            _audioSource.Play();
-        }
-
-        public void OnFire(InputAction.CallbackContext context)
-        {
-            if (_ammo > 0)
-            {
-                _turret.Fire();
-                UpdateAmmo(_ammo - 1);
-            }
-            else
-            {
-                Debug.Log("Not ammo");
-            }
-        }
-
-
         private void DestroyTank()
         {
-            SetNormalVisualsOn(false);
-            SubscribeToPlayerInputs(false);
+            _boxCollider.enabled = false;
+            _tankVisuals.SetNormalVisualsOn(false);
+            _inputController.enabled = false;
         }
-
 
         private void RestoreTank()
         {
-            SetNormalVisualsOn(true);
-            SubscribeToPlayerInputs(true);
+            _boxCollider.enabled = true;
+            _tankVisuals.SetNormalVisualsOn(true);
+            _inputController.enabled = true;
         }
 
-        private void SetNormalVisualsOn(bool enable)
+        internal void SetAlternativeColor()
         {
-            _tankModel.SetActive(enable);
-            _destroyedTankModel.SetActive(!enable);
-        }
-
-        public int GetLives()
-        {
-            return _lives;
-        }
-
-        private void OnPlayerDie(PlayerTank relatedTank)
-        {
-            if (relatedTank != this)
-            {
-                MultiplayerShowCanvasFinished("Winner");
-            }
-            else
-            {
-                MultiplayerShowCanvasFinished("Looser");
-            }
-        }
-
-        public void SetAlternativeColor()
-        {
-            foreach (MeshRenderer tankMeshRenderer in _renderers)
-            {
-                tankMeshRenderer.material = _alternativeMaterial;
-            }
+            _tankVisuals.SetAlternativeColor();
         }
     }
 }

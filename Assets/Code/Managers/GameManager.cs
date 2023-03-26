@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Tanks.Controllers.Tank;
-using Tanks.Players;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+using Tanks.Controllers.Tank;
+using Tanks.Players;
 
 namespace Tanks
 {

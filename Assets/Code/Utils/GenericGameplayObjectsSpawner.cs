@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Tanks.Gameplay.Objects.Generics;
 using UnityEngine;
+using Tanks.Gameplay.Objects.Generics;
 
 namespace Tanks.Gameplay.Logic
 {
@@ -37,11 +37,11 @@ namespace Tanks.Gameplay.Logic
                 else
                 {
                     if(_debug)
-                       Debug.Log("Spawning in:" + Mathf.Round(_spawnInterval - _timer));
+                        Debug.Log("Spawning in:" + Mathf.Round(_spawnInterval - _timer));
                 }
             }
         }
-        
+
         private void DisableAll()
         {
             _genericGameplayObjects.ForEach((x) =>
@@ -50,7 +50,7 @@ namespace Tanks.Gameplay.Logic
                 x.SetSpawner(this);
             });
         }
-        
+
         private void ActivateObject()
         {
             GenericGameplayObject obj = _genericGameplayObjects[Random.Range(0, _genericGameplayObjects.Count)];

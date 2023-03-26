@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Tanks.Players;
 using Tanks.Controllers.Tank;
 using UnityEngine;
@@ -22,7 +21,7 @@ namespace Tanks.Gameplay.Logic
             TankEvents.OnTankDie += PlayerIsDead;
         }
 
-        private void PlayerIsDead(PlayerTank tank)
+        private void PlayerIsDead(PlayerTank attakingTank, PlayerTank killedTank)
         {
             _playerDead = true;
         }

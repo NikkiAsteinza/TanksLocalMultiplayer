@@ -8,7 +8,6 @@ namespace Tanks.Gameplay.Logic
 {
     public class SinglePlayerGame : Game
     {
-        [SerializeField] private bool _debug = false;
         [SerializeField] protected int PointsToFinish = 20;
         [SerializeField] private readonly int _maxCacti = 5;
         [SerializeField] private Cactus _cactusPrefab;

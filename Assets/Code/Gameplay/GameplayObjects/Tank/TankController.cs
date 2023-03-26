@@ -7,16 +7,21 @@ namespace Tanks.Controllers.Tank
 
     public class TankController : MonoBehaviour
     {
+        [Header("Tank Turret")]
+        [SerializeField] TankTurret _turret;
         [Header("Movement Properties")]
         [SerializeField] private float _tankSpeed = 80f;
         [SerializeField] private float _tankRotationSpeed = 20f;
         private float _tankInitialSpeed;
         private CharacterController rb;
         private Vector3 targetPosition;
-        private void Awake()
+        private PlayerTank _owner;
+        internal void Init(PlayerTank owner)
         {
             rb = GetComponent<CharacterController>();
             _tankInitialSpeed = _tankSpeed;
+            _owner = owner;
+            _turret.SetOwner(owner);
         }
 
         internal void HandleMovement(Vector2 movementInput)
@@ -44,6 +49,16 @@ namespace Tanks.Controllers.Tank
         public void SetSpeed(float superSpeed)
         {
             _tankSpeed = superSpeed;
+        }
+
+        internal void Fire()
+        {
+            _turret.Fire();
+        }
+
+        internal void HandleTurretRotation(Vector2 rotationInput)
+        {
+            _turret.HandleRotation(rotationInput);
         }
     }
 }
