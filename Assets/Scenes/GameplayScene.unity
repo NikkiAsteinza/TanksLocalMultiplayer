@@ -123,24 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &39910008 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2753908943303736990, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-  m_PrefabInstance: {fileID: 2753908942615913524}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &39910013
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 39910008}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 10, y: 2.220446e-16, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,62 +494,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2753908942488397000, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942488397000, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942488397000, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942488534594, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.99
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942488534594, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.52600574
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942488534594, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.09577769
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5724118
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942496755778, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.23800898
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942784262650, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942784262650, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942784262650, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2753908942790576499, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
       propertyPath: m_Name
       value: Props
@@ -615,62 +541,6 @@ PrefabInstance:
     - target: {fileID: 2753908942790576508, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942815809902, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942815809902, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908942815809902, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943278785444, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943278785444, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943278785444, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943362307480, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.21
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943362307480, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.77
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943389205063, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943389205063, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943389205063, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943512997034, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943512997034, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753908943512997034, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9dc8cfa00caab944cbf73762ad6e4712, type: 3}

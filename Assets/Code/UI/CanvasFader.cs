@@ -31,7 +31,7 @@ namespace Tanks.UI
             var startTime = Time.time;
             var endTime = Time.time + loadLerpDuration;
             var elapsedTime = 0f;
-
+            animationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
             canvasGroup.alpha = animationCurve.Evaluate(from);
             while (Time.time <= endTime)
             {

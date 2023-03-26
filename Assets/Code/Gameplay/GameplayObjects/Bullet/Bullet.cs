@@ -25,7 +25,7 @@ namespace Tanks.Controllers.Tank
 
         private void OnCollisionEnter(Collision collision)
         {
-            HandleBulletCollision(collision.contacts[0].point);
+            HandleBulletCollision(this.transform.position);
         }
 
         private void HandleBulletCollision(Vector3 point)
