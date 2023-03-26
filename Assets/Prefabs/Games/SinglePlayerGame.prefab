@@ -187,13 +187,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73117c2559258343a99ff18c9b0ec90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debug: 0
   DefaultInitstate: 0
   GameLoopRefreshInterval: 2
   gameOverTitle: 
   Timer: {fileID: 4036906536781633977}
   GameplayCanvas: {fileID: 4004982006827670132}
-  _debug: 0
   PointsToFinish: 1
+  _maxCacti: 5
   _cactusPrefab: {fileID: 8264948817905707048, guid: d171f5ab82c070448accdc4e8e63f0be, type: 3}
   _cactiSpawnPoints:
   - {fileID: 4921287391863139878}
@@ -203,8 +204,8 @@ MonoBehaviour:
   - {fileID: 7606278012030382119}
   - {fileID: 2584205337251861252}
   - {fileID: 4620991727701781645}
-  PointsIndicator: {fileID: 2089511710445518315}
-  GoalPoints: {fileID: 0}
+  _pointsIndicator: {fileID: 2089511710445518315}
+  _goalPoints: {fileID: 7624302779954006317}
 --- !u!1 &3355818877519958460
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,6 +631,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5062886918825161748, guid: 2092086bf3e772349ad69c1545ce8363, type: 3}
+      propertyPath: m_Name
+      value: Separator
+      objectReference: {fileID: 0}
     - target: {fileID: 5740975273280570154, guid: 2092086bf3e772349ad69c1545ce8363, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -764,5 +769,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9175c2fd317d18489de797d52cfe607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7624302779954006317 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2962082385841870006, guid: 2092086bf3e772349ad69c1545ce8363, type: 3}
+  m_PrefabInstance: {fileID: 4671808172567387547}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
