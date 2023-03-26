@@ -44,7 +44,7 @@ namespace Tanks.Controllers.Tank
         [SerializeField] private List<TankBonusFeature> _bonusFeatures;
 
         private BoxCollider _boxCollider;
-
+        private bool _isDead;
         protected int _ammo;
         protected int _destroyedTanks=0;
         protected int _currentLife;
@@ -124,6 +124,9 @@ namespace Tanks.Controllers.Tank
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (_isDead)
+                return;
+
             Bullet bullet = collision.collider.GetComponent<Bullet>();
             if (bullet)
             {
@@ -135,6 +138,7 @@ namespace Tanks.Controllers.Tank
         {
             DestroyTank();
             UpdateLife(_currentLife - 1, bullet.Owner);
+            _tankCanvas.SetLives(_currentLife);
             Debug.Log("A bullet hitted the tank -> " + gameObject.name);
 
             Invoke("RestoreTank", GameManager.Instance.SecondsToRestorePlayer);
@@ -169,14 +173,14 @@ namespace Tanks.Controllers.Tank
 
         private void DestroyTank()
         {
-            _boxCollider.enabled = false;
+            _isDead = true;
             _tankVisuals.SetNormalVisualsOn(false);
             _inputController.enabled = false;
         }
 
         private void RestoreTank()
         {
-            _boxCollider.enabled = true;
+            _isDead= false;
             _tankVisuals.SetNormalVisualsOn(true);
             _inputController.enabled = true;
         }

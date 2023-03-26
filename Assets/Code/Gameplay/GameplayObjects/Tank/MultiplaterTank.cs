@@ -30,9 +30,9 @@ namespace Tanks.Controllers.Tank
 
         private void HandleOtherPlayerDies(PlayerTank attakingTank, PlayerTank damagedTank)
         {
-            if (attakingTank == this)
+            if (attakingTank == this && damagedTank != null)
             {
-                _destroyedTanks++;
+                this._destroyedTanks = _destroyedTanks + 1;
                 Debug.Log($"{gameObject.name} destroyed {_destroyedTanks} tanks");
                 _tankCanvas.SetDestryoedTanks(_destroyedTanks);
             }

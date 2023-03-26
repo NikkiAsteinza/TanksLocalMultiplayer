@@ -100,8 +100,6 @@ namespace Tanks.UI
 
         private void CreateSelectors()
         {
-            Debug.Log(GameManager.Instance.totalPlayers);
-            Debug.Log(_inputModeSelectionPanel.transform.childCount);
             if (_inputModeSelectionPanel.transform.childCount>0)
                 return;
 

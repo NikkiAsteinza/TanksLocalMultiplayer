@@ -4,7 +4,6 @@ using Tanks.Players;
 using Tanks.Controllers.Tank;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
 
 namespace Tanks
 {
@@ -56,7 +55,7 @@ namespace Tanks
             InputMode selectedMode = GameManager.Instance.GetPlayerInputMode(playerIndex);
             GameObject prefab = GameManager.Instance.GetPrefabToUse().gameObject;
             string controlScheme = "Player2";
-            Debug.Log($" Payer {playerIndex} -> Control scheme: {controlScheme}");
+            
             switch (selectedMode)
             {
                 case InputMode.Keyboard:
@@ -66,11 +65,12 @@ namespace Tanks
                         playerIndex,
                         controlScheme: controlScheme,
                         pairWithDevice: Keyboard.current);
+                    Debug.Log($" Payer {playerIndex} -> Control scheme: {controlScheme}");
                     break;
                 case InputMode.Gamepad:
                     Gamepad selectedPlayerGamepad = GameManager.Instance.GetPlayerGamepad(playerIndex);
                     if (_debug)
-                        Debug.Log($"Player {playerIndex} desired gamepad: " + selectedPlayerGamepad);
+                        Debug.Log($"Player {playerIndex} desired gamepad: {selectedPlayerGamepad}");
                     InputDevice deviceToPair = selectedMode == InputMode.Gamepad
                 ? selectedPlayerGamepad
                 : InputSystem.devices[0];

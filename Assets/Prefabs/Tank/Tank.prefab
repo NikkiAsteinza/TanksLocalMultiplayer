@@ -570,7 +570,7 @@ AudioSource:
   m_GameObject: {fileID: 3850326174456410122}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 6847440365396946461, guid: f2e77fdc99bd7614a82c1170534abf28, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1166,7 +1166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1769771740027135536, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1769771740027135536, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1406,11 +1406,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 5d4ac1068b3b94d4c88717adb50085b4, type: 3}
     - target: {fileID: 3709236451177799342, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3709236451177799342, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3709236451177799342, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1418,7 +1418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3709236451177799342, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -41.1
       objectReference: {fileID: 0}
     - target: {fileID: 4437388974181954410, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_fontSize
@@ -1454,7 +1454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4627003016420989007, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 65
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4627003016420989007, guid: 52b11ed6363378e4e896a8c985f3afa2, type: 3}
       propertyPath: m_AnchoredPosition.y
