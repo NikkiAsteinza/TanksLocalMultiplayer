@@ -1,22 +1,9 @@
-using UnityEngine;
-
-using Tanks.Controllers.Tank;
 using System.Linq;
-using Unity.VisualScripting;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Tanks.Gameplay.Logic
 {
     public class MultiplayerGame : Game
     {
-        [ContextMenu("Finish game")]
-        void FinishGameManually()
-        {
-            _playerDead = true;
-        }
-
-        private bool _playerDead;
-
         protected override void InitialSetup()
         {
             base.InitialSetup();
