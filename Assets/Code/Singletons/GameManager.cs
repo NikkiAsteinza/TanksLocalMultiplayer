@@ -34,36 +34,20 @@ namespace Tanks
         private void Awake()
         {
             _players = new List<Player>();
+
+            for (int i = 0; i < _maxPlayers; i++)
+            {
+                Player player1 = CreatePlayer();
+                _players.Add(player1);
+            }
+            Debug.Log("Created players: " + _players.Count);
         }
 
         public void SetSelectedMode(GameMode selectedMode)
         {
             _selectedGameMode = selectedMode;
             Debug.Log($"Selected game mode: {selectedMode}");
-            if(_players.Count !=  _maxPlayers)
-                HandlePlayersCreation(selectedMode);
-        }
 
-        private void HandlePlayersCreation(GameMode selectedMode)
-        {
-            switch (selectedMode)
-            {
-                case GameMode.SinglePlayer:
-                    Player player = CreatePlayer();
-                    _players.Add(player);
-                    break;
-                case GameMode.Multiplayer:
-                    for (int i = 0; i < _maxPlayers; i++)
-                    {
-                        Player player1 = CreatePlayer();
-                        _players.Add(player1);
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(selectedMode), selectedMode, null);
-            }
-
-            Debug.Log("Created players: " + _players.Count);
         }
 
         private static Player CreatePlayer()

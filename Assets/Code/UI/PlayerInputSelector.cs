@@ -44,13 +44,13 @@ namespace Tanks.UI
 
         private void RemoveKeyboardOption()
         {
+            GameManager.Instance.SetSelectedInputToPlayer(_owner, 2);
             _selectionDropdown.options.RemoveAt(1);
-          
+            
             _selectionDropdown.interactable = false;
             _selectionDropdown.options.RemoveAt(0);
             _deviceSelector.gameObject.SetActive(true);
-            
-            GameManager.Instance.SetSelectedInputToPlayer(_owner, 2);
+
         }
     }
 }
