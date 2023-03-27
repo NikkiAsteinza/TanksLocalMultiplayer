@@ -4,7 +4,6 @@ using Tanks.Controllers.Tank.Common;
 using Tanks.Controllers.Tank.Bonus;
 
 using Tanks.Controllers.Tank.Bullet;
-using Tanks.Controllers.Tank.Events;
 using Tanks.UI;
 
 namespace Tanks.Controllers.Tank
@@ -84,10 +83,6 @@ namespace Tanks.Controllers.Tank
         #endregion
 
         #region Unity  Methods
-        private void Awake()
-        {
-            TankEvents.OnTankDestroyed += HandleOtherPlayerDies;
-        }
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -97,6 +92,7 @@ namespace Tanks.Controllers.Tank
             TankBullet bullet = collision.collider.GetComponent<TankBullet>();
             if (bullet)
             {
+                bullet.GetParentPlayerTank.GetPlayerOwner.AddPoints(1);
                 HandleBulletCollision(bullet);
             }
         }
@@ -110,7 +106,6 @@ namespace Tanks.Controllers.Tank
             Debug.Log("A bullet hitted the tank -> " + gameObject.name);
 
             Invoke("RestoreTank", GameManager.Instance.SecondsToRestorePlayer);
-            TankEvents.ThrowTankDestroyed(bullet.GetParentPlayerTank, this);
         }
 
         private void UpdateLife(int updatedLife, PlayerTank attackingTank)
@@ -122,13 +117,11 @@ namespace Tanks.Controllers.Tank
             }
 
             _currentLife = updatedLife;
-            TankEvents.ThrowTankDestroyed(this, attackingTank);
 
         }
 
         private void DestroyTank()
         {
-            transform.position = _initialPosition;
             _isDestroyed = true;
             _tankVisuals.SetNormalVisualsOn(false);
             _inputController.enabled = false;
@@ -136,7 +129,8 @@ namespace Tanks.Controllers.Tank
 
         private void RestoreTank()
         {
-            _isDestroyed= false;
+            transform.position = _initialPosition;
+            _isDestroyed = false;
             _tankVisuals.SetNormalVisualsOn(true);
             _inputController.enabled = true;
         }
@@ -144,15 +138,6 @@ namespace Tanks.Controllers.Tank
         internal void ApplyObjectFeature(ObjectTypes type)
         {
             _bonusController.ApplyObjectFeature(type);
-        }
-        private void HandleOtherPlayerDies(PlayerTank attakingTank, PlayerTank damagedTank)
-        {
-            if (attakingTank.GetPlayerOwner == _owner)
-            {
-                this._destroyedTanks = this._destroyedTanks + 1;
-                Debug.Log($"{gameObject.name} destroyed {_destroyedTanks} tanks");
-                this._tankCanvas.SetPoints(_destroyedTanks);
-            }
         }
 
         internal void UpdatePoints(int points)

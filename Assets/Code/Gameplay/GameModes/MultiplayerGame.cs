@@ -26,7 +26,7 @@ namespace Tanks.Gameplay.Logic
 
         protected override void GameLoopLogic()
         {
-            if (_players.Any(x => x.Tank.IsDead))
+            if (_players.Any(x => x.Points == PointsToFinish))
             {
                 SwitchGameToTargetState(GameState.Finished);
             }
