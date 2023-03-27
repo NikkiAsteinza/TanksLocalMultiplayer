@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +8,7 @@ namespace Tanks.UI
     {
         [SerializeField]
         private CanvasFader _canvasFader;
+        [SerializeField] Timer _timer;
         [SerializeField]
         private TMP_Text _lifeIndicator;
         [SerializeField]
@@ -22,10 +22,6 @@ namespace Tanks.UI
         [SerializeField]
         Image _pointsIndicatorImage;
 
-        private void Start()
-        {
-            _canvasFader.FadeIn();
-        }
         public void MultiplayerShowCanvasFinished(string text)
         {
             _finishMessage.text = text;
@@ -48,6 +44,17 @@ namespace Tanks.UI
             _pointsIndicator.text = points.ToString();
             _pointsToReachIndicator.text = pointsToReach.ToString();
             _pointsIndicatorImage.sprite = pointsImage;
+
+            switch (GameManager.Instance.gameMode)
+            {
+                case GameMode.SinglePlayer:
+                    _lifeIndicator.transform.parent.gameObject.SetActive(false);
+                    break;
+                case GameMode.Multiplayer:
+                    _timer.gameObject.SetActive(false);
+                    break;
+            }
+            _canvasFader.FadeIn();
         }
     }
 }
