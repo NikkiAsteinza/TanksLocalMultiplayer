@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Tanks.Gameplay;
 using Tanks.SceneManagement;
 
 namespace Tanks.UI
@@ -24,45 +23,20 @@ namespace Tanks.UI
         [SerializeField] private Button _multiplayerButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private Button _startButton;
-        [SerializeField] private Button _backButton;
 
         [Header("Dropdowns")]
         [SerializeField] private PlayerInputSelector _inputSelectorPrefab;
 
-        private IGame _owner;
-
-        public void SetOwner(IGame game)
-        {
-            _owner = game;
-        }
-
-        public void SetMessageText(string title, string message = null)
-        {
-            _title.text = title;
-            if(!string.IsNullOrEmpty(message))
-                _finishMessage.text = message;
-            _finishMessage.gameObject.SetActive(true);
-            _messageContainer.SetActive(true);
-        }
-
-         void ResetInputDeviceSelectors(){
-            _inputModeSelectionPanel.gameObject.SetActive(false);
-            _gameModeSelectionPanel.gameObject.SetActive(true);
-            _backButton.gameObject.SetActive(false);
-        }
-
         private void Awake()
         {
             _inputModeSelectionPanel.gameObject.SetActive(false);
-            _backButton.gameObject.SetActive(false);
 
             _singlePlayerButton.onClick.AddListener(SetSingleMode);
             _multiplayerButton.onClick.AddListener(SetMultiplayerMode);
             _exitButton.onClick.AddListener(QuitApp);
             _startButton.onClick.AddListener(StartApp);
-            _backButton.onClick.AddListener(ResetInputDeviceSelectors);
         }
-
+        
 
         private void Start()
         {
@@ -84,19 +58,18 @@ namespace Tanks.UI
 
         private void SetMultiplayerMode()
         {
+
             GameManager.Instance.SetSelectedMode(GameMode.Multiplayer);
-            CreateSelectors();
             _gameModeSelectionPanel.SetActive(false);
             _inputModeSelectionPanel.SetActive(true);
-            _backButton.gameObject.SetActive(true);
+            CreateSelectors();
         }
 
         private void CreateSelectors()
         {
-            if (_inputModeSelectionPanel.transform.childCount>0)
+            if (_inputModeSelectionPanel.transform.childCount == GameManager.Instance.MaxPlayers)
                 return;
-
-            for (int i = 0; i < GameManager.Instance.totalPlayers; i++)
+            for (int i = 0; i < GameManager.Instance.MaxPlayers; i++)
             {
                 PlayerInputSelector selector = Instantiate(_inputSelectorPrefab, _inputModeSelectionPanel.transform);
                 selector.SetOwner(i);
@@ -106,10 +79,10 @@ namespace Tanks.UI
         private void SetSingleMode()
         {
             GameManager.Instance.SetSelectedMode(GameMode.SinglePlayer);
-            CreateSelectors();
             _gameModeSelectionPanel.SetActive(false);
             _inputModeSelectionPanel.SetActive(true);
-            _backButton.gameObject.SetActive(true);
+            CreateSelectors();
+            _inputModeSelectionPanel.transform.GetChild(1).gameObject.SetActive(false);
         }
 
         public void FadeInCanvas()
@@ -126,11 +99,6 @@ namespace Tanks.UI
             if (!_canvasFader)
                 return;
             _canvasFader.FadeOut();
-        }
-
-        public int GetIntAlpha()
-        {
-            return _canvasFader.GetIntAlpha();
         }
     }
 }

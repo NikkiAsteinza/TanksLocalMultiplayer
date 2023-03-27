@@ -27,7 +27,8 @@ namespace Tanks
 
         [SerializeField] private List<Player> _players;
         public GameMode gameMode => _selectedGameMode;
-        public int totalPlayers => _players.Count;
+        public int TotalPlayers => _players.Count;
+        public int MaxPlayers => _maxPlayers;
         public float SecondsToRestorePlayer = _secondsToRestorePlayer;
 
         private void Awake()
@@ -39,7 +40,8 @@ namespace Tanks
         {
             _selectedGameMode = selectedMode;
             Debug.Log($"Selected game mode: {selectedMode}");
-            HandlePlayersCreation(selectedMode);
+            if(_players.Count !=  _maxPlayers)
+                HandlePlayersCreation(selectedMode);
         }
 
         private void HandlePlayersCreation(GameMode selectedMode)

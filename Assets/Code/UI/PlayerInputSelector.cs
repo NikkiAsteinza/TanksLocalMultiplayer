@@ -38,35 +38,19 @@ namespace Tanks.UI
             _owner = playerIndex;
             _label.text = _owner.ToString();
             _deviceSelector.SetOwner(_owner);
-
-            SelectDefaultOption();
-        }
-
-        private void SelectDefaultOption()
-        {
-            if (_owner == 0 && GameManager.Instance.gameMode == GameMode.Multiplayer)
-            {
-                if (Gamepad.all.Count == 1)
-                {
-                    _selectionDropdown.options.RemoveAt(0);
-                    GameManager.Instance.SetSelectedInputToPlayer(_owner, (int)InputMode.Keyboard);
-                    _selectionDropdown.interactable = false;
-                }
-            }
-
-            if (_owner > 0)
-            {
+            if(_owner >0 )
                 RemoveKeyboardOption();
-            }
         }
 
-        public void RemoveKeyboardOption()
+        private void RemoveKeyboardOption()
         {
             _selectionDropdown.options.RemoveAt(1);
-            GameManager.Instance.SetSelectedInputToPlayer(_owner, 2);
+          
             _selectionDropdown.interactable = false;
             _selectionDropdown.options.RemoveAt(0);
             _deviceSelector.gameObject.SetActive(true);
+            
+            GameManager.Instance.SetSelectedInputToPlayer(_owner, 2);
         }
     }
 }
