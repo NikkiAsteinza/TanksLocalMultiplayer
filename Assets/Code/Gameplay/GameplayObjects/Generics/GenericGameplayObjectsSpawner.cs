@@ -16,7 +16,6 @@ namespace Tanks.Gameplay.Objects
 
         private void Awake()
         {
-            _genericGameplayObjects = GetComponentsInChildren<GenericGameplayObject>().ToList();
             if(_debug)
                 Debug.Log("Generics: " +_genericGameplayObjects.Count);
             DisableAll();

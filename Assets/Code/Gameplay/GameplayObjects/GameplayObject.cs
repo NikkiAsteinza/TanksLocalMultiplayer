@@ -7,6 +7,7 @@ namespace Tanks.Gameplay.Objects
         Shield,
         Ammo,
         Turbo,
+        Shootable
     }
 
     [RequireComponent(typeof(BoxCollider))]
@@ -32,7 +33,5 @@ namespace Tanks.Gameplay.Objects
             AudioSource = GetComponent<AudioSource>();
             AudioSource.playOnAwake = false;
         }
-
-
     }
 }

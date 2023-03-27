@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 3251674379241295944}
   - component: {fileID: 4577361130487007943}
   - component: {fileID: 1220612965609756544}
-  - component: {fileID: 6954591655524523878}
+  - component: {fileID: 5926446933090578191}
   m_Layer: 0
   m_Name: Turbo
   m_TagString: Untagged
@@ -262,7 +262,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6954591655524523878
+--- !u!114 &5926446933090578191
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,17 +271,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7692087654140206488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ca9803b449004e4a8ed6642ea97e1c0, type: 3}
+  m_Script: {fileID: 11500000, guid: c7ea13ded2daea143854551072bd35b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 2
+  _visuals: {fileID: 2910964759125297731}
+  _soundEffect: {fileID: 8300000, guid: 0a4cc4ff4a070cd4495b37457ea1c94b, type: 3}
   _spawner: {fileID: 0}
   _body: {fileID: 8424810968897421531}
-  _visuals: {fileID: 2910964759125297731}
-  _soundEffect: {fileID: 8300000, guid: c17f124fcdc0f5446a72f793898bd74b, type: 3}
-  _objectRotationVector: {x: 0, y: 2, z: 0}
+  _objectRotationVector: {x: 0, y: 1, z: 0}
   _ease: 1
-  _sequenceDuration: 0.02
+  _sequenceDuration: 0.2
 --- !u!1001 &2909723907439719807
 PrefabInstance:
   m_ObjectHideFlags: 0

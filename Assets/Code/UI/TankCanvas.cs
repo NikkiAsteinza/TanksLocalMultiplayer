@@ -1,9 +1,9 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-using Tanks.UI;
-
-namespace Tanks.Controllers.Tank
+namespace Tanks.UI
 {
     public class TankCanvas : MonoBehaviour
     {
@@ -14,9 +14,13 @@ namespace Tanks.Controllers.Tank
         [SerializeField]
         private TMP_Text _ammoIndicator;
         [SerializeField]
-        private TMP_Text _destroyedTankIndicator;
+        private TMP_Text _pointsIndicator;
+        [SerializeField]
+        private TMP_Text _pointsToReachIndicator;
         [SerializeField]
         private TMP_Text _finishMessage;
+        [SerializeField]
+        Image _pointsIndicatorImage;
 
         private void Start()
         {
@@ -34,14 +38,16 @@ namespace Tanks.Controllers.Tank
         public void SetAmmo(int ammo) {
             _ammoIndicator.text = ammo.ToString();
         }
-        public void SetDestryoedTanks(int destroyedTanks) {
-            _destroyedTankIndicator.text = destroyedTanks.ToString();
+        public void SetPoints(int playerPoints) {
+            _pointsIndicator.text = playerPoints.ToString();
         }
-        public void Init(int lives, int ammunition, int destroyedTanks)
+        public void Init(int lives, int ammunition, int points,int pointsToReach, Sprite pointsImage)
         {
             _lifeIndicator.text = lives.ToString();
             _ammoIndicator.text = ammunition.ToString();
-            _destroyedTankIndicator.text = destroyedTanks.ToString();
+            _pointsIndicator.text = points.ToString();
+            _pointsToReachIndicator.text = pointsToReach.ToString();
+            _pointsIndicatorImage.sprite = pointsImage;
         }
     }
 }

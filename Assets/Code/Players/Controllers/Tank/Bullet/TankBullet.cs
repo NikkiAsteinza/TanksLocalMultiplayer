@@ -1,25 +1,23 @@
 using UnityEngine;
 
-namespace Tanks.Controllers.Tank
+namespace Tanks.Controllers.Tank.Bullet
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
-    public class Bullet : MonoBehaviour
+    public class TankBullet : MonoBehaviour
     {
         [SerializeField] GameObject _collisionEffect;
         private Rigidbody _rb;
-        private AudioSource _audioSource;
         public Rigidbody Rb => _rb;
         private PlayerTank _owner;
 
-        public PlayerTank Owner => _owner;
+        public PlayerTank GetParentPlayerTank => _owner;
 
         public void SetBulletOwner(PlayerTank tank) {
             _owner = tank;
         }
         private void Awake()
         {
-            _audioSource = GetComponent<AudioSource>();
             _rb = GetComponent<Rigidbody>();
         }
 

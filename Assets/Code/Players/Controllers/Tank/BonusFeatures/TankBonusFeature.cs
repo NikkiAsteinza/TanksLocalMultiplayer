@@ -11,6 +11,7 @@ namespace Tanks.Controllers.Tank.Bonus
         [SerializeField] private ObjectTypes _type;
         [SerializeField] protected PlayerTank _tank;
         [SerializeField] private List<GameObject> _objectsToActivate;
+        [SerializeField] private bool _isTemporary = false;
         [SerializeField] protected float _bonusDuration;
 
         private float _timer;
@@ -18,7 +19,8 @@ namespace Tanks.Controllers.Tank.Bonus
         public ObjectTypes GetBonusType => _type;
         protected virtual void OnEnable()
         {
-            _timer = _bonusDuration;
+            if(_isTemporary)
+                _timer = _bonusDuration;
             if (_objectsToActivate.Count > 0)
                 _objectsToActivate.ForEach(x => x.SetActive(true));
             Feature();
@@ -26,10 +28,12 @@ namespace Tanks.Controllers.Tank.Bonus
 
         private void Update()
         {
+            if (!_isTemporary)
+                return;
+
             _timer -= Time.deltaTime;
             if (_timer <= 0)
             {
-                //Debug.Log("Bonus feature timer");
                 ResetFeature();
             }
         }
@@ -37,7 +41,7 @@ namespace Tanks.Controllers.Tank.Bonus
         protected virtual void OnDisable()
         {
             if (_objectsToActivate.Count > 0)
-                _objectsToActivate.ForEach(x => x.SetActive(true));
+                _objectsToActivate.ForEach(x => x.SetActive(false));
         }
 
         protected virtual void Feature()
@@ -50,10 +54,9 @@ namespace Tanks.Controllers.Tank.Bonus
             throw new System.NotImplementedException();
         }
 
-        public void ResetTimer()
+        internal void ResetTimer()
         {
             _timer = _bonusDuration;
         }
-
     }
 }

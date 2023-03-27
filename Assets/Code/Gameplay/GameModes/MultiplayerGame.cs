@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using Tanks.Controllers.Tank.Events;
 using Tanks.Controllers.Tank;
 
 namespace Tanks.Gameplay.Logic

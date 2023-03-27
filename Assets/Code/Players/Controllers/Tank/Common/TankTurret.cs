@@ -1,10 +1,12 @@
 using UnityEngine;
 
-namespace Tanks.Controllers.Tank
+using Tanks.Controllers.Tank.Bullet;
+
+namespace Tanks.Controllers.Tank.Common
 {
     public class TankTurret : MonoBehaviour
     {
-        [SerializeField] Bullet _bulletPrefab;
+        [SerializeField] TankBullet _bulletPrefab;
         [SerializeField] float fireForce = 500;
         [SerializeField] Transform turretTransform;
         [SerializeField] Transform _bulletSpawnPointPrefab;
@@ -23,7 +25,7 @@ namespace Tanks.Controllers.Tank
         }
 
         internal void Fire() {
-            Bullet tempBullet = Instantiate(_bulletPrefab);
+            TankBullet tempBullet = Instantiate(_bulletPrefab);
             tempBullet.transform.SetPositionAndRotation(_spawnPoint.position,_spawnPoint.rotation);
             tempBullet.SetBulletOwner(_owner);
             tempBullet.Rb.AddForce(_spawnPoint.forward * fireForce);

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using Tanks.Gameplay.Logic;
-using Tanks.Players;
 using Tanks.Controllers.Tank;
 
 namespace Tanks
@@ -14,7 +13,7 @@ namespace Tanks
     {
         [SerializeField] bool _debug = false;
         [SerializeField] List<Transform> _spawnPoints;
-        [SerializeField] private SinglePlayerGame _singlePlayerGame;
+        [SerializeField] private CactiGame _singlePlayerGame;
         [SerializeField] private MultiplayerGame _multiplayerGame;
 
         private void Start()
@@ -47,7 +46,7 @@ namespace Tanks
 
         private void InitSinglePlayerGame()
         {
-            SinglePlayerGame game = Instantiate(_singlePlayerGame);
+            CactiGame game = Instantiate(_singlePlayerGame);
             game.InitGame();
         }
 
@@ -88,10 +87,14 @@ namespace Tanks
             }
 
             PlayerTank _playerTank = player.gameObject.GetComponent<PlayerTank>();
+            _playerTank.SetOwner(GameManager.Instance.GetPlayerByIndex(playerIndex)); 
             if(playerIndex == 1)
                 _playerTank.SetAlternativeColor();
             Transform spawnPoint = _spawnPoints[playerIndex];
             _playerTank.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+
+            Player relatedPlayer = GameManager.Instance.GetPlayers()[playerIndex];
+            relatedPlayer.SetTank(_playerTank);
         }
     }
 }

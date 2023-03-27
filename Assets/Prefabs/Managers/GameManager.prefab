@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxPlayers: 2
   _singlePlayerTank: {fileID: 1601826486973612749, guid: 387b2b7f21bce6e4a8262cab1aaabf11, type: 3}
-  _multiPlayerTank: {fileID: 3244371838756908217, guid: 6d82e06439a5b8b45ab73a4e112cb094, type: 3}
   _playerLives: 3
   _initialAmmunition: 10
   _selectedGameMode: 0

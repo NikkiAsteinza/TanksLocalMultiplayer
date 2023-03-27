@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tanks.Controllers.Tank
+namespace Tanks
 {
     public class DestroyOnTime : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tanks.Controllers.Tank
+namespace Tanks.Controllers.Tank.Common
 {
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(BoxCollider))]

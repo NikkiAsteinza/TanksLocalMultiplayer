@@ -1,7 +1,9 @@
+using System;
 using Tanks.Controllers.Tank;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Tanks.Players
+namespace Tanks
 {
     public enum InputMode
     {
@@ -22,8 +24,11 @@ namespace Tanks.Players
         private PlayerTank _tank;
         private InputMode _selectedInputMode;
         private Gamepad _selectedGamepad;
-        public PlayerTank Tank =>_tank;
+        private int _points = 0;
 
+        public PlayerTank Tank =>_tank;
+        public int Points => _points;
+        
         public void SetSelectedMode(InputMode inputMode)
         {
             _selectedInputMode = inputMode;
@@ -46,6 +51,12 @@ namespace Tanks.Players
         public Gamepad GetGamepad()
         {
             return _selectedGamepad;
+        }
+
+        internal void AddPoints(int points)
+        {
+            _points += points;
+            _tank.UpdatePoints(_points);
         }
     }
 }

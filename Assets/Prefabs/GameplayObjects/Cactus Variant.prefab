@@ -194,6 +194,7 @@ MonoBehaviour:
   _type: 3
   _visuals: {fileID: 8384565590381176430}
   _soundEffect: {fileID: 8300000, guid: 3a77defcde1caaa40b6f7502547e0c4e, type: 3}
+  _points: 1
 --- !u!4 &1152252730492161033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 00b5a8045a3c3914bb0dfdf2d62f05c9, type: 3}

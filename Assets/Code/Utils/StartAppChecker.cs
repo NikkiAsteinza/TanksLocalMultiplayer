@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tanks;
-using Tanks.Players;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +12,6 @@ namespace Tanks.Utils
         bool activateButton = false;
         List<Gamepad> gamepads;
         private int players = 0;
-        private bool isNotMenuScene;
         private void Start()
         {
             gamepads = new List<Gamepad>();

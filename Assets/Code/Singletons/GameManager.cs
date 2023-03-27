@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using Tanks.Controllers.Tank;
-using Tanks.Players;
 
 namespace Tanks
 {
@@ -18,9 +17,8 @@ namespace Tanks
     public class GameManager : SingletonBehaviour<GameManager>
     {
         [SerializeField] private int _maxPlayers = 2;
-        [SerializeField] private const float _secondsToRestorePlayer = 5;
+        [SerializeField] public const float _secondsToRestorePlayer = 5;
         [SerializeField] internal PlayerTank _singlePlayerTank;
-        [SerializeField] internal PlayerTank _multiPlayerTank;
         [SerializeField] internal int _playerLives = 3;
         [SerializeField] internal int _initialAmmunition = 10;
 
@@ -85,20 +83,7 @@ namespace Tanks
 
         public PlayerTank GetPrefabToUse()
         {
-            PlayerTank targetTank;
-            switch (gameMode)
-            {
-                case GameMode.SinglePlayer:
-                    targetTank = _singlePlayerTank;
-                    break;
-                case GameMode.Multiplayer:
-                    targetTank = _multiPlayerTank;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return targetTank;
+            return _singlePlayerTank;
         }
 
         public InputMode GetPlayerInputMode(int i)

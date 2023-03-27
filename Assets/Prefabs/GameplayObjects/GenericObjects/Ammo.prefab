@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3384810021053734401}
   - component: {fileID: 3384810021053734402}
   - component: {fileID: 3384810021053734403}
-  - component: {fileID: 3384810021053734412}
+  - component: {fileID: 8516736837405975392}
   m_Layer: 0
   m_Name: Ammo
   m_TagString: Untagged
@@ -145,7 +145,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3384810021053734412
+--- !u!114 &8516736837405975392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,17 +154,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3384810021053734413}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ca9803b449004e4a8ed6642ea97e1c0, type: 3}
+  m_Script: {fileID: 11500000, guid: c7ea13ded2daea143854551072bd35b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 1
-  _spawner: {fileID: 0}
-  _body: {fileID: 7747306303240861276}
   _visuals: {fileID: 3386139276233476536}
   _soundEffect: {fileID: 8300000, guid: 0a4cc4ff4a070cd4495b37457ea1c94b, type: 3}
+  _spawner: {fileID: 0}
+  _body: {fileID: 7747306303240861276}
   _objectRotationVector: {x: 0, y: 2, z: 0}
   _ease: 1
-  _sequenceDuration: 0.05
+  _sequenceDuration: 0.2
 --- !u!1001 &3384810019892164228
 PrefabInstance:
   m_ObjectHideFlags: 0

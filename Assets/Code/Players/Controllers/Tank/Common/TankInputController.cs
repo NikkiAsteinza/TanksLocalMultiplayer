@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Tanks.Controllers.Tank
+
+namespace Tanks.Controllers.Tank.Common
 {
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(PlayerInput))]
@@ -93,7 +94,7 @@ namespace Tanks.Controllers.Tank
             if (tankAmmo > 0)
             {
                 _tankController.Fire();
-                _relatedTank.UpdateAmmo(tankAmmo - 1);
+                _relatedTank.RemoveAmmo(1);
             }
             else
             {

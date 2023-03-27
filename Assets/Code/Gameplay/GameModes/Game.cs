@@ -3,9 +3,10 @@ using System.Collections;
 
 using UnityEngine;
 
-using Tanks.Gameplay.Objects;
-using Tanks.UI;
 using Tanks.SceneManagement;
+using Tanks.Gameplay.Objects.Shootables;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Tanks.Gameplay.Logic
 {
@@ -20,30 +21,29 @@ namespace Tanks.Gameplay.Logic
 
         [SerializeField] protected bool _debug = false;
 
-        [Header("Gameplay configurations")] [SerializeField]
-        protected GameState DefaultInitstate = GameState.Idle;
-
+        [Header("Gameplay configurations")]
+        [SerializeField] protected GameState DefaultInitstate = GameState.Idle;
+        [SerializeField] protected int _lives = 3;
+        [SerializeField] protected int _initialAmmunition = 10;
+        [SerializeField] protected int PointsToFinish = 20;
         [SerializeField] protected int GameLoopRefreshInterval = 2;
         [SerializeField] protected string gameOverTitle;
-
-        [Header("UI references")] [SerializeField]
-        protected Timer Timer;
-
-        [SerializeField] protected AppCanvas GameplayCanvas;
+        [Header("Gameplay canvas adjustments")]
+        [SerializeField] protected Sprite _pointsImage;
 
         private GameState _state;
-
+        protected List<Player> _players;
         private bool _gameOver;
+
+        private void Awake()
+        {
+            SwitchGameToTargetState(DefaultInitstate);
+        }
 
         public void InitGame()
         {   if(_debug)
                 Debug.Log("Single player game init");
             SwitchGameToTargetState(GameState.Started);
-        }
-
-        private void Awake()
-        {
-            SwitchGameToTargetState(DefaultInitstate);
         }
 
         protected void SwitchGameToTargetState(GameState state)
@@ -54,6 +54,7 @@ namespace Tanks.Gameplay.Logic
                     InitialSetup();
                     break;
                 case GameState.Started:
+                    _players = GameManager.Instance.GetPlayers();
                     StartCoroutine(GameLoopCoroutine());
                     break;
                 case GameState.Finished:
@@ -71,35 +72,30 @@ namespace Tanks.Gameplay.Logic
         }
 
         #region Protected methods
-
-        protected virtual void InitialSetup()
+        protected virtual void GameLoopLogic()
         {
-            GameplayCanvas.SetOwner(this);
-            GameplayCanvas.FadeOutCanvas();
+            if (_players.Any(x=>x.Points == PointsToFinish)){
+                SwitchGameToTargetState(GameState.Finished);
+            }
         }
 
         protected virtual void OnGameFinished()
         {
-            Timer.Stop();
-            GameplayCanvas.SetMessageText(gameOverTitle);
-            GameplayCanvas.FadeInCanvas();
+            //Timer.Stop();
         }
 
         #region Not implemented methods on base
 
-        protected virtual void GameLoopLogic()
-        {
-            throw new System.NotImplementedException();
+        protected virtual void InitialSetup(){
+            _players = GameManager.Instance.GetPlayers();
         }
-
-        public virtual void OnGameplayObjectDisabled(GameplayObject gameplayObject)
+        public void AddPoints(ShootableGameplayObject shootableGameplayObject)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("On gameplay object activated setup");
         }
-
-        public virtual void OnGamePlayObjectEnabled(GameplayObject gameplayObject)
+        void IGame.AddPoints(int pointsToAdd)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Add points");
         }
 
         #endregion
@@ -116,7 +112,6 @@ namespace Tanks.Gameplay.Logic
                 yield return new WaitForSeconds(GameLoopRefreshInterval);
             }
         }
-        
         #endregion
     }
 }

@@ -16,7 +16,7 @@ namespace Tanks.SceneManagement
             Gameplay,
         }
 
-        [SerializeField] private AppCanvas _loading;
+        [SerializeField] private CanvasFader _loading;
         [SerializeField] SceneReference mainMenu;
         [SerializeField] SceneReference gameplayScene;
 
@@ -38,11 +38,11 @@ namespace Tanks.SceneManagement
         private IEnumerator LoadSceneCoroutine(SceneReference sceneToLoad)
         {
             _loading.gameObject.SetActive(true);
-            _loading.FadeInCanvas();
+            _loading.FadeIn();
             yield return new WaitUntil(() => _loading.GetIntAlpha() == 1);
             AsyncOperation load = SceneManager.LoadSceneAsync(sceneToLoad.ScenePath);
             yield return new WaitUntil(() => load.isDone == true);
-            _loading.FadeOutCanvas();
+            _loading.FadeOut();
         }
 
         internal void GoToMainMenu(int delay)

@@ -1,6 +1,7 @@
 using UnityEngine;
 
-namespace Tanks.Controllers.Tank
+
+namespace Tanks.Controllers.Tank.Common
 {
     public class TankVisualsController : MonoBehaviour
     {
