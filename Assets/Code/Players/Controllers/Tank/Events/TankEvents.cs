@@ -8,12 +8,5 @@ namespace Tanks.Controllers.Tank.Events
         {
             OnTankDestroyed?.Invoke(tank, destroyedTank);
         }
-
-        internal delegate void TankDie(PlayerTank tank, PlayerTank destroyedTank);
-        internal static event TankDie OnTankDie;
-        internal static void ThrowTankDie(PlayerTank tank, PlayerTank destroyedTank)
-        {
-            OnTankDie?.Invoke(tank, destroyedTank);
-        }
     }
 }
