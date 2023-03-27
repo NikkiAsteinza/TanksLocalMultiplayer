@@ -37,6 +37,11 @@ namespace Tanks.Gameplay.Logic
             SpawnCacti(enabledCacti);
         }
 
+        protected override void OnGameFinished()
+        {
+            _players[0].Tank.ShowFinalMessageTimer(gameOverTitle);
+        }
+
         private void SpawnCacti(int enabledCacti)
         {
             if (enabledCacti < _maxCacti)

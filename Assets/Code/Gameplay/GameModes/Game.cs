@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 
 using Tanks.SceneManagement;
-using Tanks.Gameplay.Objects.Shootables;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Tanks.Gameplay.Logic
 {
@@ -79,23 +78,21 @@ namespace Tanks.Gameplay.Logic
             }
         }
 
-        protected virtual void OnGameFinished()
+        protected virtual void InitialSetup()
         {
-            //Timer.Stop();
+            _players = GameManager.Instance.GetPlayers();
         }
 
         #region Not implemented methods on base
 
-        protected virtual void InitialSetup(){
-            _players = GameManager.Instance.GetPlayers();
-        }
-        public void AddPoints(ShootableGameplayObject shootableGameplayObject)
+        protected virtual void OnGameFinished()
         {
-            Debug.Log("On gameplay object activated setup");
+            throw new NotImplementedException();
         }
+
         void IGame.AddPoints(int pointsToAdd)
         {
-            Debug.Log("Add points");
+            throw new NotImplementedException();
         }
 
         #endregion

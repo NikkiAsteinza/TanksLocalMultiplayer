@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,14 +19,30 @@ namespace Tanks.UI
         [SerializeField]
         private TMP_Text _pointsToReachIndicator;
         [SerializeField]
-        private TMP_Text _finishMessage;
+        private TMP_Text _finishMessageTitle;
+        [SerializeField]
+        private TMP_Text _finishMessageContent;
         [SerializeField]
         Image _pointsIndicatorImage;
 
-        public void MultiplayerShowCanvasFinished(string text)
+        public void ShowFinalMessageTimer(string title)
         {
-            _finishMessage.text = text;
-            _finishMessage.transform.parent.gameObject.SetActive(true);
+            ShowFinalMessage(title, "Elapsed time: "+Math.Round(_timer.Time,2).ToString());
+        }
+        public void ShowFinalMessage(string title, string message = null)
+        {
+            _finishMessageTitle.text = title;
+            if (!string.IsNullOrEmpty(message))
+            {
+                _finishMessageContent.text = message;
+            }
+            else
+            {
+                _finishMessageContent.gameObject.SetActive(false);
+            }
+
+            
+            _finishMessageTitle.transform.parent.gameObject.SetActive(true);
         }
 
         public void SetLives(int lives) {

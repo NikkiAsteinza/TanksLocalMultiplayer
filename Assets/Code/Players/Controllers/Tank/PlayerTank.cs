@@ -169,11 +169,11 @@ namespace Tanks.Controllers.Tank
         {
             if (killedTank != this)
             {
-                _tankCanvas.MultiplayerShowCanvasFinished("Winner");
+                _tankCanvas.ShowFinalMessage("Winner");
             }
             else
             {
-                _tankCanvas.MultiplayerShowCanvasFinished("Looser");
+                _tankCanvas.ShowFinalMessage("Looser");
             }
         }
 
@@ -185,6 +185,16 @@ namespace Tanks.Controllers.Tank
         internal void InitCanvas(int lives, int initialAmmunition, int points, int goalPoints, Sprite pointsImage)
         {
             _tankCanvas.Init(lives, initialAmmunition, points, goalPoints, pointsImage);
+        }
+
+        internal void ShowFinishMessage(string gameOverTitle, string message)
+        {
+            _tankCanvas.ShowFinalMessage(gameOverTitle, message);
+        }
+
+        internal void ShowFinalMessageTimer(string gameOverTitle)
+        {
+            _tankCanvas.ShowFinalMessageTimer(gameOverTitle);
         }
     }
 }
