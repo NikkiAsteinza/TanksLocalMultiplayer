@@ -7,7 +7,6 @@ namespace Tanks.Controllers.Tank
         protected override void Awake()
         {
             base.Awake();
-            _tankCanvas.Init(_lives, _initialAmmunition, 0);
             TankEvents.OnTankDestroyed += HandleOtherPlayerDies;
             TankEvents.OnTankDie += OnPlayerDie;
         }

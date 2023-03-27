@@ -63,7 +63,7 @@ namespace Tanks.Controllers.Tank
                         _shieldBonus.gameObject.SetActive(true);
                     break;
                 case ObjectTypes.Ammo:
-                    AddAmmo(10);
+                    AddAmmo(5);
                     break;
                 case ObjectTypes.Turbo:
                     TankBonusFeature _speedBonus = _bonusFeatures.FirstOrDefault(x => x.GetBonusType == type);
@@ -144,6 +144,7 @@ namespace Tanks.Controllers.Tank
         {
             _inputController.Init(this,_controller);
             _controller.Init(this);
+            _tankCanvas.Init(_lives, _initialAmmunition, 0);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -161,6 +162,7 @@ namespace Tanks.Controllers.Tank
         private void AddAmmo(int ammount)
         {
             _ammo += ammount;
+            UpdateAmmo(_ammo);
         }
 
         private void DestroyTank()
