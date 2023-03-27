@@ -1,8 +1,9 @@
-using Tanks.Gameplay;
-using Tanks.SceneManagement;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+using Tanks.Gameplay;
+using Tanks.SceneManagement;
 
 namespace Tanks.UI
 {
