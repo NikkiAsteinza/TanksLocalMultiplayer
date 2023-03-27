@@ -6,7 +6,6 @@ using Tanks.Controllers.Tank.Bonus;
 using Tanks.Controllers.Tank.Bullet;
 using Tanks.Controllers.Tank.Events;
 using Tanks.UI;
-using System;
 
 namespace Tanks.Controllers.Tank
 {
@@ -41,18 +40,20 @@ namespace Tanks.Controllers.Tank
         [Header("Tank Bonus")]
         [SerializeField] private TankBonusController _bonusController;
 
+        private bool _isDestroyed = false;
         private bool _isDead = false;
+
         private Player _owner;
 
-        private int _lives = 3;
-        private int _initialAmmunition = 10;
+        private int _lifes;
+        private int _initialAmmunition;
         private int _ammo = 0;
         private int _destroyedTanks = 0;
         private int _currentLife = 0;
 
 
         protected Vector3 _initialPosition;
-
+        internal bool IsDead => _isDead;
         public Player GetPlayerOwner => _owner;
         internal int GetAmmo()
         {
@@ -85,23 +86,12 @@ namespace Tanks.Controllers.Tank
         #region Unity  Methods
         private void Awake()
         {
-            _currentLife = _lives;
-            _ammo = _initialAmmunition;
-            _initialPosition = transform.position;
-
             TankEvents.OnTankDestroyed += HandleOtherPlayerDies;
-            TankEvents.OnTankDie += OnPlayerDie;
-        }
-        private void Start()
-        {
-            _inputController.Init(this, _controller);
-            _controller.Init(this);
-            _bonusController.Init(this);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (_isDead)
+            if (_isDestroyed)
                 return;
 
             TankBullet bullet = collision.collider.GetComponent<TankBullet>();
@@ -128,7 +118,7 @@ namespace Tanks.Controllers.Tank
 
             if (updatedLife == 0)
             {
-                TankEvents.ThrowTankDie(attackingTank, this);
+                _isDead = true;
             }
 
             _currentLife = updatedLife;
@@ -139,14 +129,14 @@ namespace Tanks.Controllers.Tank
         private void DestroyTank()
         {
             transform.position = _initialPosition;
-            _isDead = true;
+            _isDestroyed = true;
             _tankVisuals.SetNormalVisualsOn(false);
             _inputController.enabled = false;
         }
 
         private void RestoreTank()
         {
-            _isDead= false;
+            _isDestroyed= false;
             _tankVisuals.SetNormalVisualsOn(true);
             _inputController.enabled = true;
         }
@@ -157,23 +147,11 @@ namespace Tanks.Controllers.Tank
         }
         private void HandleOtherPlayerDies(PlayerTank attakingTank, PlayerTank damagedTank)
         {
-            if (attakingTank == this && damagedTank != null)
+            if (attakingTank.GetPlayerOwner == _owner)
             {
-                this._destroyedTanks = _destroyedTanks + 1;
+                this._destroyedTanks = this._destroyedTanks + 1;
                 Debug.Log($"{gameObject.name} destroyed {_destroyedTanks} tanks");
-                _tankCanvas.SetPoints(_destroyedTanks);
-            }
-        }
-
-        private void OnPlayerDie(PlayerTank attakingTank, PlayerTank killedTank)
-        {
-            if (killedTank != this)
-            {
-                _tankCanvas.ShowFinalMessage("Winner");
-            }
-            else
-            {
-                _tankCanvas.ShowFinalMessage("Looser");
+                this._tankCanvas.SetPoints(_destroyedTanks);
             }
         }
 
@@ -182,8 +160,16 @@ namespace Tanks.Controllers.Tank
             _tankCanvas.SetPoints(points);
         }
 
-        internal void InitCanvas(int lives, int initialAmmunition, int points, int goalPoints, Sprite pointsImage)
+        internal void InitPlayer(int lives, int initialAmmunition, int points, int goalPoints, Sprite pointsImage)
         {
+            _currentLife = lives;
+            _ammo = initialAmmunition;
+            _initialPosition = transform.position;
+
+            _inputController.Init(this, _controller);
+            _controller.Init(this);
+            _bonusController.Init(this);
+
             _tankCanvas.Init(lives, initialAmmunition, points, goalPoints, pointsImage);
         }
 

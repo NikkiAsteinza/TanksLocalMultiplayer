@@ -1,7 +1,9 @@
 using UnityEngine;
 
-using Tanks.Controllers.Tank.Events;
 using Tanks.Controllers.Tank;
+using System.Linq;
+using Unity.VisualScripting;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Tanks.Gameplay.Logic
 {
@@ -18,20 +20,25 @@ namespace Tanks.Gameplay.Logic
         protected override void InitialSetup()
         {
             base.InitialSetup();
-            TankEvents.OnTankDie += PlayerIsDead;
+
+            _players.ForEach(x => x.Tank.InitPlayer(_lives, _initialAmmunition, 0, PointsToFinish, _pointsImage));
         }
 
         protected override void GameLoopLogic()
         {
-            if (_playerDead)
+            if (_players.Any(x => x.Tank.IsDead))
             {
                 SwitchGameToTargetState(GameState.Finished);
             }
         }
 
-        private void PlayerIsDead(PlayerTank attakingTank, PlayerTank killedTank)
+        protected override void OnGameFinished()
         {
-            _playerDead = true;
+            _players.ForEach(x =>
+            {
+                string message = x.Tank.IsDead ? "You loose" : "You win";
+                x.Tank.ShowFinishMessage(gameOverTitle, message);
+            });
         }
     }
 }

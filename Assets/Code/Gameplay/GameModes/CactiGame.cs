@@ -24,7 +24,7 @@ namespace Tanks.Gameplay.Logic
             base.InitialSetup();
             _cactiList = new List<ShootableGameplayObject>();
             SpawnDisabledMaxCatiAmount();
-            _players[0].Tank.InitCanvas(_lives, _initialAmmunition, 0, PointsToFinish, _pointsImage);
+            _players[0].Tank.InitPlayer(_lives, _initialAmmunition, 0, PointsToFinish, _pointsImage);
         }
 
         protected override void GameLoopLogic()
