@@ -5,16 +5,19 @@ using TMPro;
 using UnityEngine;
 
 using Tanks.Gameplay.Objects;
+using System;
+using Random = UnityEngine.Random;
+using UnityEngine.AI;
 
 namespace Tanks.Gameplay.Logic
 {
     public class SinglePlayerGame : Game
     {
+        [SerializeField] List<Transform> _spawnLimits;
         [Header("Gameplay configurations")]
         [SerializeField] protected int PointsToFinish = 20;
         [SerializeField] private int _maxCacti = 5;
         [SerializeField] private Cactus _cactusPrefab;
-        [SerializeField] private Transform[] _cactiSpawnPoints;
 
         [Header("Gameplay canvas references")]
         [SerializeField] private TMP_Text _pointsIndicator;
@@ -34,17 +37,20 @@ namespace Tanks.Gameplay.Logic
 
         protected override void GameLoopLogic()
         {
+            if (_points == PointsToFinish)
+                SwitchGameToTargetState(GameState.Finished);
+
             int enabledCacti = _cactiList.Count(x => x.gameObject.activeInHierarchy);
             if (_debug)
                 Debug.Log($"Spawned cactis: {enabledCacti}");
             if (enabledCacti < _maxCacti)
             {
-                Transform spawnPoint = GetRandomSpawnPoint();
+                Vector3 spawnPoint = GetRandomSpawnPoint();
 
                 if (IsSpawnPointValid(spawnPoint))
                 {
                     Cactus cactus = GetDisabledCactus();
-                    cactus.transform.position = spawnPoint.position;
+                    cactus.transform.position = spawnPoint;
                     cactus.gameObject.SetActive(true);
                 }
             }
@@ -52,7 +58,7 @@ namespace Tanks.Gameplay.Logic
         override protected void OnGameFinished()
         {
             Timer.Stop();
-            GameplayCanvas.SetMessageText(gameOverTitle, Timer.Time.ToString());
+            GameplayCanvas.SetMessageText(gameOverTitle, Math.Round(Timer.Time,2).ToString());
             GameplayCanvas.FadeInCanvas();
         }
 
@@ -91,25 +97,30 @@ namespace Tanks.Gameplay.Logic
             return newCactus;
         }
 
-        private void DisableAllGameplayObjects()
+        private Vector3 GetRandomSpawnPoint()
         {
-            _cactiList.ForEach(x => x.gameObject.SetActive(false));
+            float minX = 0;
+            float maxX = 0;
+            float minY = 0;
+            float maxY = 0;
+            _spawnLimits.ForEach(x =>
+            {
+                minX = x.position.x < minX? x.position.x: minX;
+                maxX = x.position.x > maxX ? x.position.x : maxX;
+                minY = x.position.x < minY ? x.position.z : minY;
+                maxY = x.position.x > maxY ? x.position.z : maxY;
+            });
+
+            return new Vector3(Random.Range(minX,maxX),0,Random.Range(minY,maxY));
         }
 
-        private Transform GetRandomSpawnPoint()
-        {
-            int index = Random.Range(0, _cactiSpawnPoints.Length);
-            Transform spawnPoint = _cactiSpawnPoints[index];
-            return spawnPoint;
-        }
-
-        private bool IsSpawnPointValid(Transform spawnPoint)
+        private bool IsSpawnPointValid(Vector3 spawnPoint)
         {
             foreach (Cactus gameplayObject in _cactiList)
             {
                 if (gameplayObject.gameObject.activeInHierarchy)
                 {
-                    float distance = Vector3.Distance(gameplayObject.transform.position, spawnPoint.position);
+                    float distance = Vector3.Distance(gameplayObject.transform.position, spawnPoint);
                     if (distance < 1.0f)
                     {
                         return false;
@@ -117,10 +128,10 @@ namespace Tanks.Gameplay.Logic
                 }
             }
 
-            Collider[] colliders = Physics.OverlapSphere(spawnPoint.position, 1.0f);
+            Collider[] colliders = Physics.OverlapSphere(spawnPoint, 1.0f);
             foreach (Collider collider in colliders)
             {
-                if (collider.CompareTag("Tank") || collider.CompareTag("Cactus"))
+                if (collider.CompareTag("Tank") || collider.CompareTag("Cactus") || collider.CompareTag("Props"))
                 {
                     if (_debug)
                         Debug.Log("No valid spawn point");

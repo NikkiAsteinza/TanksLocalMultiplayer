@@ -38,7 +38,7 @@ namespace Tanks.UI
         public void SetMessageText(string title, string message = null)
         {
             _title.text = title;
-            if(string.IsNullOrEmpty(message))
+            if(!string.IsNullOrEmpty(message))
                 _finishMessage.text = message;
             _finishMessage.gameObject.SetActive(true);
             _messageContainer.SetActive(true);
@@ -71,6 +71,7 @@ namespace Tanks.UI
 
         private void StartApp()
         {
+            Debug.Log("Start app clicked");
             FadeOutCanvas();
             ScenesManager.Instance.GoToScene(ScenesManager.Scenes.Gameplay);
         }
