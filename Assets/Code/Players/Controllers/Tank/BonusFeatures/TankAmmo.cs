@@ -9,6 +9,7 @@ namespace Tanks.Controllers.Tank.BonusFeatures
         protected override void Feature()
         {
             _tank.AddAmmo(_points);
+            gameObject.SetActive(false);
         }
     }
 }
