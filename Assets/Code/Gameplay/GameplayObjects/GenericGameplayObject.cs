@@ -12,7 +12,6 @@ namespace Tanks.Gameplay.Objects
         Ready,
         Disabled
     }
-
     public class GenericGameplayObject : GameplayObject
     {
         [ContextMenu("Disable and restart timer")]
@@ -27,7 +26,8 @@ namespace Tanks.Gameplay.Objects
         [SerializeField] private Ease _ease;
         [SerializeField] private float _sequenceDuration;
 
-        private InteractionState _currentState;
+        BoxCollider _boxCollider;
+        bool _isApplied = false;
 
         public void SetSpawner(GenericGameplayObjectsSpawner genericGameplayObjectsSpawner)
         {
@@ -54,11 +54,10 @@ namespace Tanks.Gameplay.Objects
             switch (targetInteractionState)
             {
                 case InteractionState.Ready:
-                    _currentState = targetInteractionState;
+                    _isApplied = false;
                     _visuals.gameObject.SetActive(false);
                     break;
                 case InteractionState.Disabled:
-                    _currentState = targetInteractionState;
                     _spawner.ResetTimer();
                     gameObject.SetActive(false);
                     break;
@@ -69,6 +68,11 @@ namespace Tanks.Gameplay.Objects
 
         private void TriggerEnterHandler(Collider collider)
         {
+            if (_isApplied)
+                return;
+
+            _isApplied = true;
+            
             PlayerTank tank = collider.GetComponent<PlayerTank>();
             if (tank != null)
             {
@@ -78,6 +82,11 @@ namespace Tanks.Gameplay.Objects
             AudioSource.PlayOneShot(_soundEffect);
             
             Invoke("SetDisabledState",2);
+        }
+
+        public void SetDisabledState()
+        {
+            SwitchInteractionState(InteractionState.Disabled);
         }
     }
 }
