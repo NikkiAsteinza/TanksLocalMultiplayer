@@ -18,6 +18,10 @@ namespace Tanks.Controllers.Tank
         [SerializeField]
         private TMP_Text _finishMessage;
 
+        private void Start()
+        {
+            _canvasFader.FadeIn();
+        }
         public void MultiplayerShowCanvasFinished(string text)
         {
             _finishMessage.text = text;
@@ -35,7 +39,6 @@ namespace Tanks.Controllers.Tank
         }
         public void Init(int lives, int ammunition, int destroyedTanks)
         {
-            _canvasFader.FadeIn();
             _lifeIndicator.text = lives.ToString();
             _ammoIndicator.text = ammunition.ToString();
             _destroyedTankIndicator.text = destroyedTanks.ToString();
